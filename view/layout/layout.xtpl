@@ -3,9 +3,12 @@
 <head>
     <meta name="charset" content="utf-8" />
     <title>{{title}}</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link type="text/css" href="./common.css" rev="stylesheet" rel="stylesheet"  />
     {{{block ("head")}}}
 </head>
 <body>
+{{include ("./header")}}
 {{{block ("body")}}}
 </body>
 </html>

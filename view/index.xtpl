@@ -1,10 +1,5 @@
 {{extend ("./layout/layout")}}
 
-{{#block ("head")}}
-    <!--index head block-->
-    <link type="text/css" href="./assets/test.css" rev="stylesheet" rel="stylesheet"  />
-{{/block}}
-
 {{#block ("body")}}
 
 {{/block}}

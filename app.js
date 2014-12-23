@@ -38,10 +38,14 @@ app.use(githubAuth(config.github));
 //错误捕获输出
 onerror(app);
 
+//静态文件请求
+app.use(staticCache(config.staticDir));
+
 //使用跟express相似的路由器
 app.use(router(app));
 
-//静态文件请求
-app.use(staticCache(config.staticDir));
+var appRouter = require('./router/index');
+
+appRouter(app);
 
 app.listen(7878);
