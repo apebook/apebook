@@ -7,7 +7,9 @@
     "type": "git",
     "url": "git@github.com:apebook/apebook.git"
   },
-  "keywords": ["github"],
+  "keywords": [
+    "github"
+  ],
   "dependencies": {
     "bytes": "1.0.0",
     "cfork": "1.1.1",
@@ -53,6 +55,7 @@
     "autod": "~0.2.2",
     "beautify-benchmark": "*",
     "benchmark": "*",
+    "co-body": "^1.0.0",
     "co-mocha": "*",
     "git-parse-commit": "0.0.1",
     "is-type-of": "0.3.1",

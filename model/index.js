@@ -1,6 +1,6 @@
 var _ = require('../base/util');
 //加载所有的model
-var modelNames = ['user'];
+var modelNames = ['user','book','cat'];
 var models = {};
 modelNames.forEach(function(name){
     var Model = require('./'+name);
@@ -12,6 +12,6 @@ module.exports = function(app){
         model.redis = app.redis;
     });
     //将model挂载在app上，供router使用
-    app.models = models;
+    app.model = models;
     return models;
 };

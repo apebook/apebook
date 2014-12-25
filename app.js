@@ -44,8 +44,15 @@ app.use(staticCache(config.staticDir));
 //使用跟express相似的路由器
 app.use(router(app));
 
-var appRouter = require('./router/index');
+//加载数据库model
+var model = require('./model/index');
+model(app);
 
+//应用路由
+var appRouter = require('./router/index');
 appRouter(app);
 
-app.listen(7878);
+var apiRouter = require('./api/index');
+apiRouter(app);
+
+app.listen(config.port);

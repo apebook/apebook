@@ -1,5 +1,89 @@
 {{extend ("./layout/layout")}}
 
-{{#block ("body")}}
+{{#block ("head")}}
+    <link type="text/css" href="./book.css" rev="stylesheet" rel="stylesheet"  />
+    <link type="text/css" href="./index.css" rev="stylesheet" rel="stylesheet"  />
+{{/block}}
 
+{{#block ("body")}}
+<h3><span class="iconfont">&#xe604;</span> 好书推荐</h3>
+<ul class="book-list">
+    <li class="book-wrapper">
+        <figure class="book">
+
+            <!-- Front -->
+
+            <ul class="hardcover_front">
+                <li>
+                    <img src="http://tympanus.net/Development/AnimatedBooks/img/cover.jpg" alt="" width="100%" height="100%">
+                </li>
+                <li></li>
+            </ul>
+
+            <!-- Pages -->
+
+            <ul class="page">
+                <li></li>
+                <li class="book-desc">
+                    <h4>javascript权威指南</h4>
+                    <span>作者：明河</span>
+                    <p>javascript的入门书籍，这是测试测试。</p>
+                </li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+
+            <!-- Back -->
+
+            <ul class="hardcover_back">
+                <li></li>
+                <li></li>
+            </ul>
+            <ul class="book_spine">
+                <li></li>
+                <li></li>
+            </ul>
+        </figure>
+    </li>
+    <li class="book-wrapper">
+        <figure class="book">
+
+            <!-- Front -->
+
+            <ul class="hardcover_front">
+                <li>
+                    <img src="http://tympanus.net/Development/AnimatedBooks/img/cover.jpg" alt="" width="100%" height="100%">
+                </li>
+                <li></li>
+            </ul>
+
+            <!-- Pages -->
+
+            <ul class="page">
+                <li></li>
+                <li class="book-desc">
+                    <h4>javascript权威指南</h4>
+                    <span>作者：明河</span>
+                    <p>javascript的入门书籍，这是测试测试。</p>
+                </li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+
+            <!-- Back -->
+
+            <ul class="hardcover_back">
+                <li></li>
+                <li></li>
+            </ul>
+            <ul class="book_spine">
+                <li></li>
+                <li></li>
+            </ul>
+        </figure>
+    </li>
+
+</ul>
 {{/block}}

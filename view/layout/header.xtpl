@@ -1,25 +1,15 @@
 <header>
-    <h2 class="logo"><span class="iconfont">&#xe603;</span> APE BOOK</h2>
+    <h2 class="logo"><a href="/"><span class="iconfont">&#xe603;</span> APE BOOK</a></h2>
     <nav>
         <a href=""></a>
     </nav>
     <nav class="right-nav">
-        <a href="">
-            <span class="iconfont">&#xe602;</span>
-            <span>创建书籍</span>
-        </a>
-        <a href="">
-            我的书籍
-        </a>
-        <a class="name" href="">
-            <img alt="明河" class="avatar" data-user="724588" height="20" src="https://avatars0.githubusercontent.com/u/724588?v=3&amp;s=40" width="20">
+        <a href="./new"><span class="iconfont">&#xe602;</span><span>创建书籍</span></a>
+        <a href="">我的书籍</a>
+        <a class="name" href=""><img alt="明河" class="avatar" data-user="724588" height="20" src="https://avatars0.githubusercontent.com/u/724588?v=3&amp;s=40" width="20">
             <span class="css-truncate-target">minghe</span>
         </a>
-        <a href="">
-            <span class="iconfont">&#xe601;</span>
-        </a>
-        <a href="">
-            <span class="iconfont">&#xe600;</span>
-        </a>
+        <a href=""><span class="iconfont">&#xe601;</span></a>
+        <a href=""><span class="iconfont">&#xe600;</span></a>
     </nav>
 </header>

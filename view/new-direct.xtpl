@@ -1,0 +1,37 @@
+{{extend ("./layout/layout")}}
+
+{{#block ("body")}}
+    <h3><span class="iconfont">&#xe604;</span> 创建一本新书</h3>
+    {{#if(error)}}
+    <p class="msg bg-danger"><span class="iconfont">&#xe60a;</span> {{error}}</p>
+    {{/if}}
+    <form role="form" class="form-vertical" method="post" action="/new">
+        <!-- Title -->
+        <div class="form-group ">
+            <label for="title" class="control-label">书名</label>
+            <input type="text" name="name" autocomplete="off" maxlength="60" class="form-control input-lg" value="" max="60" placeholder="">
+        </div>
+
+        <div class="form-more">
+            <!-- lang -->
+            <div class="form-group ">
+                <label for="description" class="control-label">选择分类</label>
+                <select name="cat" class="form-control">
+                    {{#each(cats)}}
+                        <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-more">
+            <!-- Description -->
+            <div class="form-group ">
+                <label for="description" class="control-label">书籍描述</label>
+                <textarea rows="4" name="desc" maxlength="220" class="form-control"></textarea>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-block btn-lg btn-success">创建书籍</button>
+    </form>
+{{/block}}

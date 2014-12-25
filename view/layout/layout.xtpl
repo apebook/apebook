@@ -9,6 +9,8 @@
 </head>
 <body>
 {{include ("./header")}}
-{{{block ("body")}}}
+    <article class="main">
+        {{{block ("body")}}}
+    </article>
 </body>
 </html>
