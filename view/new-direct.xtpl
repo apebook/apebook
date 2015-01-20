@@ -9,7 +9,7 @@
         <!-- Title -->
         <div class="form-group ">
             <label for="title" class="control-label">书名</label>
-            <input type="text" name="name" autocomplete="off" maxlength="60" class="form-control input-lg" value="" max="60" placeholder="">
+            <input type="text" name="name" autocomplete="off" maxlength="60" class="form-control input-lg" value="{{repo}}" max="60" placeholder="">
         </div>
 
         <div class="form-more">
@@ -28,9 +28,13 @@
             <!-- Description -->
             <div class="form-group ">
                 <label for="description" class="control-label">书籍描述</label>
-                <textarea rows="4" name="desc" maxlength="220" class="form-control"></textarea>
+                <textarea rows="4" name="desc" maxlength="220" class="form-control">{{description}}</textarea>
             </div>
         </div>
+        {{#if(user)}}
+            <input type="hidden" value="{{user}}" name="user"/>
+            <input type="hidden" value="{{repo}}" name="repo"/>
+        {{/if}}
 
         <button type="submit" class="btn btn-block btn-lg btn-success">创建书籍</button>
     </form>

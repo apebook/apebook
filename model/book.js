@@ -8,7 +8,15 @@ var Book = module.exports = function(){
 Book.prototype = _.extend({},Base,{
     //通过书名获取一本书
     get: function *(name){
-
+        var self = this;
+        var redis = self.redis;
+        var keyPre = self.keyPre;
+        var id = yield self.id('name',name);
+        if(id >= 0){
+            return yield redis.hgetall(keyPre+id);
+        }else{
+            return null;
+        }
     },
     //添加/修改书籍信息
     post: function *(data){
@@ -30,9 +38,9 @@ Book.prototype = _.extend({},Base,{
             data.id = id;
             yield self.addId(id);
         }
-        yield redis.hmset(keyPre+1,data);
+        yield redis.hmset(keyPre+id,data);
         //类目model
-        var mCat = app.model.cat;
+        var mCat = self.app.model.cat;
         //类目下添加此书
         yield mCat.postBook(data.name,data.cat);
         return {"success":true};

@@ -1,0 +1,31 @@
+.new-select {
+  margin-top: 30px;
+}
+.create-type {
+  display: inline-block;
+  width: 400px;
+  margin-right: 20px;
+  border: 1px solid #dfddb5;
+  background-color: #f5f3b4;
+  background-image: linear-gradient(#fffff5, #f5f3b4);
+  background-repeat: repeat-x;
+  padding: 20px;
+  color: #666;
+  line-height: 30px;
+}
+.create-type:hover {
+  text-decoration: none;
+  color: #666;
+  background-image: linear-gradient(#f5f3b4, #fffff5);
+}
+.create-type p {
+  font-size: 14px;
+}
+.icon-wrapper {
+  text-align: center;
+  font-size: 80px;
+  margin: 15px 0;
+  height: 90px;
+  line-height: 90px;
+  color: #5bb793;
+}

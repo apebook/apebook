@@ -1,4 +1,4 @@
-//shelljs对koa的包裹
+//shelljs针对koa的包裹
 
 var shell = require('shelljs');
 

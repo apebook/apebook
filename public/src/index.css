@@ -1,0 +1,42 @@
+.register-pannel {
+  min-height: 600px;
+  background: url(1.jpg) 0 0 no-repeat;
+  background-size: cover;
+  position: relative;
+}
+.words {
+  color: #fff;
+  text-align: center;
+  padding-top: 10%;
+}
+.words h1 {
+  margin: 0;
+  margin-bottom: 20px;
+  font-size: 42px;
+}
+.register-form {
+  position: relative;
+  display: table;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 25px;
+  border-radius: 10px;
+  margin: 70px auto 0;
+}
+.register-form input {
+  border-radius: 4px;
+  height: 40px;
+  font-size: 14px !important;
+}
+.register-form .form-group {
+  margin-right: 10px;
+}
+.register-form .btn {
+  border-radius: 4px !important;
+  margin-top: 16px;
+  padding: 8px 10px !important;
+  width: 160px;
+}
+.book-list {
+  width: 80%;
+  margin: 40px auto;
+}

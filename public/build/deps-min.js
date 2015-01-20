@@ -1,0 +1,1 @@
+KISSY.config("requires",{"apebook/index":["./register/form"],"apebook/register/form":["node"]});

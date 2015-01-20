@@ -2,11 +2,14 @@
 //Author: minghe <minghe36@126.com>
 
 var path = require('path');
-module.exports = {
+var local = require('./local');
+var _ = require('../base/util');
+var config = {
+    title:'apebook 猿书 程序员的图书馆',
     appName: 'apebook',
     //端口号配置
     port: 7070,
-    host: 'http://localhost:7070',
+    host: 'http://localhost:7070/',
     //是否开启调试，调试的情况下会输出错误信息
     debug: true,
     // 是否开启快照
@@ -20,16 +23,24 @@ module.exports = {
     github:{
         clientID: '1f70a5a2b666fc22b5c0',
         clientSecret: '3d81d447d49cd7368dd00a74c700fa7ecf53bb4f',
-        callbackURL: 'http://localhost:7070/api/github/callback',
+        callbackURL: 'http://localhost:7070/github/callback',
         scope: ['user','public_repo','read:repo_hook','write:repo_hook'],
         userKey: 'user',
         timeout: 10000
     },
+    //触发github授权的路由
+    githubPath:'/github/auth?redirect_uri=',
     //模板所在的目录
     viewDir: path.join(__dirname,'..','view'),
     logDir: path.join(__dirname,'..', 'log'),
     //静态文件所在的目录
     staticDir: path.join(__dirname,'..', 'public'),
     //github仓库同步位置
-    repoDir: path.join(__dirname,'..', 'repo')
+    repoDir: path.join(__dirname,'..', 'repo'),
+    //kissy 静态资源的包配置
+    kissyPkg: './'
 };
+if(process.env.NODE_ENV == 'local'){
+    config = _.extend(config,local);
+}
+module.exports = config;

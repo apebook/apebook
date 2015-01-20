@@ -29,7 +29,7 @@ module.exports = {
 
         for(var i=0;i<ids.length;i++) {
             var val = yield redis.hmget(self.keyPre+i,field);
-            if(value === val){
+            if(value === val[0]){
                 id = i;
             }
         }

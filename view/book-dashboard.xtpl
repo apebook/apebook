@@ -1,0 +1,36 @@
+{{extend ("./layout/layout")}}
+{{#block ("head")}}
+    <link type="text/css" href="./dash.css" rev="stylesheet" rel="stylesheet"  />
+{{/block}}
+{{#block ("body")}}
+    <h3>
+        <span class="iconfont">&#xe604;</span>{{name}}
+        <div class="btn-group">
+            <a href="./edit" class="btn btn-default">编辑</a>
+        </div>
+    </h3>
+    <section class="row dash">
+        <div class="col-md-3 ">
+            <div class="book-wrapper">
+
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="btn-group row">
+                <div class="col-md-3">
+                    <a href="./graph" class="btn btn-default">
+                        <span class="big iconfont"></span>
+                        <span>数据</span>
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a href="./graph" class="btn btn-default">
+                        <span class="big iconfont"></span>
+                        <span>数据</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{{/block}}

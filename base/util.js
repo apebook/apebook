@@ -1,5 +1,23 @@
 var _ = require('underscore');
 module.exports = _.extend({},_,{
+    //数据校验失败
+    //跳转到指定页面
+    authError: function(path){
+        if(!this.haveValidationError()) return false;
+        var errors = this.validationErrors();
+        var oError = {};
+        _.each(errors,function(error){
+            oError[error.param] = error.msg;
+        });
+        this.session._errors = oError;
+        this.redirect(path);
+    },
+    //路由数据
+    //合并系统设置
+    //xtemplate可以获取配置项内容
+    routerData: function(data){
+        return _.extend({},this.config,data);
+    },
     //输出json
     json: function(data){
         var query = this.request.query;

@@ -3,11 +3,22 @@
 <head>
     <meta name="charset" content="utf-8" />
     <title>{{title}}</title>
+    {{#if(env==='local')}}
+    <script src="//g.alicdn.com/kissy/k/1.4.8/??seed.js,import-style.js"></script>
+    {{else}}
+    <script src="//g.alicdn.com/kissy/k/1.4.8/??seed-min.js,import-style-min.js"></script>
+    {{/if}}
+    <script>
+        KISSY.config({packages: [{name: 'apebook',base: "{{kissyPkg}}",combine:false,ignorePackageNameInUri: true,
+        }]});
+    </script>
+
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
-    <link type="text/css" href="./common.css" rev="stylesheet" rel="stylesheet"  />
+    <script>KISSY.importStyle('apebook/common.css')</script>
     {{{block ("head")}}}
 </head>
 <body>
+{{include ("./macro")}}
 {{include ("./header")}}
     <article class="main">
         {{{block ("body")}}}

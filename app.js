@@ -1,5 +1,6 @@
 //http://www.apebookjs.org
 // Author: 明河 <minghe36@126.com>
+var _ = require('./base/util');
 var koa = require('koa');
 //配置文件
 var config = require('./config');
@@ -23,6 +24,21 @@ xtplApp(app,{
     views: config.viewDir
 });
 
+//渲染html页面
+//与xtpl的不同是自动注入配置项
+app.context.html = function*(path, data){
+    data = _.extend(data,config);
+    //错误信息
+    var errors = this.session._errors;
+    data.errors = {};
+    if(errors){
+        data.errors = errors;
+        delete this.session._errors;
+    }
+    yield app.context.render.bind(this)(path, data);
+    return true;
+};
+
 //session中间件
 app.name = 'apebook-session';
 app.keys = ['keys', 'keykeys'];
@@ -38,8 +54,13 @@ app.use(githubAuth(config.github));
 //错误捕获输出
 onerror(app);
 
-//静态文件请求
-app.use(staticCache(config.staticDir));
+//post body 解析
+var bodyParser = require('koa-bodyparser');
+app.use(bodyParser());
+
+//数据校验
+var validator = require('koa-validator');
+app.use(validator());
 
 //使用跟express相似的路由器
 app.use(router(app));

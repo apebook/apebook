@@ -1,0 +1,23 @@
+{{extend ("./layout/layout")}}
+{{#block ("body")}}
+    <h3> 注册 </h3>
+
+    <form role="form" class="form-vertical" method="post" action="/join">
+        <div class="form-group">
+            <label class="sr-only" for="username">用户名</label>
+            <input type="text" class="form-control input-lg" name="username" placeholder="用户名" value="">
+        </div>
+        <div class="form-group">
+            <label class="sr-only" for="email">邮箱</label>
+            <input type="text" class="form-control input-lg" name="email" placeholder="邮箱" msg-wrapper="#J_EmailMsg" value="">
+            <div id="J_EmailMsg">
+                {{macro("error",errors.email)}}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="sr-only" for="password">密码</label>
+            <input type="password" class="form-control input-lg" name="password" placeholder="密码">
+        </div>
+        <button type="submit" class="btn btn-block btn-lg btn-success">注 册</button>
+    </form>
+{{/block}}

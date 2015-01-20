@@ -10,6 +10,7 @@ module.exports = function(app){
     //添加redis实例到model中
     _.each(models,function(model){
         model.redis = app.redis;
+        model.app = app;
     });
     //将model挂载在app上，供router使用
     app.model = models;

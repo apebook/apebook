@@ -1,0 +1,117 @@
+@font-face {
+  font-family: 'iconfont';
+  src: url('http://at.alicdn.com/t/font_1419460778_3728383.eot');
+  src: url('http://at.alicdn.com/t/font_1419460778_3728383.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('http://at.alicdn.com/t/font_1419460778_3728383.woff') format('woff'), /* chrome、firefox */ url('http://at.alicdn.com/t/font_1419460778_3728383.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ url('http://at.alicdn.com/t/font_1419460778_3728383.svg#iconfont') format('svg');
+  
+  /* IE9*/
+  /* iOS 4.1- */
+}
+.iconfont {
+  font-family: "iconfont";
+  font-size: 1em;
+  font-style: normal;
+}
+*,
+*:after,
+*:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+*::before,
+*::after {
+  content: "";
+}
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+body {
+  background: #edeff0;
+  color: #777;
+}
+header {
+  background-color: #2f2f2f;
+  height: 60px;
+  position: relative;
+}
+.wrapper {
+  padding: 20px;
+}
+.logo {
+  margin: 0;
+  margin-left: 20px;
+  padding: 0 20px;
+  line-height: 60px;
+  color: #fff;
+  background: url('logo.png') 0 0 no-repeat #5bb793;
+  box-shadow: inset 0 0 10px #489174;
+  display: inline-block;
+  text-indent: -200px;
+  width: 220px;
+}
+.logo a {
+  color: #fff;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.logo:hover {
+  box-shadow: inset 0 0 10px #333;
+}
+.logo a:hover {
+  text-decoration: none;
+}
+.logo span {
+  font-size: 36px;
+}
+.right-nav {
+  position: absolute;
+  right: 20px;
+  top: 16px;
+  width: 320px;
+}
+.right-nav a {
+  margin-right: 15px;
+  display: inline-block;
+  color: #fff;
+}
+.msg {
+  padding: 15px;
+  margin: 20px 0;
+}
+/*表单*/
+.form-vertical {
+  margin-top: 20px;
+}
+.btn {
+  width: 300px;
+  border-radius: 0 !important;
+}
+.control-label {
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+.input-lg,
+.form-group-lg .form-control {
+  border-radius: 0;
+}
+.button {
+  display: inline-block;
+  font-size: 16px;
+  padding: 0 1.5em;
+  text-transform: none;
+  line-height: 30px;
+  height: 30px;
+  color: #FFF;
+  background-image: none;
+  border-radius: 2em;
+  outline: 0;
+  cursor: pointer;
+}
