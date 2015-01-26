@@ -1,0 +1,26 @@
+{{extend ("./layout/layout")}}
+{{#block ("head")}}
+    <script>KISSY.importStyle('apebook/join-min.css')</script>
+{{/block}}
+{{#block ("body")}}
+    <div class="join-wrapper">
+        <form role="form" class="form-vertical J_Auth" method="post" action="/login">
+            <h3><span class="iconfont">&#xe60f;</span> 登录 </h3>
+            <div class="form-group">
+                <label class="sr-only" for="username">用户名</label>
+                <input type="text" class="form-control input-lg" name="name" placeholder="用户名或邮箱" msg-wrapper="#J_UsernameMsg" value="{{body.name}}">
+                <div id="J_UsernameMsg">
+                    {{macro("error",errors.name)}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="password">密码</label>
+                <input type="password" class="form-control input-lg" name="password"  msg-wrapper="#J_PasswordMsg" placeholder="密码">
+                <div id="J_PasswordMsg">
+                    {{macro("error",errors.password)}}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-block btn-lg btn-success">登 录</button>
+        </form>
+    </div>
+{{/block}}
