@@ -4,6 +4,9 @@
 var _ = require('../base/util');
 
 module.exports = {
+    setId: function *(){
+        var id = yield self.id('name',name);
+    },
     //获取/设置自动增长id
     //incr 是否设置
     autoId: function *(incr){
@@ -13,9 +16,13 @@ module.exports = {
         }
         return yield this.redis.get(key);
     },
-    //向列表添加一个数据id
-    addId: function *(id){
-        return yield this.redis.rpush(this.keyPre+'ids',id);
+    //增长id，并把id添加到列表中
+    addId: function *(){
+        var self = this;
+        //增长个id
+        var id = yield self.autoId(true);
+        yield this.redis.rpush(this.keyPre+'ids',id);
+        return id;
     },
     ids: function *(){
         return yield this.redis.lrange(this.keyPre+'ids',0,-1);
@@ -35,5 +42,11 @@ module.exports = {
         }
 
         return id;
+    },
+    //获取指定字段的值
+    field: function*(id,field){
+        var self = this;
+        var redis = self.redis;
+        return yield redis.hmget(self.keyPre+id,field);
     }
 };

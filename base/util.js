@@ -1,8 +1,9 @@
 var _ = require('underscore');
+var crypto = require('crypto');
 module.exports = _.extend({},_,{
     //数据校验失败
     //跳转到指定页面
-    authError: function(path){
+    authError: function(path,body){
         if(!this.haveValidationError()) return false;
         var errors = this.validationErrors();
         var oError = {};
@@ -10,7 +11,18 @@ module.exports = _.extend({},_,{
             oError[error.param] = error.msg;
         });
         this.session._errors = oError;
+        if(body){
+            this.session._body = body;
+        }
         this.redirect(path);
+        return true;
+    },
+    //添加错误消息
+    addError: function(param,msg){
+        if(!this._validationErrors){
+            this._validationErrors = [];
+        }
+        return this._validationErrors.push({param:param,msg:msg});
     },
     //路由数据
     //合并系统设置
@@ -69,5 +81,11 @@ module.exports = _.extend({},_,{
             this.redirect('/github/auth?redirect_uri='+url);
         }
         return token;
+    },
+    //md5编码
+    md5: function(value){
+        var md5 = crypto.createHash('md5');
+        md5.update(value, 'utf8');
+        return md5.digest('hex');
     }
 });

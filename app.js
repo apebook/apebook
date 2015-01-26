@@ -35,6 +35,12 @@ app.context.html = function*(path, data){
         data.errors = errors;
         delete this.session._errors;
     }
+    //存在表单提交的数据
+    var body = this.session._body || {};
+    if(body){
+        data.body = body;
+        delete this.session._body;
+    }
     yield app.context.render.bind(this)(path, data);
     return true;
 };

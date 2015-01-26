@@ -4,25 +4,30 @@
 {{/block}}
 {{#block ("body")}}
     <div class="join-wrapper">
-        <form role="form" class="form-vertical" method="post" action="/join">
+        <form role="form" class="form-vertical J_Auth" method="post" action="/join">
             <h3><span class="iconfont">&#xe60f;</span> 注册 </h3>
             <div class="form-group">
                 <label class="sr-only" for="username">用户名</label>
-                <input type="text" class="form-control input-lg" name="username" placeholder="用户名" value="">
+                <input type="text" class="form-control input-lg" name="name" placeholder="用户名" msg-wrapper="#J_UsernameMsg" value="{{body.name}}">
+                <div id="J_UsernameMsg">
+                    {{macro("error",errors.name)}}
+                </div>
             </div>
             <div class="form-group">
                 <label class="sr-only" for="email">邮箱</label>
-                <input type="text" class="form-control input-lg" name="email" placeholder="邮箱" msg-wrapper="#J_EmailMsg" value="">
+                <input type="text" class="form-control input-lg" name="email" placeholder="邮箱" msg-wrapper="#J_EmailMsg" value="{{body.email}}">
                 <div id="J_EmailMsg">
                     {{macro("error",errors.email)}}
                 </div>
             </div>
             <div class="form-group">
                 <label class="sr-only" for="password">密码</label>
-                <input type="password" class="form-control input-lg" name="password" placeholder="密码">
+                <input type="password" class="form-control input-lg" name="password"  msg-wrapper="#J_PasswordMsg" placeholder="密码">
+                <div id="J_PasswordMsg">
+                    {{macro("error",errors.password)}}
+                </div>
             </div>
             <button type="submit" class="btn btn-block btn-lg btn-success">注 册</button>
         </form>
-
     </div>
 {{/block}}
