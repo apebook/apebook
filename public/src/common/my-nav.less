@@ -1,0 +1,41 @@
+.my-nav{
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  width: 100%;
+  font-weight: 300;
+  font-size: 1.3em;
+  max-width: 1200px;
+  margin-top: 20px;
+  li{
+    position: relative;
+    z-index: 1;
+    display: block;
+    float: left;
+    width: 25%;
+    margin: 0;
+    text-align: center;
+    background: rgba(40,44,42,0.05);
+    -webkit-transition: background 0.2s;
+    transition: background 0.2s;
+  }
+  a{
+    position: relative;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #74777b;
+    padding: 10px 0;
+  }
+  a:hover{
+    text-decoration: none;
+  }
+  .current,li:hover{
+    background: #5bb793;
+
+    a{
+      color: #fff;
+    }
+  }
+}

@@ -1,117 +1,14 @@
 {{extend ("./layout/layout")}}
 
 {{#block ("head")}}
-    <script>KISSY.importStyle('apebook/index.css')</script>
+    <script>KISSY.importStyle('apebook/index-min.css')</script>
 {{/block}}
 
 {{#block ("body")}}
-<section class="register-pannel">
-
-    <div class="words">
-        <h1>中国程序员的云端图书馆</h1>
-        <h4>markdown编写 · github版本控制 · 兼容gitbook · 发布&分享</h4>
-    </div>
-
-    <form role="form" class="form-inline register-form J_Register" method="post" action="/join">
-        <div class="form-group">
-            <label class="sr-only" for="username">用户名</label>
-            <input type="text" class="form-control input-lg" name="username" placeholder="用户名">
-        </div>
-        <div class="form-group">
-            <label class="sr-only" for="email">邮箱</label>
-            <input type="text" class="form-control input-lg" name="email" placeholder="邮箱">
-        </div>
-        <div class="form-group">
-            <label class="sr-only" for="password">密码</label>
-            <input type="password" class="form-control input-lg" name="password" placeholder="密码">
-        </div>
-
-        <button type="submit" class="btn btn-success btn-lg btn-full">马上开始体验</button>
-    </form>
-
-</section>
-<section class="wrapper">
-    <h3><span class="iconfont">&#xe604;</span> 好书推荐</h3>
-    <ul class="book-list">
-        <li class="book-wrapper">
-            <figure class="book">
-
-                <!-- Front -->
-
-                <ul class="hardcover_front">
-                    <li>
-                        <img src="http://tympanus.net/Development/AnimatedBooks/img/cover.jpg" alt="" width="100%" height="100%">
-                    </li>
-                    <li></li>
-                </ul>
-
-                <!-- Pages -->
-
-                <ul class="page">
-                    <li></li>
-                    <li class="book-desc">
-                        <h4>javascript权威指南</h4>
-                        <span>作者：明河</span>
-                        <p>javascript的入门书籍，这是测试测试。</p>
-                    </li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ul>
-
-                <!-- Back -->
-
-                <ul class="hardcover_back">
-                    <li></li>
-                    <li></li>
-                </ul>
-                <ul class="book_spine">
-                    <li></li>
-                    <li></li>
-                </ul>
-            </figure>
-        </li>
-        <li class="book-wrapper">
-            <figure class="book">
-
-                <!-- Front -->
-
-                <ul class="hardcover_front">
-                    <li>
-                        <img src="http://tympanus.net/Development/AnimatedBooks/img/cover.jpg" alt="" width="100%" height="100%">
-                    </li>
-                    <li></li>
-                </ul>
-
-                <!-- Pages -->
-
-                <ul class="page">
-                    <li></li>
-                    <li class="book-desc">
-                        <h4>javascript权威指南</h4>
-                        <span>作者：明河</span>
-                        <p>javascript的入门书籍，这是测试测试。</p>
-                    </li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ul>
-
-                <!-- Back -->
-
-                <ul class="hardcover_back">
-                    <li></li>
-                    <li></li>
-                </ul>
-                <ul class="book_spine">
-                    <li></li>
-                    <li></li>
-                </ul>
-            </figure>
-        </li>
-
-    </ul>
-</section>
-
+{{#if(user)}}
+    {{include ("./index/my")}}
+{{else}}
+    {{include ("./index/new-user")}}
+{{/if}}
 <script>KISSY.use('apebook/index')</script>
 {{/block}}

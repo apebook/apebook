@@ -51,6 +51,14 @@ module.exports = function(app) {
             }
         }
         var isError = _.authError.bind(this)('/login',body);
-        !isError && this.redirect('/');
+        if(!isError){
+            this.session.user = yield mUser.data(id);
+            this.redirect('/');
+        }
     });
+
+    //注销
+    app.post('/logout',function *(){
+        delete this.session.user;
+    })
 };

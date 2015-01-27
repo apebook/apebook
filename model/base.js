@@ -35,9 +35,9 @@ module.exports = {
         var id = -1;
 
         for(var i=0;i<ids.length;i++) {
-            var val = yield redis.hmget(self.keyPre+i,field);
+            var val = yield redis.hmget(self.keyPre+ids[i],field);
             if(value === val[0]){
-                id = i;
+                id = ids[i];
             }
         }
 
@@ -47,6 +47,7 @@ module.exports = {
     field: function*(id,field){
         var self = this;
         var redis = self.redis;
-        return yield redis.hmget(self.keyPre+id,field);
+        var data = yield redis.hmget(self.keyPre+id,field)
+        return data[0];
     }
 };

@@ -32,6 +32,13 @@ User.prototype = _.extend({},Base, {
 
         yield redis.hmset(keyPre+id,data);
     },
+    //获取用户数据
+    data: function*(id){
+        var self = this;
+        var redis = self.redis;
+        var keyPre = self.keyPre;
+        return yield redis.hgetall(keyPre+id);
+    },
     //判断用户是否已经存在
     isExist: function*(name,key){
         var self = this;

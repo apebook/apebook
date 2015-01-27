@@ -41,6 +41,8 @@ app.context.html = function*(path, data){
         data.body = body;
         delete this.session._body;
     }
+    //用户session
+    data.user = this.session.user;
     yield app.context.render.bind(this)(path, data);
     return true;
 };
