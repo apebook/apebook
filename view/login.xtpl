@@ -20,6 +20,7 @@
                     {{macro("error",errors.password)}}
                 </div>
             </div>
+            <input type="hidden" value="{{redirect_url}}"/>
             <button type="submit" class="btn btn-block btn-lg btn-success">登 录</button>
         </form>
     </div>

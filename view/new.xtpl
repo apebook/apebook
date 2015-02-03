@@ -1,22 +1,12 @@
 {{extend ("./layout/layout")}}
 {{#block ("head")}}
-    <link type="text/css" href="./new.css" rev="stylesheet" rel="stylesheet"  />
+    <script>KISSY.importStyle('apebook/book.css')</script>
 {{/block}}
 {{#block ("body")}}
-    <h3><span class="iconfont">&#xe604;</span> 创建一本新书</h3>
-
-    <section class="new-select">
-        <a class="create-type" href="./new/github">
-            <h4>github上已经存在书籍仓库</h4>
-            <div class="icon-wrapper"><span class="iconfont">&#xe60c;</span></div>
-            <p>1.没有github授权的情况下，会跳转到github授权页面</p>
-            <p>2.apebook会从github中抽取书籍信息</p>
-        </a>
-        <a class="create-type" href="./new/direct">
-            <h4>github上不存在书籍仓库</h4>
-            <div class="icon-wrapper"><span class="iconfont">&#xe60d;</span></div>
-            <p>1.直接填写书籍信息表单</p>
-            <p>2.创建成功后，可以在书籍控制台内关联github仓库</p>
-        </a>
+    <section class="wrapper  book-wrapper">
+        {{include ('./book/title')}}
+        {{include ('./book/stepbar')}}
+        {{include ('./book/select')}}
     </section>
+    <script>KISSY.use('apebook/book')</script>
 {{/block}}

@@ -87,5 +87,14 @@ module.exports = _.extend({},_,{
         var md5 = crypto.createHash('md5');
         md5.update(value, 'utf8');
         return md5.digest('hex');
+    },
+    //登录
+    login: function(){
+        var user = this.session.user;
+        //登录
+        if(!user){
+            this.redirect('/login?redirect_url='+this.originalUrl);
+        }
+        return user;
     }
 });

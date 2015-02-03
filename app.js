@@ -14,6 +14,7 @@ var staticCache = require('koa-static-cache');
 var session = require('koa-generic-session');
 var redisStore = require('koa-redis')(config.redis);
 var githubAuth = require('koa-github');
+var debug = require('debug')('apebook');
 var app = koa();
 app.config = config;
 //co-redis实例
@@ -68,6 +69,8 @@ app.use(bodyParser());
 
 //数据校验
 var validator = require('koa-validator');
+var rules = require('./base/validator-rules');
+rules(validator);
 app.use(validator());
 
 //使用跟express相似的路由器

@@ -1,7 +1,8 @@
 var parse = require('co-body');
 var _ = require('../base/util');
 var urllib = require('co-urllib');
-
+var debug = require('debug')('apebook');
+var githubApi = require('../base/github-api');
 //书籍相关的路由
 module.exports = function(app){
     var mBook = app.model.book;
@@ -9,114 +10,119 @@ module.exports = function(app){
     var config = app.config;
     //选择创建书籍的方式
     app.get('/new',function *(){
-        var data = {title:'选择创建书籍的方式'};
-        yield this.render('new',data);
+        _.login.bind(this)();
+        var data = {title:'选择创建书籍的方式',type:'select'};
+        yield this.html('new',data);
     });
     //关联github
     app.get('/new/github',function *(){
-        var data = {title:'创建一本新书'};
+        _.login.bind(this)();
+        var data = {title:'创建一本新书',type:'github'};
         data.cats = yield mCat.list();
-        var query = this.request.query;
-        if(query.error){
-            data.error = query.error;
+        var github = this.session._github;
+
+        if(github){
+            debug('存在_github session',github);
+            var repo = github.repo;
+            var user = github.user;
+
+            var userKey = config.github.userKey;
+            var githubUser = this.session[userKey];
+            if(github.user !== githubUser.login){
+                _.addError.bind(this)('user','用户名跟github名不匹配');
+            }
+            //仓库信息
+            var repoData = yield githubApi.repo(repo,user);
+            if(!repoData.success){
+                //覆盖最常见的仓库找不到的错误
+                if(repoData.status === 404){
+                    repoData.message = '该仓库不存在';
+                }
+                _.addError.bind(this)('repo',repoData.message);
+            }
+            delete this.session._github;
+            var isError = _.authError.bind(this)('/new/github',github);
+            if(!isError){
+                this.session.book = _.extend(repoData.data,github);
+                this.redirect('/new/direct');
+            }
         }
 
-        if(query.user && query.repo){
-            var user = this.session['user'];
-            if(!user){
-
-            }
-            //不是github登陆的用户
-            if(!user.login === query.user){
-
-            }
-
-            var api = 'https://api.github.com/repos/'+user.login+'/'+query.repo;
-            var authOptions = {
-                dataType: 'json'
-            };
-            var result = yield urllib.request(api, authOptions);
-            data = result.data;
-            this.session.book = {
-                description : data.description,
-                html_url: data.html_url,
-                forks_count: data.forks_count,
-                stargazers_count: data.stargazers_count,
-                watchers_count: data.watchers_count,
-                updated_at: data.updated_at,
-                user: user.login,
-                repo: query.repo
-            };
-            this.redirect('/new/direct');
-        }
-        yield this.render('association-github',data);
+        yield this.html('association-github',data);
     });
 
     app.post('/new/github',function *(){
-        var body = yield parse(this, { limit: '1kb' });
-        var user = body.user;
-        var repo = body.repo;
-        if(!user || !repo){
-            this.redirect('/new/github?error='+'github用户名或仓库名不可以为空');
-        }
+        _.login.bind(this)();
 
-        var callbackURL = this.url+'?user='+user + '&repo='+repo;
-        var router = config.githubPath+callbackURL;
-        this.redirect(router);
+        var body = this.request.body;
+        debug(body);
+        this.checkBody('user', 'github用户名不可以为空').notEmpty();
+        this.checkBody('repo', 'github仓库名不可以为空').notEmpty();
+        var isError = _.authError.bind(this)('/new/github',body);
+        if(!isError){
+            var callbackURL = this.url;
+            var router = config.githubPath+callbackURL;
+            this.session._github = body;
+            this.redirect(router);
+        }
     });
 
     //创建书籍表单页面
     app.get('/new/direct',function *(){
-        var data = {title:'创建一本新书'};
+        _.login.bind(this)();
+
+        var data = {title:'创建一本新书',type:'direct'};
         data.cats = yield mCat.list();
-        var query = this.request.query;
-        if(query.error){
-            data.error = query.error;
+        var book = this.session.book;
+        if(book){
+            book.githubUser = book.user;
+            data.type = 'fromGithub';
+            data = _.extend(data,book);
         }
-        if(this.session.book){
-            data = _.extend(data,this.session.book);
-            delete this.session.book;
-        }
-        yield this.render('new-direct',data);
+        yield this.html('new-direct',data);
     });
 
     //创建书籍
     app.post('/new',function *(){
-        var body = yield parse(this, { limit: '1kb' });
-        var data = yield mBook.post(body);
-        //出错了，跳转到表单创建页面
-        if(!data.success){
-            this.redirect('/new?error='+data.msg);
-        }else{
-            if(body.user && body.repo){
-                var api = 'https://api.github.com/repos/'+body.user+'/'+body.repo+'/hooks';
-                var authOptions = {
-                    type:'post',
-                    data:{
-                        events: ["push","pull_request"],
-                        name: "web",
-                        active: true,
-                        config: {
-                            "url":"http://www.apebook.org/api/github/hook",
-                            "content_type":"json"
-                        }
-                    },
-                    dataType: 'json'
-                };
-                var result = yield urllib.request(api, authOptions);
-                body.hook = true;
-                yield mBook.post(body);
+        _.login.bind(this)();
+
+        var body = yield this.request.body;
+        this.checkBody('name', '书名不可以为空').notEmpty();
+        this.checkBody('uri', '不可以为空').notEmpty();
+        this.checkBody('uri', '只能是字母、数字、-').isUri();
+        this.checkBody('cat', '必须选择一个类目').notEmpty();
+        var isExist = yield mBook.isExist(body.name);
+        if(isExist){
+            _.addError('name','书名已经存在');
+        }
+        var isUriExist = yield mBook.isUriExist(body.uri);
+        if(isUriExist){
+            _.addError('uri','uri已经存在');
+        }
+        var error = _.authError.bind(this)('/new/direct',body);
+        if(!error){
+            var data = yield mBook.post(body);
+            //添加hook
+            if(body.githubUser && body.repo) {
+                //yield githubApi.addHook(body.repo,body.user);
+                delete this.session.book;
             }
             //跳转到我的书籍
-            this.redirect('/'+body.name+'/dashboard');
+            this.redirect('/'+body.uri+'/dashboard');
         }
     });
     //书籍控制台
-    app.get('/:name/dashboard',function*(){
+    app.get('/:uri/dashboard',function*(){
+        _.login.bind(this)();
+
         var self = this;
         var params = self.params;
-        var bookName = params['name'];
-        var data = yield mBook.get(bookName);
-        yield this.render('book-dashboard',data);
+        var uri = params['uri'];
+        var data = yield mBook.get(uri,'uri');
+        debug('获取的书籍信息：');
+        debug(data);
+        //导航选中我的书籍
+        data.nav = 'book';
+        yield this.html('book-dashboard',data);
     });
 };

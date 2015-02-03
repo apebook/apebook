@@ -69,6 +69,7 @@
     "mocha": "*",
     "node-dev": "*",
     "pedding": "1.0.0",
+    "qn": "^1.0.1",
     "should": "3.3.2",
     "supertest": "0.13.0",
     "walk": "^2.3.4",

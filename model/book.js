@@ -7,11 +7,11 @@ var Book = module.exports = function(){
 
 Book.prototype = _.extend({},Base,{
     //通过书名获取一本书
-    get: function *(name){
+    get: function *(name,key){
         var self = this;
         var redis = self.redis;
         var keyPre = self.keyPre;
-        var id = yield self.id('name',name);
+        var id = yield self.id(key || 'name',name);
         if(id >= 0){
             return yield redis.hgetall(keyPre+id);
         }else{
@@ -21,28 +21,30 @@ Book.prototype = _.extend({},Base,{
     //添加/修改书籍信息
     post: function *(data){
         var self = this;
-        if(!data.name){
-            return _.mError('书名不可以为空');
-        }
-        if(!data.cat){
-            return _.mError('必须选择一个类目');
-        }
         var redis = self.redis;
         var keyPre = self.keyPre;
         var name = data.name;
         var id = yield self.id('name',name);
         //不存在该书籍
         if(id === -1){
-            //增长个id
-            id = yield self.autoId(true);
+            id = yield self.addId();
             data.id = id;
-            yield self.addId(id);
+            data.create = _.now();
         }
         yield redis.hmset(keyPre+id,data);
         //类目model
         var mCat = self.app.model.cat;
         //类目下添加此书
-        yield mCat.postBook(data.name,data.cat);
-        return {"success":true};
+        return yield mCat.postBook(data.name,data.cat);
+    },
+    //是否已经存在uri
+    isUriExist: function*(uri){
+        var id = yield this.id('uri',uri);
+        return id !== -1;
+    },
+    //书名是否重复
+    isExist: function*(name){
+        var id = yield this.id('name',name);
+        return id !== -1;
     }
 });

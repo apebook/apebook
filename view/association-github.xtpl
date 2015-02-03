@@ -1,16 +1,13 @@
 {{extend ("./layout/layout")}}
-
+{{#block ("head")}}
+    <script>KISSY.importStyle('apebook/book.css')</script>
+{{/block}}
 {{#block ("body")}}
-    <h3><span class="iconfont">&#xe604;</span>通过关联github创建书籍</h3>
-    <form role="form" class="form-vertical" method="post" action="/new/github">
-        <div class="form-group ">
-            <label for="title" class="control-label">github用户名</label>
-            <input type="text" name="user" autocomplete="off" maxlength="60" class="form-control input-lg" value="" max="60" placeholder="">
-        </div>
-        <div class="form-group ">
-            <label for="title" class="control-label">github仓库名</label>
-            <input type="text" name="repo" autocomplete="off" maxlength="60" class="form-control input-lg" value="" max="60" placeholder="">
-        </div>
-        <button type="submit" class="btn btn-block btn-lg btn-success">下一步</button>
-    </form>
+    <section class="wrapper book-wrapper">
+        {{include ('./book/title')}}
+        {{include ('./book/stepbar')}}
+        {{include ('./book/github-form')}}
+
+    </section>
+    <script>KISSY.use('apebook/book')</script>
 {{/block}}

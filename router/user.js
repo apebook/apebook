@@ -31,7 +31,8 @@ module.exports = function(app) {
 
     //登录
     app.get('/login',function *(){
-        yield this.html('login',{});
+        var redirect_url = this.request.query.redirect_url || '/';
+        yield this.html('login',{redirect_url:redirect_url});
     });
     app.post('/login',function *(){
         var body = this.request.body;
@@ -53,7 +54,8 @@ module.exports = function(app) {
         var isError = _.authError.bind(this)('/login',body);
         if(!isError){
             this.session.user = yield mUser.data(id);
-            this.redirect('/');
+            //重定向
+            this.redirect(body.redirect_url || '/');
         }
     });
 

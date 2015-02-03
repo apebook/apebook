@@ -1,0 +1,18 @@
+<form role="form" class="form-vertical" method="post" action="/new/github">
+    <div class="form-group ">
+        <label for="title" class="control-label">github用户名</label>
+        <input type="text" name="user" autocomplete="off" maxlength="60" required class="form-control input-lg" value="{{body.user}}" max="60" placeholder="" msg-wrapper="#J_UserMsg">
+        <div id="J_UserMsg">
+            {{macro("error",errors.user)}}
+        </div>
+    </div>
+    <div class="form-group ">
+        <label for="title" class="control-label">github仓库名</label>
+        <input type="text" name="repo" autocomplete="off" maxlength="60" required class="form-control input-lg" value="{{body.repo}}" max="60" placeholder="" msg-wrapper="#J_RepoMsg">
+        <div id="J_RepoMsg">
+            {{macro("error",errors.repo)}}
+        </div>
+    </div>
+    <button type="submit" class="btn btn-block btn-lg btn-success btn-next J_GithubAsso" role="button">下一步</button>
+    <a href="/new" class="btn btn-block btn-lg btn-default btn-prev" role="button">上一步</a>
+</form>

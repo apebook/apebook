@@ -4,3 +4,6 @@
 <p class="bg-danger auth-msg auth-error"><span class="iconfont">&#xe605;</span> {{msg}}</p>
 {{/if}}
 {{/macro}}
+{{#macro("hidden","name","value")}}
+<input type="hidden" value="{{value}}" name="{{name}}"/>
+{{/macro}}

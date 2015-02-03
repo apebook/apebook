@@ -1,0 +1,46 @@
+.my-books{
+  height: 160px;
+  overflow: hidden;
+  width: 100%;
+  li{
+    float: left;
+    width: 100px;
+    height: 160px;
+    margin-right: 20px;
+    cursor: pointer;
+    a{
+      display: block;
+      width: 100%;
+      height: 100%;
+      &::before, &::after{
+        content: none;
+      }
+    }
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .create-wrapper{
+    border: 1px dashed #CCC;
+    text-align: center;
+    line-height: 160px;
+    display: inline-block;
+    a{
+      -webkit-transition: background 0.2s;
+      transition: background 0.2s;
+      &:hover{
+        text-decoration: none;
+        background: #5bb793;
+        border: 1px dashed #5bb793;
+        .iconfont{
+          color: #fff;
+        }
+      }
+    }
+    .iconfont{
+      font-size: 3em;
+      color: rgba(0,0,0,.6);
+    }
+  }
+}

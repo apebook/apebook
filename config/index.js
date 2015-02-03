@@ -25,7 +25,7 @@ var config = {
         clientSecret: '3d81d447d49cd7368dd00a74c700fa7ecf53bb4f',
         callbackURL: 'http://localhost:7070/github/callback',
         scope: ['user','public_repo','read:repo_hook','write:repo_hook'],
-        userKey: 'user',
+        userKey: 'github_user',
         timeout: 10000
     },
     //触发github授权的路由

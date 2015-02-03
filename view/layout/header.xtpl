@@ -5,14 +5,22 @@
         <a href="/help">帮助</a>
         <a href="/feedback">反馈</a>
     </nav>
+    {{#if(user)}}
     <nav class="right-nav">
-        {{#if(user)}}
+        {{! 已经登录 }}
         <a class="name" href="/"><img alt="{{user.name}}" class="avatar" height="20" src="https://secure.gravatar.com/avatar/{{user.avatar}}" width="20">
             <span class="css-truncate-target">{{user.name}}</span>
         </a>
         <a href="/new" title="创建书籍"><span class="iconfont">&#xe602;</span><span> </span></a>
         <a href="/setting" title="我的设置"><span class="iconfont">&#xe601;</span></a>
         <a href="/logout" title="注销"><span class="iconfont">&#xe600;</span></a>
-        {{/if}}
     </nav>
+    {{else}}
+    {{! 还没登录}}
+    <nav class="right-nav login-nav">
+        <a href="/login" class="btn btn-info" >登录</a>
+        <a href="/join"  class="btn btn-success" >注册</a>
+    </nav>
+    {{/if}}
+
 </header>

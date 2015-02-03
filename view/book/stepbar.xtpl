@@ -1,0 +1,8 @@
+<ol id="J_Stepbar" class="stepbar" data-act="{{#if(type==='select')}}1{{elseif(type==='github' || type==='direct')}}2{{elseif(type==='fromGithub')}}3{{/if}}">
+    <li>选择创建方式</li>
+    {{#if(type==='github' || type==='fromGithub')}}
+        <li>关联github仓库</li>
+    {{/if}}
+    <li>编辑书籍基础信息</li>
+    <li>完成</li>
+</ol>

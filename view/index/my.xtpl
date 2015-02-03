@@ -1,8 +1,33 @@
-<nav class="my-nav">
-    <ul>
-        <li class="current"><a href="/"><span class="iconfont">&#xe610;</span> <span>我的主页</span></a></li>
-        <li class=""><a href=""><span class="iconfont">&#xe604;</span> <span>我的书籍</span></a></li>
-        <li class=""><a href=""><span class="iconfont">&#xe611;</span> <span>我的关注</span></a></li>
-        <li><a href="/setting"><span class="iconfont">&#xe601;</span> <span>我的设置</span></a></li>
+{{include ("../layout/my-nav")}}
+
+<section class="wrapper my-wrapper">
+    <h3 class="section-title">我的书籍</h3>
+    <ul class="book-list my-books">
+        <li class="create-wrapper">
+            <a href="/new">
+                <span class="iconfont">&#xe612;</span>
+            </a>
+        </li>
+        <li>
+            <a href="//dashboard">
+                <img src="http://tympanus.net/Development/AnimatedBooks/img/cover.jpg" alt="">
+            </a>
+        </li>
     </ul>
-</nav>
+</section>
+
+<section class="wrapper my-wrapper">
+    <h3 class="section-title">关注的书籍动态</h3>
+    <ul class="book-list my-books">
+        <li class="create-wrapper">
+            <a href="/new">
+                <span class="iconfont">&#xe612;</span>
+            </a>
+        </li>
+        <li>
+            <a href="//dashboard">
+                <img src="http://tympanus.net/Development/AnimatedBooks/img/cover.jpg" alt="">
+            </a>
+        </li>
+    </ul>
+</section>
