@@ -96,5 +96,9 @@ module.exports = _.extend({},_,{
             this.redirect('/login?redirect_url='+this.originalUrl);
         }
         return user;
+    },
+    //是否已经登录
+    user: function(){
+        return this.session.user;
     }
 });

@@ -46,5 +46,30 @@ Book.prototype = _.extend({},Base,{
     isExist: function*(name){
         var id = yield this.id('name',name);
         return id !== -1;
+    },
+    //获取书籍列表
+    list: function*(config){
+        var self = this;
+        var p = this.keyPre;
+        var redis = self.redis;
+        var defaultConfig = {
+            //降序
+            //默认降序
+            descOrAsc : 'DESC',
+            //排序的字段
+            //默认按照创建时间
+            field: 'create',
+            //取数据时的起始索引
+            start: 0
+        };
+        config = _.extend({},defaultConfig,config);
+        var params = [p+'ids',config.descOrAsc];
+        params.push('BY',p+'*->'+config.field);
+        //是否限制返回的数据个数
+        if(config.limit){
+            params.push('LIMIT',config.start,config.limit);
+        }
+        var data = yield redis.sort(params);
+
     }
 });

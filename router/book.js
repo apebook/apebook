@@ -1,4 +1,3 @@
-var parse = require('co-body');
 var _ = require('../base/util');
 var urllib = require('co-urllib');
 var debug = require('debug')('apebook');
@@ -101,6 +100,11 @@ module.exports = function(app){
         }
         var error = _.authError.bind(this)('/new/direct',body);
         if(!error){
+            var user = _.user.bind(this)();
+            body.userId = user.id;
+            body.userName = user.name;
+            debug('创建书籍数据：');
+            debug(body);
             var data = yield mBook.post(body);
             //添加hook
             if(body.githubUser && body.repo) {
@@ -108,11 +112,11 @@ module.exports = function(app){
                 delete this.session.book;
             }
             //跳转到我的书籍
-            this.redirect('/'+body.uri+'/dashboard');
+            this.redirect('/book/'+body.uri+'/dashboard');
         }
     });
     //书籍控制台
-    app.get('/:uri/dashboard',function*(){
+    app.get('/book/:uri/dashboard',function*(){
         _.login.bind(this)();
 
         var self = this;
