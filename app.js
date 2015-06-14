@@ -60,6 +60,10 @@ app.use(session({
 //github账号登录校验
 app.use(githubAuth(config.github));
 
+//oss存储
+var oss = require('./base/oss');
+app.context.oss = oss.connect(config.oss);
+
 //错误捕获输出
 onerror(app);
 
@@ -88,3 +92,5 @@ var apiRouter = require('./api/index');
 apiRouter(app);
 
 app.listen(config.port);
+
+module.exports = app;

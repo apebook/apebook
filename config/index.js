@@ -28,6 +28,16 @@ var config = {
         userKey: 'github_user',
         timeout: 10000
     },
+    oss:{
+        accessKeyId: 'R7wBScg51UDJv06B',
+        accessKeySecret: '8rkUyvVcDbNFOBsxnxRdGGGhg6qyZb',
+        bucket: 'apebook',
+        region: 'oss-cn-hangzhou'
+    },
+    ossBuckets:{
+        asset: 'apebook',
+        book: 'apebook-book'
+    },
     //触发github授权的路由
     githubPath:'/github/auth?redirect_uri=',
     //模板所在的目录

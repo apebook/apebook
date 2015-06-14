@@ -70,6 +70,5 @@ Book.prototype = _.extend({},Base,{
             params.push('LIMIT',config.start,config.limit);
         }
         var data = yield redis.sort(params);
-
     }
 });
