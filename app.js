@@ -8,8 +8,6 @@ var router = require('koa-router');
 var onerror = require('koa-onerror');
 //xtpl模板引擎对koa的适配
 var xtplApp = require('xtpl/lib/koa');
-//静态文件cache
-var staticCache = require('koa-static-cache');
 
 var session = require('koa-generic-session');
 var redisStore = require('koa-redis')(config.redis);
@@ -92,5 +90,5 @@ var apiRouter = require('./api/index');
 apiRouter(app);
 
 app.listen(config.port);
-
+console.log('listening on port %s',config.port);
 module.exports = app;

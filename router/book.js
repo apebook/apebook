@@ -1,21 +1,17 @@
 var _ = require('../base/util');
-var urllib = require('co-urllib');
 var debug = require('debug')('apebook');
 var githubApi = require('../base/github-api');
+var check = require('../base/check-middleware');
+var ctrBook = require('../controller/book');
 //书籍相关的路由
 module.exports = function(app){
     var mBook = app.model.book;
     var mCat = app.model.cat;
     var config = app.config;
     //选择创建书籍的方式
-    app.get('/new',function *(){
-        _.login.bind(this)();
-        var data = {title:'选择创建书籍的方式',type:'select'};
-        yield this.html('new',data);
-    });
+    app.get('/new',check.login,ctrBook.create);
     //关联github
-    app.get('/new/github',function *(){
-        _.login.bind(this)();
+    app.get('/new/github',check.login,function *(){
         var data = {title:'创建一本新书',type:'github'};
         data.cats = yield mCat.list();
         var github = this.session._github;

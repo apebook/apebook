@@ -2,7 +2,6 @@
 var admin = require('./admin');
 var book = require('./book');
 var user = require('./user');
-var ossTest = require('./oss-test');
 var _ = require('../base/util');
 
 module.exports = function(app){
@@ -20,5 +19,4 @@ module.exports = function(app){
     book(app);
     user(app);
 
-    ossTest(app);
 };

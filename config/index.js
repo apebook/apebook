@@ -48,7 +48,7 @@ var config = {
     //github仓库同步位置
     repoDir: path.join(__dirname,'..', 'repo'),
     //kissy 静态资源的包配置
-    kissyPkg: './'
+    kissyPkg: 'http://a.apebook.org'
 };
 if(process.env.NODE_ENV == 'local'){
     config = _.extend(config,local);
