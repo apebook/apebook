@@ -26,7 +26,7 @@ xtplApp(app,{
 //渲染html页面
 //与xtpl的不同是自动注入配置项
 app.context.html = function*(path, data){
-    data = _.extend(data,config);
+    data = _.extend({},data,config);
     //错误信息
     var errors = this.session._errors;
     data.errors = {};
@@ -42,8 +42,32 @@ app.context.html = function*(path, data){
     }
     //用户session
     data.user = this.session.user;
+    //页面标题
+    if(this.title) data.title = this.title;
     yield app.context.render.bind(this)(path, data);
     return true;
+};
+
+//log记录
+var Logger = require('mini-logger');
+var logger = Logger({
+    dir: config.logDir,
+    categories:['log'],
+    format: '[{category}]-YYYY-MM-DD[.log]'
+});
+app.context.error = function(msg,v){
+    if(typeof msg === 'string'){
+        msg = new Date().toString()+' '+msg;
+    }
+    console.log(msg,v||'');
+    logger.error(msg,v||'');
+};
+app.context.log = function(msg,v){
+    if(typeof msg === 'string'){
+        msg = new Date().toString()+' '+msg;
+    }
+    console.log(msg,v||'');
+    logger.log(msg,v||'');
 };
 
 //session中间件

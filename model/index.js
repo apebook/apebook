@@ -14,5 +14,6 @@ module.exports = function(app){
     });
     //将model挂载在app上，供router使用
     app.model = models;
+    app.context.model = models;
     return models;
 };

@@ -2,5 +2,5 @@
 var path = require('path');
 module.exports = {
     "env":"local",
-    "kissyPkg": 'http://localhost:5555/src'
+    "kissyPkg": 'http://localhost:3333/src'
 };
