@@ -28,16 +28,6 @@ var config = {
         userKey: 'github_user',
         timeout: 10000
     },
-    oss:{
-        accessKeyId: 'R7wBScg51UDJv06B',
-        accessKeySecret: '8rkUyvVcDbNFOBsxnxRdGGGhg6qyZb',
-        bucket: 'apebook',
-        region: 'oss-cn-hangzhou'
-    },
-    ossBuckets:{
-        asset: 'apebook',
-        book: 'apebook-book'
-    },
     //触发github授权的路由
     githubPath:'/github/auth?redirect_uri=',
     //模板所在的目录
@@ -48,7 +38,18 @@ var config = {
     //github仓库同步位置
     repoDir: path.join(__dirname,'..', 'repo'),
     //kissy 静态资源的包配置
-    kissyPkg: 'http://a.apebook.org'
+    kissyPkg: 'http://a.apebook.org',
+    "oss":{
+        accessKeyId: 'R7wBScg51UDJv06B',
+        accessKeySecret: '8rkUyvVcDbNFOBsxnxRdGGGhg6qyZb',
+        bucket: 'apebook',
+        region: 'oss-cn-hangzhou'
+    },
+    "ossBuckets":{
+        asset: 'apebook-asset',
+        book: 'apebook-book',
+        cover: 'apebook-cover'
+    }
 };
 if(process.env.NODE_ENV == 'local'){
     config = _.extend(config,local);

@@ -1,4 +1,4 @@
-<form role="form" class="form-vertical" method="post" action="/new">
+<form role="form" class="form-vertical book-form" method="post" action="/new">
     <div class="form-group ">
         <label for="title" class="control-label">书名</label>
         <input type="text" name="name" autocomplete="off" maxlength="60" class="form-control input-lg" value="{{body.repo || repo}}" max="60" placeholder="" msg-wrapper="#J_AameMsg">
@@ -9,7 +9,7 @@
     <div class="form-group ">
         <label for="title" class="control-label">书籍网址（一旦提交不可更改）</label>
         <div>
-            <div class="form-control input-lg input-group-addon address">http://apebook.org/book/</div>
+            <div class="form-control input-lg input-group-addon address">http://book.apebook.org/</div>
             <input type="text" name="uri" autocomplete="off" maxlength="60" class="form-control input-lg address-input" value="{{body.uri || repo}}" msg-wrapper="#J_UriMsg" max="60" placeholder="">
         </div>
         <div id="J_UriMsg">

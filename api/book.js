@@ -1,8 +1,10 @@
 //书籍相关的api
 var _ = require('../base/util');
-var parse = require('co-body');
 var shell = require('../base/shell');
 var BookCtrl = require('../base/book');
+
+var ctlBook = require('../controller/book');
+var check = require('../base/check-middleware');
 module.exports = function(app){
     var mBook = app.model.book;
     var bookCtrl = new BookCtrl();
@@ -50,4 +52,7 @@ module.exports = function(app){
         var book = 'blog';
         var output = yield bookCtrl.isBook(user,book);
     });
+
+    //书籍封面
+    app.get('/api/book/cover',check.login,ctlBook.cover);
 };

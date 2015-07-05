@@ -1,0 +1,9 @@
+{{extend ("./layout/layout")}}
+{{#block ("head")}}
+    <script>KISSY.importStyle('apebook/error.css')</script>
+{{/block}}
+{{#block ("body")}}
+    <section class="wrapper  error-wrapper">
+        <h2>{{this.msg}}</h2>
+    </section>
+{{/block}}

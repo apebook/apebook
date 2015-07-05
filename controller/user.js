@@ -28,7 +28,7 @@ module.exports = {
             _.addError.bind(this)('email','邮箱已经存在');
         }
         _.authError.bind(this)('/join',body);
-        var success = yield mUser.post(body);
+        yield mUser.post(body);
         this.redirect('/');
     }
 };

@@ -47,8 +47,8 @@ Book.prototype = _.extend({},Base,{
         var id = yield this.id('name',name);
         return id !== -1;
     },
-    //获取书籍列表
-    list: function*(config){
+    //获取所有书籍列表
+    all: function*(config){
         var self = this;
         var p = this.keyPre;
         var redis = self.redis;
@@ -69,6 +69,19 @@ Book.prototype = _.extend({},Base,{
         if(config.limit){
             params.push('LIMIT',config.start,config.limit);
         }
-        var data = yield redis.sort(params);
+        var ids = yield redis.sort(params);
+        var books = [];
+        for(var i=0;i<ids.length;i++){
+            var book = yield redis.hgetall(p+ids[i]);
+            books.push(book);
+        }
+        return books;
+    },
+    //通过字段过滤出书籍列表
+    list: function*(value,key){
+        var books = yield this.all();
+        return _.filter(books,function(book){
+            return book[key] === value;
+        })
     }
 });

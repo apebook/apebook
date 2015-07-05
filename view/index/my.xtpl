@@ -8,11 +8,13 @@
                 <span class="iconfont">&#xe612;</span>
             </a>
         </li>
+        {{#each(myBooks)}}
         <li>
-            <a href="//dashboard">
-                <img src="http://tympanus.net/Development/AnimatedBooks/img/cover.jpg" alt="">
+            <a href="/book/{{this.uri}}/dashboard">
+                <img src="{{this.cover}}" alt="{{this.name}}">
             </a>
         </li>
+        {{/each}}
     </ul>
 </section>
 

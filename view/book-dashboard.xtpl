@@ -10,7 +10,20 @@
         <section class="row dash">
             <div class="col-md-2">
                 <div class="book-wrapper">
-
+                     <div id="J_UploaderQueue" class="grid">
+                        {{#if(cover)}}
+                            <script type="text/uploader-files">
+                                [{
+                                "name":"{{cover}}",
+                                "url": "{{cover}}"
+                                }]
+                            </script>
+                        {{/if}}
+                    </div>
+                    <div class="uploader-button-wrapper">
+                        <input type="file" class="g-u" id="J_UploaderBtn" value="上传封面" name="cover"  accept="image/*" >
+                        <input type="hidden" class="J_BookId" value="{{id}}"/>
+                    </div>
                 </div>
             </div>
             <div class="col-md-10">
@@ -31,5 +44,5 @@
             </div>
         </section>
     </section>
-
+    <script>KISSY.use('apebook/dash')</script>
 {{/block}}
