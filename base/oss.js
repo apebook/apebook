@@ -6,6 +6,8 @@ var path = require('path');
 var store;
 var conf;
 var debug = require('debug')('ali-oss');
+var fs = require('co-fs-extra');
+
 module.exports = {
     //连接 oss 的bucket
     connect: function(config){
@@ -49,7 +51,7 @@ module.exports = {
         return result;
     },
     //上传图片
-    uploadImg: function*(readStream,len,bucket){
+    uploadImg: function*(readStream,bucket){
         if(!store) return false;
         if(!readStream) return false;
         if(bucket){
@@ -58,12 +60,32 @@ module.exports = {
         //图片名使用时间戳
         var suffix = readStream.filename.split('.')[1];
         var name = _.now()+'.'+suffix;
-        var result = yield store.put(name,readStream,{
-            headers:{
-                "Content-Length":Number(len)
-            }
-        });
+
+        //先将文件上传到临时目录
+        var target = yield this._uploadToTemp(name,readStream);
+        if(!target) return false;
+        var result = yield store.put(name,target);
         debug(result);
+        console.log(result);
+        //删除临时文件
+        yield this._delTempFile(target);
         return result;
+    },
+    //上传文件到临时目录
+    _uploadToTemp: function(name,readStream){
+        return new Promise(function(resolve, reject){
+
+            var target = path.join('temp',name);
+            var stream = fs.createWriteStream(target);
+            readStream.pipe(stream);
+            console.log('uploading %s -> %s',readStream.filename, stream.path);
+            readStream.on('end',function(){
+                resolve(target);
+            })
+        });
+    },
+    //删除临时文件
+    _delTempFile: function*(path){
+        return yield fs.unlink(path);
     }
 };

@@ -1,6 +1,7 @@
 //书籍创建、管理
 var _ = require('../base/util');
 var parse = require('co-busboy');
+var fs = require('fs');
 module.exports = {
     //选择书籍创建方式
     selectType: function *(){
@@ -87,6 +88,7 @@ module.exports = {
     },
     //书籍封面
     cover: function*(){
+        var self = this;
         var oss = this.oss;
         //存储书籍封面的oss桶
         var bucket = this.config.ossBuckets.cover;
@@ -106,21 +108,9 @@ module.exports = {
                 this.body = '{"status":0,message:"只允许上传图片"}';
                 return false;
             }
-            var name = part.filename;
-            var result = yield oss.uploadImg(part,len,bucket);
-            this.log(result);
-            //_.json.bind(this)({status:1,type:"ajax",name:name,url:'//'+this.config.coverHost+result.name});
-
-//            var stream = fs.createWriteStream(target);
-//            part.pipe(stream);
-//            part.on('end',function(){
-//                self.body = '{"status":1,"type":"ajax","name":"'+part.filename+'","url":"http://'+self.host+'/'+newFileName+'"}';
-//            })
+            var result = yield oss.uploadImg(part,bucket);
+            this.body = {status:1,type:"ajax",name:result.name,url:this.config.coverHost+result.name};
         }
-//        var body = yield this.request.body;
-//        this.log('[book.cover] :');
-//        this.log(body);
-//        this.checkBody('id', '书籍id不可以为空').notEmpty();
 
     }
 };
