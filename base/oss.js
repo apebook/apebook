@@ -11,6 +11,9 @@ module.exports = {
     connect: function(config){
         conf = config;
         store = oss(config);
+        console.log('oss connect:');
+        console.log(store);
+        return this;
     },
     //指定使用的桶
     useBucket: function(bucket){
@@ -46,10 +49,21 @@ module.exports = {
         return result;
     },
     //上传图片
-    uploadImg: function*(bucket){
+    uploadImg: function*(readStream,len,bucket){
         if(!store) return false;
+        if(!readStream) return false;
         if(bucket){
             this.useBucket(bucket);
         }
+        //图片名使用时间戳
+        var suffix = readStream.filename.split('.')[1];
+        var name = _.now()+'.'+suffix;
+        var result = yield store.put(name,readStream,{
+            headers:{
+                "Content-Length":Number(len)
+            }
+        });
+        debug(result);
+        return result;
     }
 };

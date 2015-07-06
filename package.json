@@ -54,7 +54,8 @@
     "co-fs": "1.2.0",
     "ali-oss":"2.2.0",
     "co-walk":"0.0.2",
-    "lodash":"3.9.3"
+    "lodash":"3.9.3",
+    "co-busboy":"1.3.0"
   },
   "devDependencies": {
     "autod": "~0.2.2",

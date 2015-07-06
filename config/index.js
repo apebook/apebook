@@ -9,7 +9,8 @@ var config = {
     appName: 'apebook',
     //端口号配置
     port: 7070,
-    host: 'http://localhost:7070/',
+    host: 'http://apebook.org/',
+    coverHost:'http://cover.apebook.org/',
     //是否开启调试，调试的情况下会输出错误信息
     debug: true,
     // 是否开启快照

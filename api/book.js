@@ -54,5 +54,5 @@ module.exports = function(app){
     });
 
     //书籍封面
-    app.get('/api/book/cover',check.login,ctlBook.cover);
+    app.post('/api/book/cover',check.login,ctlBook.cover);
 };

@@ -23,6 +23,7 @@ xtplApp(app,{
     views: config.viewDir
 });
 
+app.context.config = config;
 //渲染html页面
 //与xtpl的不同是自动注入配置项
 app.context.html = function*(path, data){
@@ -70,6 +71,11 @@ app.context.log = function(msg,v){
     logger.log(msg,v||'');
 };
 
+//oss存储
+var oss = require('./base/oss');
+app.context.oss = oss.connect(config.oss);
+
+
 //session中间件
 app.name = 'apebook-session';
 app.keys = ['keys', 'keykeys'];
@@ -81,10 +87,6 @@ app.use(session({
 
 //github账号登录校验
 app.use(githubAuth(config.github));
-
-//oss存储
-var oss = require('./base/oss');
-app.context.oss = oss.connect(config.oss);
 
 //错误捕获输出
 onerror(app);
