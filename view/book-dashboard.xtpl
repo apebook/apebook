@@ -21,9 +21,10 @@
                         {{/if}}
                     </div>
                     <div class="uploader-button-wrapper">
-                        <input type="file" class="g-u" id="J_UploaderBtn" value="上传封面" name="cover"  accept="image/*" >
+                        <input type="file" class="g-u" id="J_UploaderBtn" value="设置封面" name="cover"  accept="image/*" >
                         <input type="hidden" class="J_BookId" value="{{id}}"/>
                     </div>
+                    <p class="uploader-suggest">建议封面尺寸200x240</p>
                 </div>
             </div>
             <div class="col-md-10">

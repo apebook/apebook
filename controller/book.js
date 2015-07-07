@@ -88,7 +88,7 @@ module.exports = {
     },
     //书籍封面
     cover: function*(){
-        var self = this;
+        var mBook = this.model.book;
         var oss = this.oss;
         //存储书籍封面的oss桶
         var bucket = this.config.ossBuckets.cover;
@@ -99,17 +99,25 @@ module.exports = {
             //获取书籍id
             if(_.isArray(part)&& part[0] === 'id'){
                 id = part[1];
+                if(!id){
+                    this.body = {"status":0,message:"缺少id"};
+                    return false;
+                }
                 continue;
             }
             var mime = part.mime;
             if(!mime) continue;
             //必须是图片
             if(!/^image\/(\w+)/.test(mime)){
-                this.body = '{"status":0,message:"只允许上传图片"}';
+                this.body = {"status":0,message:"只允许上传图片"};
                 return false;
             }
             var result = yield oss.uploadImg(part,bucket);
-            this.body = {status:1,type:"ajax",name:result.name,url:this.config.coverHost+result.name};
+            var coverUrl = this.config.coverHost+result.name;
+            //将url存到数据库中
+            var bookData = yield mBook.post({id:id,cover:coverUrl});
+            this.log(bookData);
+            this.body = {status:1,type:"ajax",name:result.name,url:coverUrl};
         }
 
     }

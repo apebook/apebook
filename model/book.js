@@ -18,13 +18,23 @@ Book.prototype = _.extend({},Base,{
             return null;
         }
     },
+    //通过id获取书籍数据
+    getById: function*(id){
+        var self = this;
+        var redis = self.redis;
+        var keyPre = self.keyPre;
+        return yield redis.hgetall(keyPre+id);
+    },
     //添加/修改书籍信息
     post: function *(data){
         var self = this;
         var redis = self.redis;
         var keyPre = self.keyPre;
         var name = data.name;
-        var id = yield self.id('name',name);
+        var id = data.id || -1;
+        if(id !== -1 && name){
+            id = yield self.id('name',name);
+        }
         //不存在该书籍
         if(id === -1){
             id = yield self.addId();
@@ -32,10 +42,14 @@ Book.prototype = _.extend({},Base,{
             data.create = _.now();
         }
         yield redis.hmset(keyPre+id,data);
-        //类目model
-        var mCat = self.app.model.cat;
-        //类目下添加此书
-        return yield mCat.postBook(data.name,data.cat);
+        //需要设置类目
+        if(data.cat){
+            //类目model
+            var mCat = self.app.model.cat;
+            //类目下添加此书
+            yield mCat.postBook(data.name,data.cat);
+        }
+        return yield this.getById(id);
     },
     //是否已经存在uri
     isUriExist: function*(uri){
