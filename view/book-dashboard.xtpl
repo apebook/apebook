@@ -24,21 +24,45 @@
                         <input type="file" class="g-u" id="J_UploaderBtn" value="设置封面" name="cover"  accept="image/*" >
                         <input type="hidden" class="J_BookId" value="{{id}}"/>
                     </div>
-                    <p class="uploader-suggest">建议封面尺寸200x240</p>
+                    <p class="uploader-suggest">建议封面尺寸200x270</p>
                 </div>
             </div>
             <div class="col-md-10">
-                <div class="btn-group row">
-                    <div class="col-md-3">
-                        <a href="./graph" class="btn btn-default">
-                            <span class="big iconfont"></span>
-                            <span>数据</span>
+                <div class="tiles row">
+                    <div class="col-md-3 col-sm-6">
+                        <a href="/book/minghe/koa-guide/settings/github" class="tile">
+                            <span class="big">0</span>
+                            <span>浏览数</span>
                         </a>
                     </div>
-                    <div class="col-md-3">
-                        <a href="./graph" class="btn btn-default">
-                            <span class="big iconfont"></span>
-                            <span>数据</span>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="/book/minghe/koa-guide/settings/github" class="tile">
+                            <span class="big"><i class="octicon octicon-mark-github"></i></span>
+                            <span>GitHub绑定</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="/book/minghe/koa-guide/settings/github" class="tile">
+                            <span class="big"><i class="octicon octicon-mark-github"></i></span>
+                            <span>主题选择</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="/book/minghe/koa-guide/settings/github" class="tile">
+                            <span class="big"><i class="octicon octicon-mark-github"></i></span>
+                            <span>设置</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="/book/minghe/koa-guide/settings/github" class="tile">
+                            <span class="big"><i class="octicon octicon-mark-github"></i></span>
+                            <span>更新记录</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="/book/minghe/koa-guide/settings/github" class="tile">
+                            <span class="big"><i class="octicon octicon-mark-github"></i></span>
+                            <span>贡献者</span>
                         </a>
                     </div>
                 </div>
