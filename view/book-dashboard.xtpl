@@ -31,38 +31,38 @@
                 <div class="tiles row">
                     <div class="col-md-3 col-sm-6">
                         <a href="/book/minghe/koa-guide/settings/github" class="tile">
-                            <span class="big">0</span>
-                            <span>浏览数</span>
+                            <span class="big"><i class="iconfont">&#xe60b;</i></span>
+                            <span>数据</span>
                         </a>
                     </div>
                     <div class="col-md-3 col-sm-6">
                         <a href="/book/minghe/koa-guide/settings/github" class="tile">
-                            <span class="big"><i class="octicon octicon-mark-github"></i></span>
+                            <span class="big"><i class="iconfont">&#xe60c;</i></span>
                             <span>GitHub绑定</span>
                         </a>
                     </div>
                     <div class="col-md-3 col-sm-6">
                         <a href="/book/minghe/koa-guide/settings/github" class="tile">
-                            <span class="big"><i class="octicon octicon-mark-github"></i></span>
+                            <span class="big"><i class="iconfont">&#xe60e;</i></span>
                             <span>主题选择</span>
                         </a>
                     </div>
                     <div class="col-md-3 col-sm-6">
                         <a href="/book/minghe/koa-guide/settings/github" class="tile">
-                            <span class="big"><i class="octicon octicon-mark-github"></i></span>
+                            <span class="big"><i class="iconfont">&#xe601;</i></span>
                             <span>设置</span>
                         </a>
                     </div>
                     <div class="col-md-3 col-sm-6">
-                        <a href="/book/minghe/koa-guide/settings/github" class="tile">
-                            <span class="big"><i class="octicon octicon-mark-github"></i></span>
-                            <span>更新记录</span>
+                        <a href="#" class="tile">
+                            <span class="big"><i class="iconfont">&#xe613;</i></span>
+                            <span>更新记录（未开放）</span>
                         </a>
                     </div>
                     <div class="col-md-3 col-sm-6">
-                        <a href="/book/minghe/koa-guide/settings/github" class="tile">
-                            <span class="big"><i class="octicon octicon-mark-github"></i></span>
-                            <span>贡献者</span>
+                        <a href="#" class="tile">
+                            <span class="big"><i class="iconfont">&#xe614;</i></span>
+                            <span>贡献者（未开放）</span>
                         </a>
                     </div>
                 </div>
