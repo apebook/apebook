@@ -53,8 +53,10 @@ module.exports = _.extend({},_,{
         });
         if(callback){
             output = callback + '('+output+')';
+            this.body = output;
+        }else{
+            this.body = JSON.parse(output);
         }
-        this.body = output;
     },
     //model抛出的错误信息
     mError: function(msg){

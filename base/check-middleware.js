@@ -9,5 +9,34 @@ module.exports = {
             return false;
         }
         yield next;
+    },
+    //接口登录检查
+    apiLogin: function*(next){
+        var user = this.session.user;
+        //登录
+        if(!user){
+            this.body = {'success':false,login:false,msg:'请先登录'};
+            return false;
+        }
+        yield next;
+    },
+    //检查书籍是否存在
+    bookExist: function*(id,next){
+        if(!id){
+            this.error('%s param is not exist',id);
+            yield this.html('error',{msg:'id参数不存在！'});
+            return false;
+        }else{
+            var mBook = this.model.book;
+            this.id = id;
+            var book = yield mBook.getById(id);
+            if(!book){
+                this.error('%s book is not exist',id);
+                yield this.html('error',{msg:'不存在该书籍！'});
+                return false;
+            }
+            this.book = book;
+            yield next;
+        }
     }
 };

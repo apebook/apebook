@@ -3,10 +3,21 @@
     <script>KISSY.importStyle('apebook/dash.css')</script>
 {{/block}}
 {{#block ("body")}}
-    {{include ("./layout/my-nav")}}
+    <div class="dash-main">
 
-    <section class="wrapper my-wrapper">
-        <h3 class="section-title">《{{name}}》</h3>
+    {{include ("./layout/sidebar")}}
+
+    <section class="dash-wrapper">
+        {{#if(!bindGithub)}}
+            <p class="bs-callout bs-callout-danger">还没有绑定 github 仓库</p>
+        {{/if}}
+        <div class="dash-header">
+            <h3>《{{name}}》</h3>
+            <div class="button-wrapper">
+                <span class="btn btn-info J_UpdateBook" >更新书籍</span>
+                <span class="btn btn-success" >公布书籍</span>
+            </div>
+        </div>
         <section class="row dash">
             <div class="col-md-2">
                 <div class="book-wrapper">
@@ -36,7 +47,7 @@
                         </a>
                     </div>
                     <div class="col-md-3 col-sm-6">
-                        <a href="/book/minghe/koa-guide/settings/github" class="tile">
+                        <a href="/book/{{id}}/bind-github" class="tile">
                             <span class="big"><i class="iconfont">&#xe60c;</i></span>
                             <span>GitHub绑定</span>
                         </a>
@@ -69,5 +80,7 @@
             </div>
         </section>
     </section>
+    </div>
+
     <script>KISSY.use('apebook/dash')</script>
 {{/block}}

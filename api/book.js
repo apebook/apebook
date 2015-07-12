@@ -26,14 +26,6 @@ module.exports = function(app){
 
     });
 
-    //同步书籍
-    app.get('/api/book/sync',function *(){
-
-        var user = 'minghe';
-        var book = 'blog';
-        var output = yield bookCtrl.pull(user,book);
-    });
-
     app.get('/api/book/clone',function *(){
 
         var user = 'minghe';
@@ -54,5 +46,35 @@ module.exports = function(app){
     });
 
     //书籍封面
-    app.post('/api/book/cover',check.login,ctlBook.cover);
+    app.post('/api/book/cover',check.apiLogin,ctlBook.cover);
+
+    //同步书籍
+    app.post('/api/book/sync',function *(){
+        var body = yield this.request.body;
+        var id = body.id;
+        this.log('[/api/book/sync] :');
+        this.log(body);
+        if(!id){
+            _.error.bind(this)('书籍id不可以为空');
+            return false;
+        }
+        var mBook = this.model.book;
+        var book = yield mBook.getById(id);
+        if(!book){
+            _.error.bind(this)('书籍数据不存在');
+            return false;
+        }
+        //没有绑定github仓库
+        if(!book.bindGithub){
+            _.error.bind(this)('请先绑定github仓库');
+            return false;
+        }
+        var pullResult = yield bookCtrl.pull(book);
+        if(!pullResult.success){
+            this.error(pullResult);
+        }
+        this.body = pullResult;
+    });
+
+
 };

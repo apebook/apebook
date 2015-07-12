@@ -33,15 +33,21 @@ Book.prototype = {
         }
     },
     //拉取代码
-    pull: function *(user, book){
+    pull: function *(book){
         var self = this;
-        var src = self.bookPath(user,book);
+        var user = book.userName;
+        var bookName = book.uri;
+        var src = self.bookPath(user,bookName);
         var exists = yield fs.exists(src);
-        if(exists){
-            var output = yield shell.exec('cd '+src+' && git pull');
-            if(/Already up-to-date/.test(output)){
-                return true;
-            }{
+        if(!exists){
+            return {success:false,msg:'该书籍目录不存在！'};
+        }
+
+        var output = yield shell.exec('cd '+src+' && git pull');
+        //已经是最新
+        if(/Already up-to-date/.test(output)){
+            return {'success':true,'change':false,'msg':'不存在变更的内容'};
+        }else{
 //                From https://github.com/minghe/blog
 //                    4683d29..c7b9663  master     -> origin/master
 //                Updating 4683d29..c7b9663
@@ -49,14 +55,12 @@ Book.prototype = {
 //                2015/auth.md | 145 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //                    1 file changed, 145 insertions(+)
 //                create mode 100644 2015/auth.md
-                //新增的节
-                if(/create mode 100644 (.+)\.md/.test(output)){
+            var data = [];
+            //新增的节
+            if(/create mode 100644 (.+)\.md/.test(output)){
 
-                }
-                console.log(output);
             }
-        }else{
-            return false;
+            return {'success':true,'change':true,data:data};
         }
     },
     //克隆仓库
@@ -91,6 +95,5 @@ Book.prototype = {
     sectionRemark: function *(path){
         var sectionPath = this.bookPath + '/'+path;
         var content = yield fs.readFile(sectionPath);
-
     }
 };

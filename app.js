@@ -12,7 +12,6 @@ var xtplApp = require('xtpl/lib/koa');
 var session = require('koa-generic-session');
 var redisStore = require('koa-redis')(config.redis);
 var githubAuth = require('koa-github');
-var debug = require('debug')('apebook');
 var app = koa();
 app.config = config;
 //co-redis实例

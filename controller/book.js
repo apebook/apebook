@@ -80,10 +80,10 @@ module.exports = {
             yield this.html('error',{msg:'不存在该书籍！'});
             return false;
         }
+        //显示书籍管理菜单
+        data.dash = true;
         this.log('book data :');
         this.log(data);
-        //导航选中我的书籍
-        data.nav = 'book';
         yield this.html('book-dashboard',data);
     },
     //书籍封面
@@ -119,6 +119,35 @@ module.exports = {
             this.log(bookData);
             this.body = {status:1,type:"ajax",name:result.name,url:coverUrl};
         }
+    },
+    //书籍绑定 github 仓库表单页面
+    bindGithubPage: function *(){
+        var github = this.session._github;
+        if(github) {
+            var repo = github.repo;
+            var user = github.user;
+        }
+        var data = this.book;
+        data.dash = true;
+        yield this.html('dash/bind-github',data);
+    },
+    //绑定 github
+    //post
+    bindGithub: function*(){
+        var body = yield this.request.body;
+        this.log('[book.bindGithub] :');
+        this.log(body);
 
+        this.checkBody('user', 'github用户名不可以为空').notEmpty();
+        this.checkBody('user', '用户名存在不合法字符').isUri();
+        this.checkBody('repo', 'github仓库名不可以为空').notEmpty();
+
+        var url = this.url;
+        var isError = _.authError.bind(this)(url,body);
+        if(!isError){
+            var router = this.config.githubPath+url;
+            this.session._github = body;
+            this.redirect(router);
+        }
     }
 };
