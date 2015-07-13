@@ -134,6 +134,32 @@ module.exports = {
     //绑定 github
     //post
     bindGithub: function*(){
+        var mBook = this.model.book;
+        var githubUser = this.session.github_user;
+        //已经存在github账号绑定
+        if(githubUser){
+            this.log('[book.bindGithub] has githubUser:');
+            if(!this.id){
+                this.error('不存在 id');
+                yield this.html('error',{msg:'id参数不存在！'});
+                return false;
+            }
+            var githubParam = this.session._github;
+            var githubPath = 'https://github.com/'+githubParam.user+'/'+githubParam.repo+'.git';
+            this.log('book bind github path:'+githubPath);
+            //将github信息存入书籍信息中
+            var bookData = yield mBook.post({
+                id:this.id,
+                githubPath:githubPath,
+                githubUser:githubParam.user,
+                githubRepo:githubParam.repo,
+                bindGithub:true
+            });
+            this.log(bookData);
+            delete this.session._github;
+            this.redirect(this.url);
+            return false;
+        }
         var body = yield this.request.body;
         this.log('[book.bindGithub] :');
         this.log(body);

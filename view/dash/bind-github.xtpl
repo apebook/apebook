@@ -8,26 +8,27 @@
         {{set(currentNav="github")}}
         {{include ("../layout/sidebar")}}
         <section class="dash-wrapper">
-            <h3><i class="iconfont">&#xe60c;</i> GitHub 绑定</h3>
             {{! 已经绑定github，显示绑定信息}}
             {{#if(bindGithub)}}
+                <p class="bs-callout bs-callout-danger">绑定的 github 仓库地址是：{{githubPath}}</p>
             {{/if}}
+            <h3><i class="iconfont">&#xe60c;</i> GitHub 绑定</h3>
             <form role="form" class="form-vertical" method="post" action="">
                 <div class="form-group ">
                     <label for="title" class="control-label">github用户名</label>
-                    <input type="text" name="user" autocomplete="off" maxlength="60" required class="form-control input-lg" value="{{body.user}}minghe" max="60" placeholder="" msg-wrapper="#J_UserMsg">
+                    <input type="text" name="user" autocomplete="off" maxlength="60" required class="form-control input-lg" value="{{body.user||githubUser}}" max="60" placeholder="" msg-wrapper="#J_UserMsg">
                     <div id="J_UserMsg">
                         {{macro("error",errors.user)}}
                     </div>
                 </div>
                 <div class="form-group ">
                     <label for="title" class="control-label">github仓库名</label>
-                    <input type="text" name="repo" autocomplete="off" maxlength="60" required class="form-control input-lg" value="{{body.repo}}blog" max="60" placeholder="" msg-wrapper="#J_RepoMsg">
+                    <input type="text" name="repo" autocomplete="off" maxlength="60" required class="form-control input-lg" value="{{body.repo||githubRepo}}" max="60" placeholder="" msg-wrapper="#J_RepoMsg">
                     <div id="J_RepoMsg">
                         {{macro("error",errors.repo)}}
                     </div>
                 </div>
-                <button type="submit" class="btn btn-block btn-lg btn-success btn-next J_GithubAsso" role="button">绑定</button>
+                <button type="submit" class="btn btn-block btn-lg btn-success btn-next J_GithubAsso" role="button">{{#if(bindGithub)}}修改{{/if}}绑定</button>
             </form>
         </section>
     </div>
