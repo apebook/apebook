@@ -1,6 +1,6 @@
 <section class="book-admin-wrapper">
     <ul class="nav nav-sidebar book-admin-nav">
-        <li><a href="/books"><span class="iconfont">&#xe604;</span> <span>书籍管理首页</span></a></li>
+        <li {{#if(currentNav==="index")}} class="current" {{/if}}><a href="/book/{{id}}/dashboard"><span class="iconfont">&#xe610;</span> <span>书籍管理首页</span></a></li>
         <li {{#if(currentNav==="github")}} class="current" {{/if}}><a href="/book/{{id}}/bind-github"><span class="iconfont">&#xe60c;</span> <span>GitHub绑定</span></a></li>
         <li><a href="/setting"><span class="iconfont">&#xe60e;</span> <span>主题选择</span></a></li>
         <li><a href="/setting"><span class="iconfont">&#xe601;</span> <span>设置</span></a></li>

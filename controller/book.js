@@ -64,24 +64,15 @@ module.exports = {
             var data = yield mBook.post(body);
             this.log('create book success');
             //跳转到我的书籍
-            this.redirect('/book/'+body.uri+'/dashboard');
+            this.redirect('/book/'+data.id+'/dashboard');
         }
     },
     //书籍控制台
     dashboard:function*(){
-        this.log('[book.dashboard]');
-        var self = this;
-        var params = self.params;
-        var uri = params['uri'];
-        var mBook = this.model.book;
-        var data = yield mBook.get(uri,'uri');
-        if(!data){
-            this.error('%s is not exist',uri);
-            yield this.html('error',{msg:'不存在该书籍！'});
-            return false;
-        }
+        var data = this.book;
         //显示书籍管理菜单
         data.dash = true;
+        data.currentNav = 'index';
         this.log('book data :');
         this.log(data);
         yield this.html('book-dashboard',data);
@@ -122,44 +113,14 @@ module.exports = {
     },
     //书籍绑定 github 仓库表单页面
     bindGithubPage: function *(){
-        var github = this.session._github;
-        if(github) {
-            var repo = github.repo;
-            var user = github.user;
-        }
         var data = this.book;
         data.dash = true;
+        data.currentNav = 'github';
         yield this.html('dash/bind-github',data);
     },
     //绑定 github
     //post
     bindGithub: function*(){
-        var mBook = this.model.book;
-        var githubUser = this.session.github_user;
-        //已经存在github账号绑定
-        if(githubUser){
-            this.log('[book.bindGithub] has githubUser:');
-            if(!this.id){
-                this.error('不存在 id');
-                yield this.html('error',{msg:'id参数不存在！'});
-                return false;
-            }
-            var githubParam = this.session._github;
-            var githubPath = 'https://github.com/'+githubParam.user+'/'+githubParam.repo+'.git';
-            this.log('book bind github path:'+githubPath);
-            //将github信息存入书籍信息中
-            var bookData = yield mBook.post({
-                id:this.id,
-                githubPath:githubPath,
-                githubUser:githubParam.user,
-                githubRepo:githubParam.repo,
-                bindGithub:true
-            });
-            this.log(bookData);
-            delete this.session._github;
-            this.redirect(this.url);
-            return false;
-        }
         var body = yield this.request.body;
         this.log('[book.bindGithub] :');
         this.log(body);
@@ -171,9 +132,47 @@ module.exports = {
         var url = this.url;
         var isError = _.authError.bind(this)(url,body);
         if(!isError){
-            var router = this.config.githubPath+url;
             this.session._github = body;
-            this.redirect(router);
+            this.redirect('/book/'+this.id+'/save-github');
         }
+    },
+    //保存数据到github中
+    saveGithub: function*(){
+        var mBook = this.model.book;
+        var githubUser = this.session.github_user;
+        var githubParam = this.session._github;
+        //不存在表单提交的数据跳转到表单页面
+        if(!githubParam){
+            this.redirect('/book/'+this.id+'/bind-github');
+            return false;
+        }
+        //github没有登录授权过
+        if(!githubUser){
+            //跳转到github授权页面
+            var router = this.config.githubPath+this.url;
+            this.redirect(router);
+            return false;
+        }
+        //已经存在github账号绑定
+        this.log('[book.saveGithubPath]:');
+        if(!this.id){
+            this.error('不存在 id');
+            yield this.html('error',{msg:'id参数不存在！'});
+            return false;
+        }
+        //将github路径保存到数据库中
+        var githubPath = 'https://github.com/'+githubParam.user+'/'+githubParam.repo+'.git';
+        this.log('book bind github path:'+githubPath);
+        //将github信息存入书籍信息中
+        var bookData = yield mBook.post({
+            id:this.id,
+            githubUrl:githubPath,
+            githubUser:githubParam.user,
+            githubRepo:githubParam.repo,
+            bindGithub:true
+        });
+        this.log(bookData);
+        delete this.session._github;
+        this.redirect(this.url);
     }
 };

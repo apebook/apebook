@@ -8,11 +8,12 @@
         {{set(currentNav="github")}}
         {{include ("../layout/sidebar")}}
         <section class="dash-wrapper">
+            <h3><i class="iconfont">&#xe60c;</i> GitHub 绑定</h3>
             {{! 已经绑定github，显示绑定信息}}
             {{#if(bindGithub)}}
-                <p class="bs-callout bs-callout-danger">绑定的 github 仓库地址是：{{githubPath}}</p>
+                {{set(tipMsg='绑定的 github 仓库地址是：'+githubUrl)}}
+                {{macro("successTip",tipMsg)}}
             {{/if}}
-            <h3><i class="iconfont">&#xe60c;</i> GitHub 绑定</h3>
             <form role="form" class="form-vertical" method="post" action="">
                 <div class="form-group ">
                     <label for="title" class="control-label">github用户名</label>

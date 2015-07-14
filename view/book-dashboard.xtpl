@@ -9,7 +9,7 @@
 
     <section class="dash-wrapper">
         {{#if(!bindGithub)}}
-            <p class="bs-callout bs-callout-danger">还没有绑定 github 仓库</p>
+            {{macro("warnTip",'还没有绑定 github 仓库')}}
         {{/if}}
         <div class="dash-header">
             <h3>《{{name}}》</h3>

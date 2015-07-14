@@ -1,9 +1,22 @@
 {{! 错误信息显示}}
 {{#macro("error","msg")}}
-{{#if(msg)}}
-<p class="bg-danger auth-msg auth-error"><span class="iconfont">&#xe605;</span> {{msg}}</p>
-{{/if}}
+    {{#if(msg)}}
+    <p class="bg-danger auth-msg auth-error"><span class="iconfont">&#xe605;</span> {{msg}}</p>
+    {{/if}}
 {{/macro}}
+
 {{#macro("hidden","name","value")}}
-<input type="hidden" value="{{value}}" name="{{name}}"/>
+    <input type="hidden" value="{{value}}" name="{{name}}"/>
+{{/macro}}
+
+{{#macro("successTip","msg")}}
+    {{#if(msg)}}
+        <p class="bs-callout bs-callout-info"><i class="iconfont">&#xe606;</i>{{msg}}</p>
+    {{/if}}
+{{/macro}}
+
+{{#macro("warnTip","msg")}}
+    {{#if(msg)}}
+    <p class="bs-callout bs-callout-danger"><i class="iconfont">&#xe615;</i>{{msg}}</p>
+    {{/if}}
 {{/macro}}
