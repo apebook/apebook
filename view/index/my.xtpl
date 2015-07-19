@@ -10,7 +10,7 @@
         </li>
         {{#each(myBooks)}}
         <li>
-            <a href="/book/{{this.uri}}/dashboard">
+            <a href="/book/{{this.id}}/dashboard">
                 <img src="{{this.cover}}" alt="{{this.name}}">
             </a>
         </li>

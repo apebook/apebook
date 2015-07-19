@@ -23,27 +23,52 @@ Book.prototype = {
     render: function *(user, book) {
         var self = this;
         var src = self.bookPath(user,book);
-        var dest = self.dest+path;
-        var output = yield shell.exec('gitbook build '+src+' --output='+dest);
+        //确定绑定的仓库是否符合gitbook规范
+        var isBook = yield this.isBook(user, book);
+        if(!isBook){
+            return {'success':false,'msg':'仓库不符合gitbook规范'};
+        }
+        yield fse.ensureDir(self.dest+user);
+        var path = self.dest+user+'/'+book;
+        yield fse.ensureDir(path);
+        try{
+            var output = yield shell.exec('gitbook build '+src+' --output='+path);
+        }catch(e){
+            console.log(e);
+            output = '渲染失败，请检查目录格式';
+        }
+        console.log(output);
         //build 成功
         if(/Successfully built/.test(output)){
-            return true;
+            return {'success':true};
         }else{
-            return output;
+            return {'success':false,'msg':output};
         }
+    },
+    //将文件push到oss存储
+    pushOss: function*(user,book,oss,bucket){
+        var path = this.dest+user+'/'+book;
+        return yield oss.dir(path,'./'+user+'/'+book,bucket);
     },
     //拉取代码
     pull: function *(book){
         var self = this;
         var user = book.userName;
         var bookName = book.uri;
+        var output;
+        //不存在目录用户，先予以创建
+        yield fse.ensureDir(this.src+user);
+        //不存在仓库目录，先予以创建，并clone 代码
         var src = self.bookPath(user,bookName);
-        var exists = yield fs.exists(src);
-        if(!exists){
-            return {success:false,msg:'该书籍目录不存在！'};
+        var isExist = yield fse.exists(src);
+        yield fse.ensureDir(src);
+        if(!isExist){
+            //克隆仓库
+            output = yield this.clone(githubUrl,src);
+        }else{
+            output = yield shell.exec('cd '+src+' && git pull origin master');
         }
 
-        var output = yield shell.exec('cd '+src+' && git pull');
         //已经是最新
         if(/Already up-to-date/.test(output)){
             return {'success':true,'change':false,'msg':'不存在变更的内容'};
@@ -60,23 +85,17 @@ Book.prototype = {
             if(/create mode 100644 (.+)\.md/.test(output)){
 
             }
+
             return {'success':true,'change':true,data:data};
         }
     },
     //克隆仓库
-    clone: function *(user, book){
-        var self = this;
-        var path = user + '/'+book;
-        var repoPath = 'https://github.com/'+path + '.git';
-        var src = self.src+user;
-        //创建用户名目录
-        yield fse.ensureDir(src);
-        var output = yield shell.exec('cd '+ src + ' && git clone ' + repoPath);
-        if(/Cloning into/.test(output)){
-            return true;
-        }else{
-            return output;
-        }
+    clone: function *(githubUrl, src){
+        var result = yield shell.exec('cd '+src+' && git init && git remote add origin '+githubUrl);
+        console.log(result);
+        var output = yield shell.exec('cd '+src+' && git init && git pull origin master');
+        console.log(output);
+        return output;
     },
     //github仓库是否符合book规范
     isBook: function *(user, book){

@@ -174,5 +174,14 @@ module.exports = {
         this.log(bookData);
         delete this.session._github;
         this.redirect(this.url);
+    },
+    //更新书籍信息
+    post: function*(){
+        var body = yield this.request.body;
+        this.log('[book.post] :');
+        this.log(body);
+        var mBook = this.model.book;
+        var book = yield mBook.post(body);
+        this.body = {success:true,data:book};
     }
 };
