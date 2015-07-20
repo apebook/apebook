@@ -1,0 +1,66 @@
+{{extend ("./layout/layout")}}
+
+{{#block ("head")}}
+    <script>KISSY.importStyle('apebook/detail-min.css')</script>
+{{/block}}
+
+{{#block ("body")}}
+    <section class="wrapper  book-wrapper detail-wrapper">
+        {{#if(openStatus !== "open")}}
+            {{macro("warnTip",'该书籍还未公开，无法访问')}}
+        {{/if}}
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{{cover}}" width="200" height="270">
+            </div>
+            <div class="col-md-10">
+                <div class="detail-main">
+                    <h2>《{{name}}》</h2>
+                    <div class="author-wrapper">
+                        {{userName}}
+                    </div>
+                    <div class="desc">
+                        {{desc||description}}
+                    </div>
+                    <div class="details-meta">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <dl>
+                                    <dt>类目</dt>
+                                    <dd><a href="">{{cat}}</a></dd>
+                                </dl>
+                            </div>
+                            <div class="col-md-2">
+                                <dl>
+                                    <dt>章节数</dt>
+                                    <dd>1</dd>
+                                </dl>
+                            </div>
+                            {{#if(updateTime)}}
+                            <div class="col-md-2">
+                                <dl>
+                                    <dt>最新更新时间</dt>
+                                    <dd>{{updateTime}}</dd>
+                                </dl>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class="btn-wrapper">
+                        {{#if(openStatus === "open")}}
+                        <a href="{{bookHost}}/{{userName}}/{{uri}}/index.html" class="btn btn-info read-btn" >阅读</a>
+                        {{/if}}
+                        {{!设置}}
+                        {{#if(user&&user.name===userName)}}
+                        <span class="btn iconfont btn-default set-btn" >&#xe601;</span>
+                        {{/if}}
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <script>KISSY.use('apebook/detail')</script>
+{{/block}}

@@ -12,7 +12,7 @@
             {{macro("warnTip",'还没有绑定 github 仓库')}}
         {{/if}}
         <div class="dash-header">
-            <h3><a href="/{{uri}}">《{{name}}》</a></h3>
+            <h3><a href="/book/{{uri}}">《{{name}}》</a></h3>
             <div class="status-wrapper">
                 <span>公开状态：<b class="J_OpenStatus">{{#if(openStatus==="open")}}公开{{else}}未公开{{/if}}</b></span>
                 {{#if(updateTime)}}
@@ -20,7 +20,7 @@
                 {{/if}}
             </div>
             <div class="button-wrapper">
-                <a class="btn btn-info J_UpdateBook" href="/{{uri}}" >查看书籍</a>
+                <a class="btn btn-info J_UpdateBook" href="/book/{{uri}}" >查看书籍</a>
                 <span class="btn btn-info J_UpdateBook" >更新书籍</span>
                 <span class="btn J_OpenBook {{#if(openStatus==="open")}}{{else}}btn-success{{/if}}" data-status="{{#if(openStatus==="open")}}hide{{else}}open{{/if}}" >{{#if(openStatus==="open")}}隐藏书籍{{else}}公开书籍{{/if}}</span>
             </div>

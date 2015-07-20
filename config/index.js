@@ -11,6 +11,10 @@ var config = {
     port: 7070,
     host: '//apebook.org/',
     coverHost:'//cover.apebook.org/',
+    //书籍地址
+    bookHost:'//book.apebook.org',
+    //kissy 静态资源的包配置
+    kissyPkg: 'http://a.apebook.org',
     //是否开启调试，调试的情况下会输出错误信息
     debug: true,
     // 是否开启快照
@@ -38,8 +42,6 @@ var config = {
     staticDir: path.join(__dirname,'..', 'public'),
     //github仓库同步位置
     repoDir: path.join(__dirname,'..', 'repo'),
-    //kissy 静态资源的包配置
-    kissyPkg: 'http://a.apebook.org',
     "oss":{
         accessKeyId: 'R7wBScg51UDJv06B',
         accessKeySecret: '8rkUyvVcDbNFOBsxnxRdGGGhg6qyZb',

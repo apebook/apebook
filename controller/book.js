@@ -3,6 +3,11 @@ var _ = require('../base/util');
 var parse = require('co-busboy');
 var fs = require('fs');
 module.exports = {
+    //书籍详情页面
+    detail: function*(){
+        var book = this.book;
+        yield this.html('book-detail',book);
+    },
     //选择书籍创建方式
     selectType: function *(){
         var data = {title:'选择创建书籍的方式',type:'select'};

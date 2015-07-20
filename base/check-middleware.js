@@ -41,6 +41,25 @@ module.exports = {
             yield next;
         }
     },
+    //判断uri参数是否存在
+    uriExist: function*(uri,next){
+        if(!uri){
+            this.error('%s param is not exist',uri);
+            yield this.html('error',{msg:'uri参数不存在！'});
+            return false;
+        }else{
+            var mBook = this.model.book;
+            var id = yield mBook.id('uri',uri);
+            var book = yield mBook.getById(id);
+            if(!book){
+                this.error('%s book is not exist',uri);
+                yield this.html('error',{msg:'不存在该书籍！'});
+                return false;
+            }
+            this.book = book;
+            yield next;
+        }
+    },
     //post 判断是否存在书籍id
     apiPostBookExist: function*(next){
         var body = yield this.request.body;

@@ -63,6 +63,8 @@ module.exports = function(app){
 
     //创建书籍表单页面
     app.get('/new/direct',check.login,ctlBook.bookForm);
+    //书籍详情
+    app.param('uri',check.uriExist).get('/book/:uri',ctlBook.detail);
 
     //书籍控制台
     app.param('id',check.bookExist).get('/book/:id/dashboard',check.login,ctlBook.dashboard);
