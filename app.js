@@ -7,7 +7,7 @@ var config = require('./config');
 var router = require('koa-router');
 var onerror = require('koa-onerror');
 //xtpl模板引擎对koa的适配
-var xtplApp = require('xtpl/lib/koa');
+var xtplApp = require('./base/xtpl');
 
 var session = require('koa-generic-session');
 var redisStore = require('koa-redis')(config.redis);
@@ -17,7 +17,7 @@ app.config = config;
 //co-redis实例
 app.redis = redisStore.client;
 //xtemplate模板渲染
-xtplApp(app,{
+xtplApp.render(app,{
     //配置模板目录redis
     views: config.viewDir
 });
@@ -25,28 +25,7 @@ xtplApp(app,{
 app.context.config = config;
 //渲染html页面
 //与xtpl的不同是自动注入配置项
-app.context.html = function*(path, data){
-    data = _.extend({},data,config);
-    //错误信息
-    var errors = this.session._errors;
-    data.errors = {};
-    if(errors){
-        data.errors = errors;
-        delete this.session._errors;
-    }
-    //存在表单提交的数据
-    var body = this.session._body || {};
-    if(body){
-        data.body = body;
-        delete this.session._body;
-    }
-    //用户session
-    data.user = this.session.user;
-    //页面标题
-    if(this.title) data.title = this.title;
-    yield app.context.render.bind(this)(path, data);
-    return true;
-};
+app.context.html = xtplApp.html;
 
 //log记录
 var Logger = require('mini-logger');
