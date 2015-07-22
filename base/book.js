@@ -4,6 +4,7 @@ var _ = require('underscore');
 var shell = require('./shell');
 var fse = require('co-fs-extra');
 var fs = require('co-fs');
+var marked = require('marked');
 var defaultConfig = {
     src: 'book-md/',
     dest: 'book-html/'
@@ -20,11 +21,13 @@ var Book = module.exports = function (config) {
 
 Book.prototype = {
     //渲染md成html
-    render: function *(user, book) {
+    render: function *() {
         var self = this;
-        var src = self.bookPath(user,book);
+        var user = this.user;
+        var book = this.book;
+        var src = self.bookPath();
         //确定绑定的仓库是否符合gitbook规范
-        var isBook = yield this.isBook(user, book);
+        var isBook = yield this.isBook();
         if(!isBook){
             return {'success':false,'msg':'仓库不符合gitbook规范'};
         }
@@ -46,25 +49,29 @@ Book.prototype = {
         }
     },
     //将文件push到oss存储
-    pushOss: function*(user,book,oss,bucket){
+    pushOss: function*(){
+        var user = this.user;
+        var book = this.book;
+        var oss = this.oss;
+        var bucket = this.bucket;
         var path = this.dest+user+'/'+book;
         return yield oss.dir(path,'./'+user+'/'+book,bucket);
     },
     //拉取代码
-    pull: function *(book){
+    pull: function *(){
         var self = this;
-        var user = book.userName;
-        var bookName = book.uri;
+        var user = this.user;
+        var bookName = this.book;
         var output;
         //不存在目录用户，先予以创建
         yield fse.ensureDir(this.src+user);
         //不存在仓库目录，先予以创建，并clone 代码
-        var src = self.bookPath(user,bookName);
+        var src = self.bookPath();
         var isExist = yield fse.exists(src);
         yield fse.ensureDir(src);
         if(!isExist){
             //克隆仓库
-            output = yield this.clone(githubUrl,src);
+            output = yield this.clone(this.githubUrl,src);
         }else{
             output = yield shell.exec('cd '+src+' && git pull origin master');
         }
@@ -98,21 +105,49 @@ Book.prototype = {
         return output;
     },
     //github仓库是否符合book规范
-    isBook: function *(user, book){
+    isBook: function *(){
         var self = this;
-        var src = self.bookPath(user,book);
+        var src = self.bookPath();
         var hasBookJson = yield fs.exists(src + '/book.json');
         var hasReadme = yield fs.exists(src + '/README.md');
         var hasSummary = yield fs.exists(src + '/SUMMARY.md');
         return hasBookJson && hasReadme && hasSummary;
     },
-    bookPath: function(user, book){
+    bookPath: function(){
+        var user = this.user;
+        var book = this.book;
         var path = user + '/'+book;
         return this.src + path;
     },
-    //获取章节摘要
-    sectionRemark: function *(path){
-        var sectionPath = this.bookPath + '/'+path;
-        var content = yield fs.readFile(sectionPath);
+    //书籍介绍
+    readMe: function*(){
+        var src = this.bookPath();
+        var url = src + '/' + 'README.md';
+        return yield this.renderMd(url);
+    },
+    //书籍章节
+    summary: function*(){
+        var src = this.bookPath();
+        var url = src + '/' + 'SUMMARY.md';
+        return yield this.renderMd(url);
+    },
+    //章节数
+    chapterCount: function*(){
+        var src = this.bookPath();
+        var url = src + '/' + 'SUMMARY.md';
+        var exist = yield fs.exists(url);
+        if(!exist) return 0;
+        var content = yield fs.readFile(url);
+        return content.split('*').length;
+    },
+    //渲染md文件成html
+    renderMd: function*(url){
+        if(!url) return '';
+        var exist = yield fs.exists(path);
+        if(!exist) return '';
+        var data = yield fs.readFile(url);
+        data = data.toString();
+        var tokens = marked.lexer(data);
+        return marked.parser(tokens);
     }
 };

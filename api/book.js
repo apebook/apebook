@@ -6,7 +6,6 @@ var BookCtrl = require('../base/book');
 var ctlBook = require('../controller/book');
 var check = require('../base/check-middleware');
 module.exports = function(app){
-    var bookCtrl = new BookCtrl();
     //更新书籍信息
     app.post('/api/book/post',check.apiLogin,check.apiPostBookExist,ctlBook.post);
 
@@ -26,13 +25,20 @@ module.exports = function(app){
             _.error.bind(this)('请先绑定github仓库');
             return false;
         }
-        var pullResult = yield bookCtrl.pull(book);
+        var bookCtrl = new BookCtrl({
+            user:book.userName,
+            book: book.uri,
+            githubUrl:book.githubUrl,
+            oos:this.oss,
+            bucket:this.config.ossBuckets.book
+        });
+        var pullResult = yield bookCtrl.pull();
         if(!pullResult.success){
             this.error(pullResult);
         }else{
             //存在文件变更，渲染html
             if(pullResult.change){
-                var renderResult = yield bookCtrl.render(book.userName,book.uri);
+                var renderResult = yield bookCtrl.render();
                 //渲染失败
                 if(!renderResult.success){
                     this.error(renderResult);
@@ -40,11 +46,17 @@ module.exports = function(app){
                 }else{
                     //渲染成功后，将文件上传到oss
                     // var renderResult = yield bookCtrl.render(book.userName,book.uri);
-                    var result = yield bookCtrl.pushOss(book.userName,book.uri,this.oss,this.config.ossBuckets.book);
+                    var result = yield bookCtrl.pushOss();
                     this.log('upload to oss :');
                     this.log(result);
-                    //最新更新时间写入数据库
-                    yield mBook.post({id:id,updateTime:_.now()});
+                    var chapterCount = yield bookCtrl.chapterCount();
+                    //最新更新时间、章节数写入数据库
+                    yield mBook.post({id:id,updateTime:_.now(),chapterCount:chapterCount});
+
+                    var readeMeHtml = yield bookCtrl.readMe();
+                    var summaryHtml = yield bookCtrl.summary();
+                    yield mBook.readMe(id,readeMeHtml);
+                    yield mBook.summary(id,summaryHtml);
                 }
             }
         }

@@ -97,5 +97,26 @@ Book.prototype = _.extend({},Base,{
         return _.filter(books,function(book){
             return book[key] === value;
         })
+    },
+    //书籍介绍
+    readMe: function*(id,html){
+        return yield this.meta(id,'readme',html);
+    },
+    //书籍摘要
+    summary: function*(id,html){
+        return yield this.meta(id,'summary',html);
+    },
+    //添加额外的信息，比如reademe等
+    meta: function*(id,key,value){
+        var self = this;
+        var p = this.keyPre;
+        var redis = self.redis;
+        key = p + id+':'+key;
+        if(!value){
+            return yield redis.get(key);
+        }else{
+            yield redis.set(key,value);
+            return yield redis.get(key);
+        }
     }
 });
