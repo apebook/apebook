@@ -33,14 +33,14 @@
                             <div class="col-md-2">
                                 <dl>
                                     <dt>章节数</dt>
-                                    <dd>1</dd>
+                                    <dd>{{chapterCount}}</dd>
                                 </dl>
                             </div>
                             {{#if(updateTime)}}
                             <div class="col-md-2">
                                 <dl>
                                     <dt>最新更新时间</dt>
-                                    <dd>{{updateTime}}</dd>
+                                    <dd>{{nearestTime(updateTime)}}</dd>
                                 </dl>
                             </div>
                             {{/if}}
@@ -60,6 +60,16 @@
                 </div>
 
             </div>
+        </div>
+    </section>
+    <section class="summary-wrapper reademe-wrapper">
+        <div class="reademe-main">
+            {{{readeMe}}}
+        </div>
+    </section>
+    <section class="summary-wrapper">
+        <div class="summary-main J_Summary" data-url="{{bookHost}}/{{userName}}/{{uri}}">
+            {{{summary}}}
         </div>
     </section>
     <script>KISSY.use('apebook/detail')</script>

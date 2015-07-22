@@ -29,13 +29,14 @@ module.exports = function(app){
             user:book.userName,
             book: book.uri,
             githubUrl:book.githubUrl,
-            oos:this.oss,
+            oss:this.oss,
             bucket:this.config.ossBuckets.book
         });
         var pullResult = yield bookCtrl.pull();
         if(!pullResult.success){
             this.error(pullResult);
         }else{
+            //pullResult.change = true;
             //存在文件变更，渲染html
             if(pullResult.change){
                 var renderResult = yield bookCtrl.render();
@@ -47,8 +48,7 @@ module.exports = function(app){
                     //渲染成功后，将文件上传到oss
                     // var renderResult = yield bookCtrl.render(book.userName,book.uri);
                     var result = yield bookCtrl.pushOss();
-                    this.log('upload to oss :');
-                    this.log(result);
+                    this.log('upload to oss success');
                     var chapterCount = yield bookCtrl.chapterCount();
                     //最新更新时间、章节数写入数据库
                     yield mBook.post({id:id,updateTime:_.now(),chapterCount:chapterCount});

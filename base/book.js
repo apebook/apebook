@@ -138,12 +138,13 @@ Book.prototype = {
         var exist = yield fs.exists(url);
         if(!exist) return 0;
         var content = yield fs.readFile(url);
-        return content.split('*').length;
+        content = content.toString();
+        return content.split('*').length-1;
     },
     //渲染md文件成html
     renderMd: function*(url){
         if(!url) return '';
-        var exist = yield fs.exists(path);
+        var exist = yield fs.exists(url);
         if(!exist) return '';
         var data = yield fs.readFile(url);
         data = data.toString();

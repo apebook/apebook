@@ -6,6 +6,9 @@ module.exports = {
     //书籍详情页面
     detail: function*(){
         var book = this.book;
+        var mBook = this.model.book;
+        book.readeMe = yield mBook.readMe(book.id);
+        book.summary = yield mBook.summary(book.id);
         yield this.html('book-detail',book);
     },
     //选择书籍创建方式

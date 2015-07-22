@@ -20,7 +20,7 @@
                 {{/if}}
             </div>
             <div class="button-wrapper">
-                <a class="btn btn-info J_UpdateBook" href="/book/{{uri}}" >查看书籍</a>
+                <a class="btn btn-info" href="/book/{{uri}}" >查看书籍</a>
                 <span class="btn btn-info J_UpdateBook" >更新书籍</span>
                 <span class="btn J_OpenBook {{#if(openStatus==="open")}}{{else}}btn-success{{/if}}" data-status="{{#if(openStatus==="open")}}hide{{else}}open{{/if}}" >{{#if(openStatus==="open")}}隐藏书籍{{else}}公开书籍{{/if}}</span>
             </div>
