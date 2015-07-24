@@ -1,0 +1,76 @@
+{{extend ("../layout/layout")}}
+{{#block ("head")}}
+    <script>KISSY.importStyle('apebook/dash.css')</script>
+{{/block}}
+{{#block ("body")}}
+    <div class="dash-main">
+    {{include ("./sidebar")}}
+    <section class="dash-wrapper">
+        <form class="form-vertical setting-form" action="" method="post">
+            <h3>个人资料设置</h3>
+            <div class="form-group">
+                <label>用户名</label>
+                <input type="text" class="form-control input-lg" name="name" value="{{user.name}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="username">昵称</label>
+                <input type="text" class="form-control input-lg" name="nick" placeholder="" msg-wrapper="#J_NickMsg" value="{{nick}}">
+                <div id="J_NickMsg">
+                    {{macro("error",errors.nick)}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="username">邮箱</label>
+                <input type="text" class="form-control input-lg" name="email" placeholder="" msg-wrapper="#J_EmailMsg" value="{{email}}">
+                <div id="J_EmailMsg">
+                    {{macro("error",errors.email)}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="occupation">职业</label>
+                <select name="occupation" class="form-control">
+                    <option value="">请选择你的职业</option>
+                    <option value="前端工程师">前端开发工程师</option>
+                    <option value="nodejs开发工程师">nodejs开发工程师</option>
+                    <option value="ios开发工程师">ios开发工程师</option>
+                    <option value="java开发工程师">java开发工程师</option>
+                    <option value="安卓开发工程师">安卓开发工程师</option>
+                    <option value="php开发工程师">php开发工程师</option>
+                    <option value="其他">其他</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="occupation">性别</label>
+                <div>
+                    <div class="radio-inline">
+                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="男">
+                            男
+                    </div>
+                    <div class="radio-inline">
+                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="女">
+                            女
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="uploader-button-wrapper">
+                    <input type="file" class="g-u" id="J_UploaderBtn" value="设置头像" name="avatar"  accept="image/*" >
+                </div>
+                <div id="J_UploaderQueue" class="grid">
+                    {{#if(avatar)}}
+                        <script type="text/uploader-files">
+                            [{
+                            "name":"{{avatar}}",
+                            "url": "{{avatar}}"
+                            }]
+                        </script>
+                    {{/if}}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-block btn-lg btn-success">修 改</button>
+        </form>
+    </section>
+    </div>
+
+<script>KISSY.use('apebook/dash')</script>
+{{/block}}

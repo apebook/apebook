@@ -43,5 +43,7 @@ module.exports = function(app) {
     //注销
     app.post('/logout',function *(){
         delete this.session.user;
-    })
+    });
+
+    app.get('/setting',ctlUser.settings);
 };

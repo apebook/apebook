@@ -30,5 +30,15 @@ module.exports = {
         _.authError.bind(this)('/join',body);
         yield mUser.post(body);
         this.redirect('/');
+    },
+    //用户设置
+    settings: function*(){
+        this.title = 'apebook 用户设置';
+        var mUser = this.model.user;
+        var user = this.session.user;
+        var id = yield mUser.id('name',user.name);
+        var data = yield mUser.data(id);
+
+        yield this.html('user/setting',data);
     }
 };
