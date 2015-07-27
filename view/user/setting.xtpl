@@ -1,6 +1,7 @@
 {{extend ("../layout/layout")}}
 {{#block ("head")}}
     <script>KISSY.importStyle('apebook/dash.css')</script>
+    <script>KISSY.importStyle('apebook/setting.css')</script>
 {{/block}}
 {{#block ("body")}}
     <div class="dash-main">
@@ -26,45 +27,44 @@
                     {{macro("error",errors.email)}}
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group avatar-wrapper">
+                    <div class="uploader-button-wrapper">
+                        <input type="file" class="g-u" id="J_UploaderBtn" value="设置头像" name="uploader-btn"  accept="image/*" >
+                    </div>
+                    <input type="hidden" id="J_Urls" name="avatar" value="" />
+
+                <div id="J_UploaderQueue" class="grid">
+                {{#if(avatar)}}
+                <script type="text/uploader-files" class="J_AvatarRestore">
+                                        [{
+                                        "name":"{{avatar}}",
+                                        "url": "{{avatar}}"
+                                        }]
+                                    </script>
+            {{/if}}
+            </div>
+            </div>
+
+             <div class="form-group">
                 <label for="occupation">职业</label>
                 <select name="occupation" class="form-control">
                     <option value="">请选择你的职业</option>
-                    <option value="前端工程师">前端开发工程师</option>
-                    <option value="nodejs开发工程师">nodejs开发工程师</option>
-                    <option value="ios开发工程师">ios开发工程师</option>
-                    <option value="java开发工程师">java开发工程师</option>
-                    <option value="安卓开发工程师">安卓开发工程师</option>
-                    <option value="php开发工程师">php开发工程师</option>
-                    <option value="其他">其他</option>
+                    {{#each(occupations)}}
+                    <option value="{{this}}" {{#if(occupation===this)}}selected{{/if}}>{{this}}</option>
+                    {{/each}}
                 </select>
             </div>
             <div class="form-group">
                 <label for="occupation">性别</label>
                 <div>
                     <div class="radio-inline">
-                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="男">
+                            <input type="radio" name="sex" value="男" {{#if(sex==="男")}}checked{{/if}}>
                             男
                     </div>
                     <div class="radio-inline">
-                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="女">
+                            <input type="radio" name="sex" value="女" {{#if(sex==="女")}}checked{{/if}}>
                             女
                     </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="uploader-button-wrapper">
-                    <input type="file" class="g-u" id="J_UploaderBtn" value="设置头像" name="avatar"  accept="image/*" >
-                </div>
-                <div id="J_UploaderQueue" class="grid">
-                    {{#if(avatar)}}
-                        <script type="text/uploader-files">
-                            [{
-                            "name":"{{avatar}}",
-                            "url": "{{avatar}}"
-                            }]
-                        </script>
-                    {{/if}}
                 </div>
             </div>
             <button type="submit" class="btn btn-block btn-lg btn-success">修 改</button>
@@ -72,5 +72,5 @@
     </section>
     </div>
 
-<script>KISSY.use('apebook/dash')</script>
+<script>KISSY.use('apebook/setting')</script>
 {{/block}}

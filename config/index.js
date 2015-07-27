@@ -13,6 +13,7 @@ var config = {
     coverHost:'//cover.apebook.org/',
     //书籍地址
     bookHost:'//book.apebook.org',
+    assetHost:'//a.apebook.org',
     //kissy 静态资源的包配置
     kissyPkg: 'http://a.apebook.org',
     //是否开启调试，调试的情况下会输出错误信息
@@ -57,4 +58,6 @@ var config = {
 if(process.env.NODE_ENV == 'local'){
     config = _.extend(config,local);
 }
+var occupation = require('./occupation');
+config.occupations = occupation;
 module.exports = config;

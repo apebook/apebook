@@ -1,5 +1,6 @@
 var _ = require('../base/util');
 var ctlUser = require('../controller/user');
+var check = require('../base/check-middleware');
 //用户相关的路由
 module.exports = function(app) {
     var mUser = app.model.user;
@@ -41,9 +42,11 @@ module.exports = function(app) {
     });
 
     //注销
-    app.post('/logout',function *(){
+    app.get('/logout',function *(){
         delete this.session.user;
+        this.redirect('/login');
     });
 
-    app.get('/setting',ctlUser.settings);
+    app.get('/setting',check.login,ctlUser.settings);
+    app.post('/setting',check.login,ctlUser.postSettings);
 };

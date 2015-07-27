@@ -51,11 +51,14 @@ module.exports = {
         return result;
     },
     //上传图片
-    uploadImg: function*(readStream,bucket){
+    uploadImg: function*(readStream,bucket,dir){
         if(!store) return false;
         if(!readStream) return false;
         if(bucket){
             this.useBucket(bucket);
+        }
+        if(!dir){
+            dir = '';
         }
         //图片名使用时间戳
         var suffix = readStream.filename.split('.')[1];
@@ -64,8 +67,7 @@ module.exports = {
         //先将文件上传到临时目录
         var target = yield this._uploadToTemp(name,readStream);
         if(!target) return false;
-        var result = yield store.put(name,target);
-        debug(result);
+        var result = yield store.put(dir+name,'./'+target);
         console.log(result);
         //删除临时文件
         yield this._delTempFile(target);
@@ -79,7 +81,7 @@ module.exports = {
             var stream = fs.createWriteStream(target);
             readStream.pipe(stream);
             console.log('uploading %s -> %s',readStream.filename, stream.path);
-            readStream.on('end',function(){
+            stream.on('finish',function(){
                 resolve(target);
             })
         });

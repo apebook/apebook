@@ -8,8 +8,8 @@
     {{#if(user)}}
     <nav class="right-nav">
         {{! 已经登录 }}
-        <a class="name" href="/"><img alt="{{user.name}}" class="avatar" height="20" src="https://secure.gravatar.com/avatar/{{user.avatar}}" width="20">
-            <span class="css-truncate-target">{{user.name}}</span>
+        <a class="name" href="/"><img alt="{{user.nick||user.name}}" class="avatar" height="20" src="{{user.avatar}}" width="20">
+            <span class="css-truncate-target">{{user.nick||user.name}}</span>
         </a>
         <a href="/new" title="创建书籍"><span class="iconfont">&#xe602;</span><span> </span></a>
         <a href="/setting" title="我的设置"><span class="iconfont">&#xe601;</span></a>

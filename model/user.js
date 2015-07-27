@@ -24,11 +24,10 @@ User.prototype = _.extend({},Base, {
             data.create = _.now();
             if(!data.role) data.role = 'user';
         }
-
-        //密码使用md5编码
-        data.password = _.md5(data.password);
-        //头像
-        data.avatars = _.md5(data.email);
+        if(data.password){
+            //密码使用md5编码
+            data.password = _.md5(data.password);
+        }
 
         yield redis.hmset(keyPre+id,data);
     },
