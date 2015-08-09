@@ -2,9 +2,9 @@
     <h2 class="logo"><a href="/">APE BOOK</a></h2>
     <section class="book-admin-wrapper">
     <ul class="nav nav-sidebar book-admin-nav">
-        <li><a href="/books">个人资料</a></li>
-        <li><a href="/books">github账号绑定</a></li>
-        <li><a href="/books">修改密码</a></li>
+        <li {{#if(nav==="setting")}} class="current" {{/if}}><a href="/setting">修改个人资料</a></li>
+        <li {{#if(nav==="github")}} class="current" {{/if}}><a href="/books">github账号绑定</a></li>
+        <li {{#if(nav==="password")}} class="current" {{/if}}><a href="/password">修改密码</a></li>
     </ul>
     </section>
 </div>

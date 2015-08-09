@@ -49,4 +49,7 @@ module.exports = function(app) {
 
     app.get('/setting',check.login,ctlUser.settings);
     app.post('/setting',check.login,ctlUser.postSettings);
+    app.get('/password',check.login,ctlUser.password);
+    app.post('/password',check.login,ctlUser.postPassword);
+
 };

@@ -39,7 +39,7 @@ module.exports = {
         var user = this.session.user;
         var id = yield mUser.id('name',user.name);
         var data = yield mUser.data(id);
-
+        data.nav = 'setting';
         yield this.html('user/setting',data);
     },
     //保存设置
@@ -76,5 +76,37 @@ module.exports = {
             var url = this.config.assetHost+'/'+result.name;
             this.body = {status:1,type:"ajax",name:result.name,url:url};
         }
+    },
+    //修改密码
+    password: function*(){
+        var user = this.session.user;
+        user.nav = 'password';
+        yield this.html('user/password',user);
+    },
+    //提交密码修改
+    postPassword: function*(){
+        var body = this.request.body;
+        this.log('user post password data :');
+        this.log(body);
+        this.checkBody('oldPassword', '旧密码不可以为空').notEmpty();
+        this.checkBody('newPassword', '密码不可以小于7个字符').isLength(6);
+        this.checkBody('newPassword', '密码带有非法字符').isPassword(7);
+        this.checkBody('newPasswordAgain', '输入的密码不一致').eq(body['newPassword']);
+
+        var user = this.session.user;
+        var oldPassword = _.md5(body['oldPassword']);
+        if(oldPassword !== user.password){
+            _.addError.bind(this)('oldPassword','旧密码输入错误');
+        }
+
+        var mUser = this.model.user;
+        _.authError.bind(this)('/password',body);
+        var newPassword = body['newPassword'];
+        yield mUser.post({
+            password: newPassword,
+            name: user.name
+        });
+        this.session.user.password = _.md5(newPassword);
+        this.redirect('/password');
     }
 };

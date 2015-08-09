@@ -1,7 +1,7 @@
 {{! 错误信息显示}}
 {{#macro("error","msg")}}
     {{#if(msg)}}
-    <p class="bg-danger auth-msg auth-error"><span class="iconfont">&#xe605;</span> {{msg}}</p>
+    <p class="auth-msg auth-error">{{msg}}</p>
     {{/if}}
 {{/macro}}
 
