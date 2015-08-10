@@ -7,6 +7,7 @@ var crypto = require('crypto');
 var User = module.exports = function(){
     this.redis = null;
     this.keyPre = 'user:';
+    this.githubKeyPre = 'github-user:';
 };
 
 User.prototype = _.extend({},Base, {
@@ -16,8 +17,10 @@ User.prototype = _.extend({},Base, {
         var self = this;
         var redis = self.redis;
         var keyPre = self.keyPre;
-        //是否存在用户名
-        var id = yield self.id('name',data.name);
+        var id = data.id;
+        if(!id && data.name){
+            id = yield self.id('name',data.name);
+        }
         if(id === -1){
             id = yield self.addId();
             data.id = id;
@@ -51,5 +54,22 @@ User.prototype = _.extend({},Base, {
         password = _.md5(password);
         var p = yield self.field(id,'password');
         return p === password;
+    },
+    //设置github账号
+    github: function*(userId,data){
+        var self = this;
+        var redis = self.redis;
+        var keyPre = self.githubKeyPre;
+
+        if(data){
+            yield redis.hmset(keyPre+userId,data);
+            yield self.post({
+                id: userId,
+                //给已经绑定的用户打标
+                bindGithub: true
+            })
+        }
+
+        return yield redis.hgetall(keyPre+userId);
     }
 });

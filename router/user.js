@@ -51,5 +51,7 @@ module.exports = function(app) {
     app.post('/setting',check.login,ctlUser.postSettings);
     app.get('/password',check.login,ctlUser.password);
     app.post('/password',check.login,ctlUser.postPassword);
+    app.get('/github',check.login,ctlUser.github);
+
 
 };

@@ -1,0 +1,21 @@
+{{extend ("../layout/layout")}}
+{{#block ("head")}}
+{{/block}}
+{{#block ("body")}}
+    <div class="dash-main">
+        {{include ("./sidebar")}}
+        <section class="dash-wrapper">
+            <form class="form-vertical setting-form" action="" method="post">
+                <h3>绑定github账号</h3>
+                {{! 已经绑定github，显示绑定信息}}
+                {{#if(bindGithub)}}
+                    {{set(tipMsg='绑定的 github 账号是：'+githubUrl)}}
+                    {{macro("successTip",tipMsg)}}
+                {{else}}
+                    {{macro("warnTip","还没有绑定 github 账号，只有获取 github 授权后，系统才可以实现 push 代码自动更新书籍的功能")}}
+                {{/if}}
+                <a href="/github/auth" class="btn btn-block btn-lg btn-success">{{#if(!bindGithub)}}立 即{{else}}修改绑定{{/if}} 绑 定</a>
+            </form>
+        </section>
+    </div>
+{{/block}}

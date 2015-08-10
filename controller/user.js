@@ -108,5 +108,11 @@ module.exports = {
         });
         this.session.user.password = _.md5(newPassword);
         this.redirect('/password');
+    },
+    //绑定github账号
+    github: function*(){
+        var user = this.session.user;
+        user.nav = 'github';
+        yield this.html('user/github',user);
     }
 };

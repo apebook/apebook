@@ -3,7 +3,7 @@
     <section class="book-admin-wrapper">
     <ul class="nav nav-sidebar book-admin-nav">
         <li {{#if(nav==="setting")}} class="current" {{/if}}><a href="/setting">修改个人资料</a></li>
-        <li {{#if(nav==="github")}} class="current" {{/if}}><a href="/books">github账号绑定</a></li>
+        <li {{#if(nav==="github")}} class="current" {{/if}}><a href="/github">绑定github账号</a></li>
         <li {{#if(nav==="password")}} class="current" {{/if}}><a href="/password">修改密码</a></li>
     </ul>
     </section>
