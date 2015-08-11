@@ -29,8 +29,40 @@ module.exports = {
             _.addError.bind(this)('email','邮箱已经存在');
         }
         _.authError.bind(this)('/join',body);
-        yield mUser.post(body);
+        this.session.user = yield mUser.post(body);
+
         this.redirect('/');
+    },
+    //登录
+    login: function*(){
+        var redirect_url = this.request.query.redirect_url || '/';
+        yield this.html('login',{redirect_url:redirect_url});
+    },
+    //登录
+    postLogin: function*(){
+        var mUser = this.model.user;
+        var body = this.request.body;
+        this.checkBody('name', '用户名不可以为空').notEmpty();
+        this.checkBody('password', '密码不可以为空').notEmpty();
+        var id = yield mUser.id('name',body.name);
+        if(id === -1){
+            id = yield mUser.id('email',body.email);
+        }
+        //不存在该用户
+        if(id === -1){
+            _.addError.bind(this)('name','该用户名不存在');
+        }else{
+            var pass = yield mUser.authPassword(id,body.password);
+            if(!pass){
+                _.addError.bind(this)('password','密码错误，请重新输入');
+            }
+        }
+        var isError = _.authError.bind(this)('/login',body);
+        if(!isError){
+            this.session.user = yield mUser.data(id);
+            //重定向
+            this.redirect(body.redirect_url || '/');
+        }
     },
     //用户设置
     settings: function*(){
@@ -50,7 +82,7 @@ module.exports = {
         this.checkBody('email', 'email格式不合法').isEmail();
         var mUser = this.model.user;
         _.authError.bind(this)('/setting',body);
-        yield mUser.post(body);
+        this.session.user = yield mUser.post(body);
         this.redirect('/setting');
     },
     //上传头像

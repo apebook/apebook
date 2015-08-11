@@ -3,5 +3,13 @@ var path = require('path');
 module.exports = {
     "env":"local",
     "host": 'http://localhost:7070/',
-    "kissyPkg": 'http://localhost:3333/src'
+    "kissyPkg": 'http://localhost:3333/src',
+    github:{
+        clientID: '1f70a5a2b666fc22b5c0',
+        clientSecret: '3d81d447d49cd7368dd00a74c700fa7ecf53bb4f',
+        callbackURL: 'http://localhost:7070/github/callback',
+        scope: ['user','public_repo','read:repo_hook','write:repo_hook'],
+        userKey: 'github_user',
+        timeout: 10000
+    }
 };

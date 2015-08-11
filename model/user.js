@@ -33,6 +33,7 @@ User.prototype = _.extend({},Base, {
         }
 
         yield redis.hmset(keyPre+id,data);
+        return yield this.data(id);
     },
     //获取用户数据
     data: function*(id){
