@@ -143,8 +143,23 @@ module.exports = {
     },
     //绑定github账号
     github: function*(){
-        var user = this.session.user;
-        user.nav = 'github';
-        yield this.html('user/github',user);
+        var user = this.session['user'];
+        var mUser = this.model.user;
+        var data = yield mUser.data(user.id);
+        data.githubUser = yield mUser.github(user.id);
+        data.nav = 'github';
+        yield this.html('user/github',data);
+    },
+    //保存github账号信息
+    saveGithub: function*(){
+        var githubUserKey = this.config.github.userKey;
+        var githubUser = this.session[githubUserKey];
+        if(githubUser){
+            var mUser = this.model.user;
+            var user = this.session['user'];
+            yield mUser.github(user.id,githubUser);
+            this.session.user = yield mUser.data(user.id);
+        }
+        this.redirect('/github');
     }
 };

@@ -1,5 +1,6 @@
 {{extend ("../layout/layout")}}
 {{#block ("head")}}
+    <script>KISSY.importStyle('apebook/setting.css')</script>
 {{/block}}
 {{#block ("body")}}
     <div class="dash-main">
@@ -9,12 +10,22 @@
                 <h3>绑定github账号</h3>
                 {{! 已经绑定github，显示绑定信息}}
                 {{#if(bindGithub)}}
-                    {{set(tipMsg='绑定的 github 账号是：'+githubUrl)}}
+                    {{set(tipMsg='已经绑定 github 账号')}}
                     {{macro("successTip",tipMsg)}}
+                    <section class="panel github-info">
+                        <div class="f-l img-wrapper">
+                            <img src="{{githubUser.avatar_url}}" width="50" height="50" />
+                        </div>
+                        <div class="f-l">
+                            <p>{{githubUser.name}}({{githubUser.login}})</p>
+                            <p>{{githubUser.location}} {{githubUser.company}}</p>
+                        </div>
+                    </section>
                 {{else}}
                     {{macro("warnTip","还没有绑定 github 账号，只有获取 github 授权后，系统才可以实现 push 代码自动更新书籍的功能")}}
                 {{/if}}
-                <a href="/github/auth" class="btn btn-block btn-lg btn-success">{{#if(!bindGithub)}}立 即{{else}}修改绑定{{/if}} 绑 定</a>
+
+                <a href="/github/auth?redirect_uri=/github/save" class="btn btn-block btn-lg btn-success">{{#if(!bindGithub)}}立 即{{else}}修 改{{/if}} 绑 定</a>
             </form>
         </section>
     </div>

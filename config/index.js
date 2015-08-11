@@ -8,7 +8,7 @@ var config = {
     title:'apebook 猿书 程序员的图书馆',
     appName: 'apebook',
     //端口号配置
-    port: 7070,
+    port: 9090,
     host: '//apebook.org/',
     coverHost:'//cover.apebook.org/',
     //书籍地址
