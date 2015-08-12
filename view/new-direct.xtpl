@@ -3,10 +3,12 @@
     <script>KISSY.importStyle('apebook/book.css')</script>
 {{/block}}
 {{#block ("body")}}
-    <section class="wrapper book-wrapper">
-        {{include ('./book/title')}}
-        {{include ('./book/stepbar')}}
-        {{include ('./book/create-form')}}
-    </section>
+    <div class="dash-main">
+        {{include ("./layout/sidebar")}}
+        <section class="dash-wrapper book-wrapper">
+            {{include ('./book/title')}}
+            {{include ('./book/create-form')}}
+        </section>
+    </div>
     <script>KISSY.use('apebook/book')</script>
 {{/block}}

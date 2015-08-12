@@ -38,6 +38,4 @@
         {{macro("hidden","githubUser",githubUser)}}
     {{/if}}
     <button type="submit" class="btn btn-block btn-lg btn-next btn-success">创建书籍</button>
-    <a href="{{#if(type==='direct')}}/new{{else}}/new/github{{/if}}" class="btn btn-block btn-lg btn-default btn-prev" role="button">上一步</a>
-
 </form>

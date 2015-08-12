@@ -60,4 +60,6 @@ if(process.env.NODE_ENV == 'local'){
 }
 var occupation = require('./occupation');
 config.occupations = occupation;
+var cats = require('./cat');
+config.cats = cats;
 module.exports = config;
