@@ -8,7 +8,7 @@
     {{#if(user)}}
     <nav class="right-nav">
         {{! 已经登录 }}
-        <a class="name" href="/setting"><img alt="{{user.nick||user.name}}" class="avatar" height="30" src="{{user.avatar}}" width="30">
+        <a class="name" href="/setting"><img alt="{{user.nick||user.name}}" class="avatar" height="30" src="{{user.avatar||githubUser.avatar_url||'//a.apebook.org/avatar/default-avatar.png'}}" width="30">
             <span class="css-truncate-target">{{user.nick||user.name}}</span>
         </a>
         <a href="/new" title="创建书籍"><span class="iconfont">&#xe602;</span><span> </span></a>

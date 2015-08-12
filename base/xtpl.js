@@ -54,6 +54,7 @@ module.exports = {
         }
         //用户session
         data.user = this.session.user;
+        data.githubUser = this.session[this.config.github.userKey] || {};
         //页面标题
         if(this.title) data.title = this.title;
         yield this.render(path, data);
