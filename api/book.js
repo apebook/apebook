@@ -11,6 +11,8 @@ module.exports = function(app){
 
     //书籍封面
     app.post('/api/book/cover',check.apiLogin,ctlBook.cover);
+    //判断是否已经存在书籍url
+    app.get('/api/book/exist',ctlBook.exist);
 
     //同步书籍
     app.post('/api/book/sync',check.apiPostBookExist,function *(){

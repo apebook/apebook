@@ -191,5 +191,15 @@ module.exports = {
         var mBook = this.model.book;
         var book = yield mBook.post(body);
         this.body = {success:true,data:book};
+    },
+    exist: function*(){
+        var uri = this.request.query.uri;
+        if(!uri){
+            this.body = {exist:false};
+            return false;
+        }
+        var mBook = this.model.book;
+        var isUriExist = yield mBook.isUriExist(uri);
+        this.body = {exist:isUriExist};
     }
 };

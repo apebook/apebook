@@ -1,7 +1,7 @@
-<form role="form" class="form-vertical book-form" method="post" action="/new">
+<form id="J_Auth" role="form" class="form-vertical book-form" method="post" action="/new">
     <div class="form-group ">
         <label for="title" class="control-label">书名</label>
-        <input type="text" name="name" autocomplete="off" maxlength="60" class="form-control input-lg" value="{{body.repo || repo}}" max="60" placeholder="" msg-wrapper="#J_AameMsg">
+        <input type="text" name="name" autocomplete="off" class="form-control input-lg" value="{{body.name}}" max="60" placeholder="中文、英文" required required-msg="书名不可以为空" msg-wrapper="#J_NameMsg">
         <div id="J_NameMsg">
             {{macro("error",errors.name)}}
         </div>
@@ -9,8 +9,8 @@
     <div class="form-group ">
         <label for="title" class="control-label">书籍网址（一旦提交不可更改）</label>
         <div>
-            <div class="form-control input-lg input-group-addon address">http://book.apebook.org/</div>
-            <input type="text" name="uri" autocomplete="off" maxlength="60" class="form-control input-lg address-input" value="{{body.uri || repo}}" msg-wrapper="#J_UriMsg" max="60" placeholder="">
+            <div class="form-control input-lg input-group-addon address">http://apebook.org/book/</div>
+            <input type="text" name="uri" autocomplete="off" class="form-control input-lg address-input" value="{{body.uri}}" exist="true" exist-msg="该url已经存在" required required-msg="书籍网址不可以为空" msg-wrapper="#J_UriMsg" placeholder="只能是英文、-、数字">
         </div>
         <div id="J_UriMsg">
             {{macro("error",errors.uri)}}
@@ -19,7 +19,7 @@
     <div class="form-more">
         <div class="form-group ">
             <label for="description" class="control-label">选择分类</label>
-            <select name="cat" class="form-control">
+            <select name="cat" class="form-control" required>
                 {{#each(cats)}}
                     <option value="{{this}}">{{this}}</option>
                 {{/each}}
@@ -30,12 +30,8 @@
         <!-- Description -->
         <div class="form-group ">
             <label for="description" class="control-label">书籍描述</label>
-            <textarea rows="4" name="desc" maxlength="220" class="form-control">{{description}}</textarea>
+            <textarea rows="4" name="desc" maxlength="220" class="form-control">{{body.description}}</textarea>
         </div>
     </div>
-    {{#if(repo)}}
-        {{macro("hidden","repo",repo)}}
-        {{macro("hidden","githubUser",githubUser)}}
-    {{/if}}
     <button type="submit" class="btn btn-block btn-lg btn-next btn-success">创建书籍</button>
 </form>
