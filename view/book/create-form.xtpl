@@ -1,7 +1,7 @@
 <form id="J_Auth" role="form" class="form-vertical book-form" method="post" action="/new">
     <div class="form-group ">
         <label for="title" class="control-label">书名</label>
-        <input type="text" name="name" autocomplete="off" class="form-control input-lg" value="{{body.name}}" max="60" placeholder="中文、英文" required required-msg="书名不可以为空" msg-wrapper="#J_NameMsg">
+        <input type="text" name="name" autocomplete="off" class="form-control input-lg" value="{{body.name}}" placeholder="中文、英文" required required-msg="书名不可以为空" msg-wrapper="#J_NameMsg">
         <div id="J_NameMsg">
             {{macro("error",errors.name)}}
         </div>

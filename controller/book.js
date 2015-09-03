@@ -2,6 +2,7 @@
 var _ = require('../base/util');
 var parse = require('co-busboy');
 var fs = require('fs');
+var githubApi = require('../base/github-api');
 module.exports = {
     //书籍详情页面
     detail: function*(){
@@ -63,12 +64,6 @@ module.exports = {
             body.cover = '';
             this.log('book data');
             this.log(body);
-            //存在github用户名，添加hook
-            if(body.githubUser && body.repo) {
-                body.bindGithub = true;
-                //yield githubApi.addHook(body.repo,body.user);
-                delete this.session.book;
-            }
             var data = yield mBook.post(body);
             this.log('create book success');
             //跳转到我的书籍
@@ -124,6 +119,18 @@ module.exports = {
         var data = this.book;
         data.dash = true;
         data.currentNav = 'github';
+        var user = this.session['user'];
+        //是否已经绑定了github账号
+        data.bindGithubUser = user.bindGithub && user.bindGithub === 'true' || false;
+        if(data.bindGithubUser){
+            var mUser = this.model.user;
+            data.githubUser = yield mUser.github(user.id);
+        }
+        var repos = yield githubApi.repos.bind(this)(data.githubUser.login);
+        if(repos.success){
+            data.repos = repos.data;
+        }
+
         yield this.html('dash/bind-github',data);
     },
     //绑定 github
@@ -146,19 +153,20 @@ module.exports = {
     },
     //保存数据到github中
     saveGithub: function*(){
+        if(!this.session['githubToken']){
+            //跳转到github授权页面
+            var router = this.config.githubPath+this.url;
+            this.redirect(router);
+            return false;
+        }
         var mBook = this.model.book;
-        var githubUser = this.session.github_user;
+        var user = this.session['user'];
+        //是否已经绑定了github账号
+        var bindGithubUser = user.bindGithub && user.bindGithub === 'true' || false;
         var githubParam = this.session._github;
         //不存在表单提交的数据跳转到表单页面
         if(!githubParam){
             this.redirect('/book/'+this.id+'/bind-github');
-            return false;
-        }
-        //github没有登录授权过
-        if(!githubUser){
-            //跳转到github授权页面
-            var router = this.config.githubPath+this.url;
-            this.redirect(router);
             return false;
         }
         //已经存在github账号绑定
@@ -181,6 +189,7 @@ module.exports = {
         });
         this.log(bookData);
         delete this.session._github;
+        yield githubApi.addHook.bind(this)(githubParam.repo,githubParam.user);
         this.redirect(this.url);
     },
     //更新书籍信息
@@ -192,6 +201,7 @@ module.exports = {
         var book = yield mBook.post(body);
         this.body = {success:true,data:book};
     },
+    //校验书籍 uri 是否已经存在
     exist: function*(){
         var uri = this.request.query.uri;
         if(!uri){

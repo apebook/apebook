@@ -8,8 +8,8 @@
     {{include ("./layout/sidebar")}}
 
     <section class="dash-wrapper">
-        {{#if(!bindGithub)}}
-            {{macro("warnTip",'还没有绑定 github 仓库')}}
+        {{#if(!bindGithub || bindGithub === "false")}}
+            {{macro("warnTip",'还没有绑定 github 仓库，无法使用，<a href="./bind-github">立即绑定</a>')}}
         {{/if}}
         <div class="dash-header">
             <h3><a href="/book/{{uri}}">《{{name}}》</a></h3>
@@ -29,14 +29,16 @@
             <div class="col-md-2">
                 <div class="book-wrapper">
                      <div id="J_UploaderQueue" class="grid">
-                        {{#if(cover)}}
-                            <script type="text/uploader-files">
-                                [{
-                                "name":"{{cover}}",
-                                "url": "{{cover}}"
-                                }]
-                            </script>
-                        {{/if}}
+                        <script type="text/uploader-files">
+                            [
+                            {{#if(cover)}}
+                            {
+                            "name":"{{cover}}",
+                            "url": "{{cover}}"
+                            }
+                            {{/if}}
+                            ]
+                        </script>
                     </div>
                     <div class="uploader-button-wrapper">
                         <input type="file" class="g-u" id="J_UploaderBtn" value="设置封面" name="cover"  accept="image/*" >

@@ -1,6 +1,8 @@
 var util = require('../base/util');
 var shell = require('../base/shell');
 var Github = require('../base/github');
+var ctlBook = require('../controller/book');
+
 module.exports = function(app){
     var config = app.config;
     var repoDir = config.repoDir;
@@ -22,4 +24,4 @@ module.exports = function(app){
 
         this.body = output;
     });
-}
+};

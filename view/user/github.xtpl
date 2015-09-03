@@ -10,7 +10,7 @@
                 <h3>绑定github账号</h3>
                 {{! 已经绑定github，显示绑定信息}}
                 {{#if(bindGithub)}}
-                    {{set(tipMsg='已经绑定 github 账号')}}
+                    {{set(tipMsg='已经绑定 github 账号，apebook 只会通过 github 授权给仓库添加自动同步 hook，不会暴露用户隐私与其他操作')}}
                     {{macro("successTip",tipMsg)}}
                     <section class="panel github-info">
                         <div class="f-l img-wrapper">

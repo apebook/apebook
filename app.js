@@ -16,6 +16,7 @@ var app = koa();
 app.config = config;
 //co-redis实例
 app.redis = redisStore.client;
+app.context.redis = app.redis;
 //xtemplate模板渲染
 xtplApp.render(app,{
     //配置模板目录redis
