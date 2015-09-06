@@ -73,4 +73,7 @@ module.exports = function(app){
 
     //创建书籍
     app.post('/new',check.login,ctlBook.create);
+
+    //书籍主题
+    app.param('id',check.bookExist).get('/book/:id/theme',check.login,ctlBook.theme);
 };

@@ -1,0 +1,18 @@
+{{extend ("../layout/layout")}}
+{{#block ("head")}}
+    <script>KISSY.importStyle('apebook/dash.css')</script>
+    <script>KISSY.importStyle('apebook/setting.css')</script>
+
+{{/block}}
+{{#block ("body")}}
+    <div class="dash-main">
+        {{set(currentNav="theme")}}
+        {{include ("../layout/sidebar")}}
+        <section class="dash-wrapper">
+            <h3><i class="iconfont">&#xe60e;</i> 选择书籍主题</h3>
+            <ul>
+
+            </ul>
+        </section>
+    </div>
+{{/block}}

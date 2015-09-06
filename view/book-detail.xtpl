@@ -16,12 +16,20 @@
             <div class="col-md-10">
                 <div class="detail-main">
                     <h2>《{{name}}》</h2>
-                    <div class="author-wrapper">
-                        {{userName}}
-                    </div>
                     <div class="desc">
                         {{desc||description}}
                     </div>
+                    <section class="panel author-wrapper">
+                        <a href="/user/{{user.id}}">
+                            <div class="f-l img-wrapper">
+                                <img src="{{userAvatar}}" width="50" height="50" />
+                            </div>
+                            <div class="f-l">
+                                <p>{{user.nick || user.name}} <span class="email">{{user.email}}</span></p>
+                                <p>共发表了本书</p>
+                            </div>
+                        </a>
+                    </section>
                     <div class="details-meta">
                         <div class="row">
                             <div class="col-md-2">
@@ -60,6 +68,11 @@
                 </div>
 
             </div>
+        </div>
+    </section>
+    <section class="summary-wrapper">
+        <div class="summary-main">
+            {{view}} 人阅读过
         </div>
     </section>
     <section class="summary-wrapper reademe-wrapper">

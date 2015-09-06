@@ -72,5 +72,17 @@ User.prototype = _.extend({},Base, {
         }
 
         return yield redis.hgetall(keyPre+userId);
+    },
+    //用户头像
+    avatar: function*(user){
+        var avatar = user.avatar;
+        if(!avatar && user.bindGithub==='true'){
+            var githubUser = yield this.github(user.id);
+            avatar = githubUser.avatar_url;
+        }
+        if(!avatar){
+            avatar = '//a.apebook.org/avatar/default-avatar.png';
+        }
+        return avatar;
     }
 });

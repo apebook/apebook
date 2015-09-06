@@ -10,6 +10,10 @@ module.exports = {
         var mBook = this.model.book;
         book.readeMe = yield mBook.readMe(book.id);
         book.summary = yield mBook.summary(book.id);
+        var mView = this.model.view;
+        book.view = yield mView.incr(book.id,this.session);
+        var mUser = this.model.user;
+        book.userAvatar = yield mUser.avatar(this.session['user']);
         yield this.html('book-detail',book);
     },
     //选择书籍创建方式
@@ -79,6 +83,13 @@ module.exports = {
         this.log('book data :');
         this.log(data);
         yield this.html('book-dashboard',data);
+    },
+    //书籍主题
+    theme: function*(){
+        var data = this.book;
+        data.dash = true;
+        data.currentNav = 'theme';
+        yield this.html('dash/theme',data);
     },
     //书籍封面
     cover: function*(){
