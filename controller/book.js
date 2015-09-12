@@ -14,6 +14,7 @@ module.exports = {
         book.view = yield mView.incr(book.id,this.session);
         var mUser = this.model.user;
         book.userAvatar = yield mUser.avatar(this.session['user']);
+        book.userBookCount = yield mUser.bookCount(book.id);
         yield this.html('book-detail',book);
     },
     //选择书籍创建方式
@@ -40,7 +41,6 @@ module.exports = {
     },
     //创建书籍
     create: function *(){
-
         var body = yield this.request.body;
         this.log('[book.create] :');
         this.log(body);
@@ -70,6 +70,8 @@ module.exports = {
             this.log(body);
             var data = yield mBook.post(body);
             this.log('create book success');
+            var mUser = this.model.user;
+            yield mUser.books(user.id,data.id);
             //跳转到我的书籍
             this.redirect('/book/'+data.id+'/dashboard');
         }

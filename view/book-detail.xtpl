@@ -10,26 +10,21 @@
             {{macro("warnTip",'该书籍还未公开，无法访问')}}
         {{/if}}
         <div class="row">
-            <div class="col-md-2">
-                <img src="{{cover}}" width="200" height="270">
+            <div class="col-md-2 cover-wrapper">
+              <img class="cover" src="{{cover}}" width="200" height="270">
+              {{#if(!cover)}}
+              <h4>{{name}}</h4>
+              {{/if}}
             </div>
             <div class="col-md-10">
                 <div class="detail-main">
                     <h2>《{{name}}》</h2>
+                    {{#if(bindGithub==="true")}}
+                    <iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user={{githubUser}}&amp;repo={{githubRepo}}&amp;type=watch&amp;count=true&size=large" width="160px" height="30px" title="Star on GitHub"></iframe>
+                    {{/if}}
                     <div class="desc">
                         {{desc||description}}
                     </div>
-                    <section class="panel author-wrapper">
-                        <a href="/user/{{user.id}}">
-                            <div class="f-l img-wrapper">
-                                <img src="{{userAvatar}}" width="50" height="50" />
-                            </div>
-                            <div class="f-l">
-                                <p>{{user.nick || user.name}} <span class="email">{{user.email}}</span></p>
-                                <p>共发表了本书</p>
-                            </div>
-                        </a>
-                    </section>
                     <div class="details-meta">
                         <div class="row">
                             <div class="col-md-2">
@@ -52,6 +47,12 @@
                                 </dl>
                             </div>
                             {{/if}}
+                            <div class="col-md-2">
+                              <dl>
+                                <dt>阅读人数</dt>
+                                <dd>{{view}}</dd>
+                              </dl>
+                            </div>
                         </div>
                     </div>
 
@@ -61,7 +62,7 @@
                         {{/if}}
                         {{!设置}}
                         {{#if(user&&user.name===userName)}}
-                        <span class="btn iconfont btn-default set-btn" >&#xe601;</span>
+                          <a  class="btn iconfont btn-default set-btn" href="/book/{{id}}/dashboard">&#xe601;</a>
                         {{/if}}
                     </div>
 
@@ -72,7 +73,17 @@
     </section>
     <section class="summary-wrapper">
         <div class="summary-main">
-            {{view}} 人阅读过
+          <section class="panel author-wrapper">
+            <a href="/user/{{user.id}}">
+              <div class="f-l img-wrapper">
+                <img src="{{userAvatar}}" width="50" height="50" />
+              </div>
+              <div class="f-l">
+                <p>{{user.nick || user.name}} <span class="email">{{user.email}}</span></p>
+                <p>共发表了 <em>{{userBookCount}}</em> 本书</p>
+              </div>
+            </a>
+          </section>
         </div>
     </section>
     <section class="summary-wrapper reademe-wrapper">

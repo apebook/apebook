@@ -84,5 +84,22 @@ User.prototype = _.extend({},Base, {
             avatar = '//a.apebook.org/avatar/default-avatar.png';
         }
         return avatar;
+    },
+    /**
+     * 作者发布的书籍
+     */
+    books: function*(userId,bookId){
+        var key = this.keyPre+userId+':books';
+        if(bookId){
+            yield this.redis.rpush(key,bookId);
+        }
+        return yield this.redis.lrange(key,0,-1);
+    },
+    /**
+     * 获取作者发布的书籍数量
+     */
+    bookCount: function*(userId){
+        var ids = yield this.books(userId);
+        return ids.length||0;
     }
 });
