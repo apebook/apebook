@@ -7,7 +7,11 @@ var fs = require('co-fs');
 var marked = require('marked');
 var defaultConfig = {
     src: 'book-md/',
-    dest: 'book-html/'
+    dest: 'book-html/',
+    themes:{
+        apebook:'./theme/apebook',
+        blog:'./theme/blog'
+    }
 };
 var Book = module.exports = function (config) {
     var self = this;
@@ -21,7 +25,7 @@ var Book = module.exports = function (config) {
 
 Book.prototype = {
     //渲染md成html
-    render: function *() {
+    render: function *(theme) {
         var self = this;
         var user = this.user;
         var book = this.book;
@@ -35,7 +39,19 @@ Book.prototype = {
         var path = self.dest+user+'/'+book;
         yield fse.ensureDir(path);
         try{
-            var output = yield shell.exec('gitbook build '+src+' --output='+path);
+            var bookJson = yield fse.readFile(src+'book.json');
+            if(!bookJson){
+                return {'success':false,'msg':'不存在book.json'};
+            }
+            bookJson = JSON.parse(bookJson);
+            bookJson.theme = theme || this.themes['apebook'];
+            bookJson.output = path;
+            if(self.env !== 'local'){
+                bookJson.localAssetHost = bookJson.assetHost;
+            }
+            yield fse.writeFile(src+'book.json',JSON.stringify(bookJson));
+            var output = yield shell.exec('gitbook build '+src);
+            yield shell.exec('cd '+src+' && ' +'git reset --hard');
         }catch(e){
             console.log(e);
             output = '渲染失败，请检查目录格式';

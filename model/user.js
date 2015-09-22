@@ -40,7 +40,9 @@ User.prototype = _.extend({},Base, {
         var self = this;
         var redis = self.redis;
         var keyPre = self.keyPre;
-        return yield redis.hgetall(keyPre+id);
+        var user = yield redis.hgetall(keyPre+id);
+        user.avatar = yield this.avatar(user);
+        return user;
     },
     //判断用户是否已经存在
     isExist: function*(name,key){

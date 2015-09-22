@@ -61,7 +61,7 @@
                         <a href="{{bookHost}}/{{userName}}/{{uri}}/index.html" class="btn btn-info read-btn" >阅读</a>
                         {{/if}}
                         {{!设置}}
-                        {{#if(user&&user.name===userName)}}
+                        {{#if(user&&user.name===author.name)}}
                           <a  class="btn iconfont btn-default set-btn" href="/book/{{id}}/dashboard">&#xe601;</a>
                         {{/if}}
                     </div>
@@ -74,12 +74,12 @@
     <section class="summary-wrapper">
         <div class="summary-main">
           <section class="panel author-wrapper">
-            <a href="/user/{{user.id}}">
+            <a href="/user/{{author.id}}">
               <div class="f-l img-wrapper">
-                <img src="{{userAvatar}}" width="50" height="50" />
+                <img src="{{author.avatar}}" width="50" height="50" />
               </div>
               <div class="f-l">
-                <p>{{user.nick || user.name}} <span class="email">{{user.email}}</span></p>
+                <p>{{author.nick || author.name}} <span class="email">{{user.author}}</span></p>
                 <p>共发表了 <em>{{userBookCount}}</em> 本书</p>
               </div>
             </a>

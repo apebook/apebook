@@ -32,7 +32,8 @@ module.exports = function(app){
             book: book.uri,
             githubUrl:book.githubUrl,
             oss:this.oss,
-            bucket:this.config.ossBuckets.book
+            bucket:this.config.ossBuckets.book,
+            env:this.config.env
         });
         var pullResult = yield bookCtrl.pull();
         if(!pullResult.success){

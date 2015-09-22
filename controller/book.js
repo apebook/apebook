@@ -13,7 +13,7 @@ module.exports = {
         var mView = this.model.view;
         book.view = yield mView.incr(book.id,this.session);
         var mUser = this.model.user;
-        book.userAvatar = yield mUser.avatar(this.session['user']);
+        book.author = yield mUser.data(book.userId);
         book.userBookCount = yield mUser.bookCount(book.id);
         yield this.html('book-detail',book);
     },
