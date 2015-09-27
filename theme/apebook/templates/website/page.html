@@ -58,6 +58,9 @@ require(["gitbook"], function(gitbook) {
     var config = {% autoescape false %}{{ pluginsConfig }}{% endautoescape %};
     gitbook.start(config);
 });
+KISSY.use('apebook/gitbook',function(S,Gitbook){
+    Gitbook();
+});
 </script>
 {% endblock %}
 

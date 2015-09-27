@@ -13,6 +13,8 @@ module.exports = function(app){
     app.post('/api/book/cover',check.apiLogin,ctlBook.cover);
     //判断是否已经存在书籍url
     app.get('/api/book/exist',ctlBook.exist);
+    //获取数据信息
+    app.param('id',check.bookExist).get('/api/book/:id',ctlBook.getById);
 
     //同步书籍
     app.post('/api/book/sync',check.apiPostBookExist,function *(){
@@ -33,14 +35,18 @@ module.exports = function(app){
             githubUrl:book.githubUrl,
             oss:this.oss,
             bucket:this.config.ossBuckets.book,
-            env:this.config.env
+            env:this.config.env,
+            data: book,
+            apebookHost: this.config.host
         });
         var pullResult = yield bookCtrl.pull();
+        this.log(pullResult);
         if(!pullResult.success){
             this.error(pullResult);
         }else{
             //pullResult.change = true;
             //存在文件变更，渲染html
+            pullResult.change = true;
             if(pullResult.change){
                 var renderResult = yield bookCtrl.render();
                 //渲染失败

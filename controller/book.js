@@ -4,6 +4,15 @@ var parse = require('co-busboy');
 var fs = require('fs');
 var githubApi = require('../base/github-api');
 module.exports = {
+    /**
+     * 通过书籍id获取书籍
+     */
+    getById: function*(){
+        var book = this.book;
+        var mView = this.model.view;
+        book.view = yield mView.incr(book.id,this.session);
+        _.json.bind(this)(book);
+    },
     //书籍详情页面
     detail: function*(){
         var book = this.book;

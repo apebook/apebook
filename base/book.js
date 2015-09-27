@@ -39,13 +39,18 @@ Book.prototype = {
         var path = self.dest+user+'/'+book;
         yield fse.ensureDir(path);
         try{
-            var bookJson = yield fse.readFile(src+'book.json');
+            var bookJson = yield fse.readFile(src+'/book.json');
             if(!bookJson){
                 return {'success':false,'msg':'不存在book.json'};
             }
             bookJson = JSON.parse(bookJson);
             bookJson.theme = theme || this.themes['apebook'];
             bookJson.output = path;
+            var data = this.data;
+            bookJson.githubUser = data.githubUser;
+            bookJson.githubRepo = data.githubRepo;
+            bookJson.bookId = data.id;
+            bookJson.apebookHost = this.apebookHost;
             if(self.env !== 'local'){
                 bookJson.localAssetHost = bookJson.assetHost;
             }
@@ -54,11 +59,11 @@ Book.prototype = {
             yield shell.exec('cd '+src+' && ' +'git reset --hard');
         }catch(e){
             console.log(e);
-            output = '渲染失败，请检查目录格式';
+            output = '书籍渲染失败';
         }
         console.log(output);
         //build 成功
-        if(/Successfully built/.test(output)){
+        if(/Done, without error/.test(output)){
             return {'success':true};
         }else{
             return {'success':false,'msg':output};

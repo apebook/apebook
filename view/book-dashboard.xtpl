@@ -16,7 +16,7 @@
             <div class="status-wrapper">
                 <span>公开状态：<b class="J_OpenStatus">{{#if(openStatus==="open")}}公开{{else}}未公开{{/if}}</b></span>
                 {{#if(updateTime)}}
-                <span>最新更新时间：{{updateTime}}</span>
+                <span>最新更新时间：{{nearestTime(updateTime)}}</span>
                 {{/if}}
             </div>
             <div class="button-wrapper">
