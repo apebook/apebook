@@ -26,26 +26,10 @@ module.exports = {
         book.userBookCount = yield mUser.bookCount(book.id);
         yield this.html('book-detail',book);
     },
-    //选择书籍创建方式
-    selectType: function *(){
-        var data = {title:'选择创建书籍的方式',type:'select'};
-        yield this.html('new',data);
-    },
     //书籍信息填写表单
     bookForm: function *(){
-        this.log('[book.directType]');
-        var mCat = this.model.cat;
-        var data = {title:'创建一本新书',type:'direct'};
-        //获取书籍分类
-        data.cats = yield mCat.list();
-        var book = this.session.book;
-        this.log(book);
-        if(book){
-            this.log('user use github');
-            book.githubUser = book.user;
-            data.type = 'fromGithub';
-            data = _.extend(data,book);
-        }
+        this.log('[book.create]');
+        var data = {title:'创建一本新书'};
         yield this.html('new-direct',data);
     },
     //创建书籍
@@ -57,6 +41,7 @@ module.exports = {
         this.checkBody('uri', '不可以为空').notEmpty();
         this.checkBody('uri', '只能是字母、数字、-').isUri();
         this.checkBody('cat', '必须选择一个类目').notEmpty();
+        this.checkBody('lang', '必须选择一个编程语言').notEmpty();
         var mBook = this.model.book;
         var isExist = yield mBook.isExist(body.name);
         if(isExist){
@@ -233,5 +218,19 @@ module.exports = {
         var mBook = this.model.book;
         var isUriExist = yield mBook.isUriExist(uri);
         this.body = {exist:isUriExist};
+    },
+    /**
+     * 是否已经存在该书籍名
+     * @returns {boolean}
+     */
+    existName: function*(){
+        var name = this.request.query.name;
+        if(!name){
+            this.body = {exist:false};
+            return false;
+        }
+        var mBook = this.model.book;
+        var exist = yield mBook.isExist(name);
+        this.body = {exist:exist};
     }
 };

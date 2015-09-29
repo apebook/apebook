@@ -1,6 +1,6 @@
 var _ = require('../base/util');
 //加载所有的model
-var modelNames = ['user','book','cat','view'];
+var modelNames = ['user','book','view'];
 var models = {};
 modelNames.forEach(function(name){
     var Model = require('./'+name);

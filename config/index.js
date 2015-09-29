@@ -61,5 +61,8 @@ if(process.env.NODE_ENV == 'local'){
 var occupation = require('./occupation');
 config.occupations = occupation;
 var cats = require('./cat');
+//分类
 config.cats = cats;
+//编程语言
+config.langs = require('./lang');
 module.exports = config;

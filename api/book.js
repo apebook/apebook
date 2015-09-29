@@ -13,6 +13,8 @@ module.exports = function(app){
     app.post('/api/book/cover',check.apiLogin,ctlBook.cover);
     //判断是否已经存在书籍url
     app.get('/api/book/exist',ctlBook.exist);
+    //判断是否已经存在该书籍名称
+    app.get('/api/book/exist-name',ctlBook.existName);
     //获取数据信息
     app.param('id',check.bookExist).get('/api/book/:id',ctlBook.getById);
 

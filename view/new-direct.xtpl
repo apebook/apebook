@@ -3,12 +3,9 @@
     <script>KISSY.importStyle('apebook/book.css')</script>
 {{/block}}
 {{#block ("body")}}
-    <div class="dash-main">
-        {{include ("./layout/sidebar")}}
-        <section class="dash-wrapper book-wrapper">
-            {{include ('./book/title')}}
-            {{include ('./book/create-form')}}
-        </section>
-    </div>
-    <script>KISSY.use('apebook/book')</script>
+  <section class="dash-wrapper book-wrapper" style="margin: 40px auto;width:1200px;">
+    {{include ('./book/title')}}
+    {{include ('./book/create-form')}}
+  </section>
+  <script>KISSY.use('apebook/book')</script>
 {{/block}}
