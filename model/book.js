@@ -47,7 +47,14 @@ Book.prototype = _.extend({},Base,{
             //类目model
             var mCat = self.app.model.cat;
             //类目下添加此书
-            yield mCat.postBook(data.name,data.cat);
+            yield mCat.postBook(data.id,data.cat);
+        }
+        //需要设置编程语言
+        if(data.lang){
+            //类目model
+            var mLang = self.app.model.lang;
+            //类目下添加此书
+            yield mLang.postBook(data.id,data.lang);
         }
         return yield this.getById(id);
     },

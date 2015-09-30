@@ -32,6 +32,30 @@ module.exports = {
         var data = {title:'创建一本新书'};
         yield this.html('new-direct',data);
     },
+    /**
+     * 书籍设置
+     */
+    setting: function*(){
+        var data = this.book;
+        data.title = '书籍设置';
+        data.cats = this.model.cat.all();
+        data.langs = this.model.lang.all();
+
+        yield this.html('dash/book-setting',data);
+    },
+    /**
+     * 保存书籍设置
+     */
+    saveSetting: function*(){
+        var body = yield this.request.body;
+        this.log('[book.saveSetting] :');
+        this.log(body);
+
+        var mBook = this.model.book;
+        var data = yield mBook.post(body);
+
+        this.redirect('/book/'+data.id+'/setting');
+    },
     //创建书籍
     create: function *(){
         var body = yield this.request.body;

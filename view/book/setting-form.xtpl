@@ -1,0 +1,53 @@
+<form id="J_Auth" role="form" class="form-vertical book-form" method="post" action="">
+    <input type="hidden" value="{{id}}" name="id"/>
+    <div class="form-group ">
+        <label for="title" class="control-label">书籍网址 ：<a href="http://apebook.org/book/{{uri}}">http://apebook.org/book/{{uri}}</a></label>
+    </div>
+    <div class="form-group book-wrapper">
+      <div class="uploader-button-wrapper">
+        <input type="file" class="g-u" id="J_UploaderBtn" value="设置封面" name="uploader-btn"  accept="image/*" >
+        <input type="hidden" class="J_BookId" value="{{id}}"/>
+      </div>
+       <p class="uploader-suggest">建议封面尺寸 200x270</p>
+      <div id="J_UploaderQueue" class="grid">
+        <script type="text/uploader-files">
+              {{#if(cover)}}
+                  [{
+                  "name":"{{cover}}",
+                  "url": "{{cover}}"
+                  }]
+              {{else}}
+              []
+              {{/if}}
+        </script>
+      </div>
+    </div>
+    <div class="form-more">
+        <div class="form-group ">
+            <label for="description" class="control-label">选择分类  <b>*</b></label>
+            <select name="cat" class="form-control" required>
+                {{#each(cats)}}
+                    <option value="{{this}}" {{#if(this === cat)}}selected{{/if}}>{{this}}</option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+    <div class="form-more">
+        <div class="form-group ">
+          <label for="description" class="control-label">选择编程语言  <b>*</b></label>
+        <select name="lang" class="form-control" required>
+          {{#each(langs)}}
+            <option value="{{this}}" {{#if(this === lang)}}selected{{/if}}>{{this}}</option>
+          {{/each}}
+        </select>
+        </div>
+    </div>
+    <div class="form-more">
+        <!-- Description -->
+        <div class="form-group ">
+            <label for="description" class="control-label">书籍描述</label>
+            <textarea rows="4" name="desc" maxlength="220" class="form-control">{{desc}}</textarea>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-block btn-lg btn-next btn-success">设 置</button>
+</form>

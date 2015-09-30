@@ -27,25 +27,6 @@
         </div>
         <section class="row dash">
             <div class="col-md-2">
-                <div class="book-wrapper">
-                     <div id="J_UploaderQueue" class="grid">
-                        <script type="text/uploader-files">
-                            [
-                            {{#if(cover)}}
-                            {
-                            "name":"{{cover}}",
-                            "url": "{{cover}}"
-                            }
-                            {{/if}}
-                            ]
-                        </script>
-                    </div>
-                    <div class="uploader-button-wrapper">
-                        <input type="file" class="g-u" id="J_UploaderBtn" value="设置封面" name="cover"  accept="image/*" >
-                        <input type="hidden" class="J_BookId" value="{{id}}"/>
-                    </div>
-                    <p class="uploader-suggest">建议封面尺寸200x270</p>
-                </div>
             </div>
             <div class="col-md-10">
                 <div class="tiles row">

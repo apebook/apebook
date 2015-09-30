@@ -67,6 +67,8 @@ module.exports = function(app){
 
     //书籍控制台
     app.param('id',check.bookExist).get('/book/:id/dashboard',check.login,ctlBook.dashboard);
+    app.param('id',check.bookExist).get('/book/:id/setting',check.login,ctlBook.setting);
+    app.param('id',check.bookExist).post('/book/:id/setting',check.login,ctlBook.saveSetting);
     app.param('id',check.bookExist).get('/book/:id/bind-github',check.login,ctlBook.bindGithubPage);
     app.param('id',check.bookExist).get('/book/:id/save-github',check.login,ctlBook.saveGithub);
     app.param('id',check.bookExist).post('/book/:id/bind-github',check.login,ctlBook.bindGithub);

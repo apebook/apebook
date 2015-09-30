@@ -32,7 +32,7 @@
     <div class="form-more">
         <div class="form-group ">
           <label for="description" class="control-label">选择编程语言  <b>*</b></label>
-        <select name="cat" class="form-control" required>
+        <select name="lang" class="form-control" required>
           {{#each(langs)}}
             <option value="{{this}}">{{this}}</option>
           {{/each}}

@@ -1,0 +1,18 @@
+{{extend ("../layout/layout")}}
+{{#block ("head")}}
+    <script>KISSY.importStyle('apebook/dash.css')</script>
+    <script>KISSY.importStyle('apebook/setting.css')</script>
+
+{{/block}}
+{{#block ("body")}}
+    <div class="dash-main">
+        {{set(currentNav="setting")}}
+        {{set(dash=true)}}
+        {{include ("../layout/sidebar")}}
+        <section class="dash-wrapper">
+          <h3  class="section-title"><span class="iconfont">&#xe601;</span> 《{{name}}》 设置</h3>
+          {{include ("../book/setting-form")}}
+        </section>
+    </div>
+    <script>KISSY.use('apebook/book')</script>
+{{/block}}

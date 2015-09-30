@@ -7,7 +7,6 @@
         {{include ('./book/title')}}
         {{include ('./book/stepbar')}}
         {{include ('./book/github-form')}}
-
     </section>
     <script>KISSY.use('apebook/book')</script>
 {{/block}}
