@@ -11,7 +11,9 @@ var defaultConfig = {
     themes:{
         apebook:'./theme/apebook',
         blog:'./theme/blog'
-    }
+    },
+    //默认启用的插件
+    "plugins": []
 };
 var Book = module.exports = function (config) {
     var self = this;
@@ -54,9 +56,12 @@ Book.prototype = {
             if(self.env !== 'local'){
                 bookJson.localAssetHost = bookJson.assetHost;
             }
+            bookJson.plugins = this.plugins;
             yield fse.writeFile(src+'book.json',JSON.stringify(bookJson));
             var output = yield shell.exec('gitbook build '+src);
             yield shell.exec('cd '+src+' && ' +'git reset --hard');
+            //删除生成的无用的gitbook目录
+            yield shell.exec('cd '+path+' && ' +'rm -rf -r gitbook');
         }catch(e){
             console.log(e);
             output = '书籍渲染失败';

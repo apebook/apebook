@@ -12,6 +12,7 @@
             {{macro("warnTip",'还没有绑定 github 仓库，无法使用，<a href="./bind-github">立即绑定</a>')}}
         {{/if}}
         <div class="dash-header">
+            <input type="hidden" class="J_BookId" value="{{id}}"/>
             <h3><a href="/book/{{uri}}">《{{name}}》</a></h3>
             <div class="status-wrapper">
                 <span>公开状态：<b class="J_OpenStatus">{{#if(openStatus==="open")}}公开{{else}}未公开{{/if}}</b></span>
@@ -25,49 +26,30 @@
                 <span class="btn J_OpenBook {{#if(openStatus==="open")}}{{else}}btn-success{{/if}}" data-status="{{#if(openStatus==="open")}}hide{{else}}open{{/if}}" >{{#if(openStatus==="open")}}隐藏书籍{{else}}公开书籍{{/if}}</span>
             </div>
         </div>
-        <section class="row dash">
-            <div class="col-md-2">
+        <section class="history-list">
+          {{#each(historys)}}
+          <div class="event row">
+            <div class="col-md-1 event-icon-wrapper">
+              <i class="iconfont">
+                {{#if(this.event === 'github')}}
+                   &#xe60c;
+                {{elseif(this.event === 'create')}}
+                  &#xe602;
+                {{elseif(this.event === 'action')}}
+                  &#xe615;
+                {{elseif(this.event === 'success')}}
+                  &#xe606;
+                {{elseif(this.event === 'error')}}
+                  &#xe608;
+                {{/if}}
+              </i>
             </div>
-            <div class="col-md-10">
-                <div class="tiles row">
-                    <div class="col-md-3 col-sm-6">
-                        <a href="/book/minghe/koa-guide/settings/github" class="tile">
-                            <span class="big"><i class="iconfont">&#xe60b;</i></span>
-                            <span>数据</span>
-                        </a>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <a href="/book/{{id}}/bind-github" class="tile">
-                            <span class="big"><i class="iconfont">&#xe60c;</i></span>
-                            <span>GitHub绑定</span>
-                        </a>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <a href="/book/minghe/koa-guide/settings/github" class="tile">
-                            <span class="big"><i class="iconfont">&#xe60e;</i></span>
-                            <span>主题选择</span>
-                        </a>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <a href="/book/minghe/koa-guide/settings/github" class="tile">
-                            <span class="big"><i class="iconfont">&#xe601;</i></span>
-                            <span>设置</span>
-                        </a>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <a href="#" class="tile">
-                            <span class="big"><i class="iconfont">&#xe613;</i></span>
-                            <span>更新记录（未开放）</span>
-                        </a>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <a href="#" class="tile">
-                            <span class="big"><i class="iconfont">&#xe614;</i></span>
-                            <span>贡献者（未开放）</span>
-                        </a>
-                    </div>
-                </div>
+            <div class="col-md-11">
+              <p class="event-time">{{this.create}}</p>
+              <p>{{this.user}} {{this.content}}</p>
             </div>
+          </div>
+          {{/each}}
         </section>
     </section>
     </div>

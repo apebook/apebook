@@ -2,33 +2,71 @@
  * 书籍变更记录
  */
 var _ = require('../base/util');
+var events = ['create','github','public','action','success','error'];
+var Base = require('./base');
+var moment = require('moment');
+
 var History = module.exports = function(){
   this.redis = null;
   this.keyPre = 'history:';
-  this.timeKeyPre = 'history-time:';
 };
 
-History.prototype = {
+History.prototype = _.extend({},Base,{
   /**
-   * 添加统计数据
-   * @param bookId
+   * 添加历史事件
    * @returns {*}
    */
-  incr : function*(bookId,session){
+  add : function*(bookId,event,content,user){
     var self = this;
-    var db = self.redis;
+    var redis = self.redis;
     var now = _.now();
-    //已经存在访问不触发统计，防止重复记录
-    if(session && session[this.keyPre+bookId]){
-      return yield self.count(bookId);
-    }
-    yield db.incr(self.keyPre+bookId);
-    yield db.sadd(self.timeKeyPre+bookId,now);
-    session[this.keyPre+bookId] = true;
-    return yield self.count(bookId);
+    var keyPre = this.keyPre+bookId+':';
+    //demo history:1:ids
+    var id = yield self.addId(keyPre);
+    var data = {
+      id:id,
+      //事件名
+      event:event,
+      //事件内容
+      content:content,
+      //发生时间
+      create:now,
+      //用户
+      user:user
+    };
+    yield redis.hmset(keyPre+id,data);
+    return true;
   },
-  //获取某个书籍的访问量
-  count: function*(bookId){
-    return Number(yield this.redis.get(this.keyPre+bookId)) || 0;
+  /**
+   * 获取事件列表
+   */
+  list: function*(bookId,start){
+    var self = this;
+    var p = this.keyPre+bookId+':';
+    var redis = self.redis;
+    var config = {
+      //降序
+      //默认降序
+      descOrAsc : 'DESC',
+      //排序的字段
+      //默认按照创建时间
+      field: 'create',
+      //取数据时的起始索引
+      start: start || 0,
+      //默认反馈10条历史数据
+      limit: 10
+    };
+    var params = [p+'ids',config.descOrAsc];
+
+    var ids = yield redis.sort(params);
+    var events = [];
+    for(var i=0;i<ids.length;i++){
+      var event = yield redis.hgetall(p+ids[i]);
+      if(event){
+        event.create = moment(event.create).fromNow();
+        events.push(event);
+      }
+    }
+    return events;
   }
-};
+});
