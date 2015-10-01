@@ -4,9 +4,7 @@
         <li {{#if(currentNav==="github")}} class="current" {{/if}}><a href="/book/{{id}}/bind-github"><span class="iconfont">&#xe60c;</span> <span>GitHub绑定</span></a></li>
         <li {{#if(currentNav==="setting")}} class="current" {{/if}}><a href="/book/{{id}}/setting"><span class="iconfont">&#xe601;</span> <span>书籍设置</span></a></li>
         <li><a href="/setting"><span class="iconfont">&#xe60b;</span> <span>数据</span></a></li>
-        <li><a href="/setting"><span class="iconfont">&#xe613;</span> <span>更新记录（未开放）</span></a></li>
         <li><a href="/setting"><span class="iconfont">&#xe614;</span> <span>贡献者（未开放）</span></a></li>
-        <li><a href="/setting"><span class="iconfont">&#xe60e;</span> <span>主题选择（未开放）</span></a></li>
         <li><a href="/books"><span class="iconfont">&#xe604;</span> <span>返回我的书籍</span></a></li>
     </ul>
 </section>

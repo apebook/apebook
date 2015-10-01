@@ -14,24 +14,31 @@
         <div class="dash-header">
             <input type="hidden" class="J_BookId" value="{{id}}"/>
             <h3><a href="/book/{{uri}}">《{{name}}》</a></h3>
-            <div class="status-wrapper">
-                <span>公开状态：<b class="J_OpenStatus">{{#if(openStatus==="open")}}公开{{else}}未公开{{/if}}</b></span>
-                {{#if(updateTime)}}
-                <span>最新更新时间：{{nearestTime(updateTime)}}</span>
-                {{/if}}
-            </div>
+            {{#if(updateTime)}}
+            <p>
+              <label>最近更新时间：</label>
+              <span>{{nearestTime(updateTime)}}</span>
+            </p>
+            {{/if}}
+            {{#if(githubUrl)}}
+            <p>
+              <label>github 仓库：</label>
+              <span><a href="{{githubUrl}}" target="_blank">{{githubUrl}}</a></span>
+            </p>
+            {{/if}}
             <div class="button-wrapper">
-                <a class="btn btn-info" href="/book/{{uri}}" >查看书籍</a>
+                {{#if(githubUrl)}}
                 <span class="btn btn-info J_UpdateBook" >更新书籍</span>
-                <span class="btn J_OpenBook {{#if(openStatus==="open")}}{{else}}btn-success{{/if}}" data-status="{{#if(openStatus==="open")}}hide{{else}}open{{/if}}" >{{#if(openStatus==="open")}}隐藏书籍{{else}}公开书籍{{/if}}</span>
+                {{/if}}
+                <span class="btn btn-default J_OpenBook {{#if(openStatus==="open")}}{{else}}btn-success{{/if}}" data-status="{{#if(openStatus==="open")}}hide{{else}}open{{/if}}" >{{#if(openStatus==="open")}}隐藏书籍{{else}}公开书籍{{/if}}</span>
             </div>
         </div>
+        <div class="panel">
+          <div class="J_HistoryWrapper" data-api="/api/book/history?id={{id}}">
 
-        <div class="J_HistoryWrapper" data-api="/api/book/history?id={{id}}">
-
+          </div>
+          <a class="history-more J_HistoryMore" href="#">查看更多</a>
         </div>
-        <a class="history-more J_HistoryMore" href="#">查看更多</a>
-
     </section>
     </div>
 
