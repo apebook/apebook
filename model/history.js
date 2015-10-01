@@ -40,7 +40,7 @@ History.prototype = _.extend({},Base,{
   /**
    * 获取事件列表
    */
-  list: function*(bookId,start){
+  list: function*(bookId,start,limit){
     var self = this;
     var p = this.keyPre+bookId+':';
     var redis = self.redis;
@@ -54,9 +54,11 @@ History.prototype = _.extend({},Base,{
       //取数据时的起始索引
       start: start || 0,
       //默认反馈10条历史数据
-      limit: 10
+      limit: limit || 10
     };
     var params = [p+'ids',config.descOrAsc];
+    params.push('BY',p+'*->'+config.field);
+    params.push('LIMIT',config.start,config.limit);
 
     var ids = yield redis.sort(params);
     var events = [];
@@ -64,8 +66,8 @@ History.prototype = _.extend({},Base,{
       var event = yield redis.hgetall(p+ids[i]);
       if(event){
         event.create = moment(event.create).fromNow();
-        events.push(event);
       }
+      events.push(event);
     }
     return events;
   }

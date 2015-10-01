@@ -26,31 +26,12 @@
                 <span class="btn J_OpenBook {{#if(openStatus==="open")}}{{else}}btn-success{{/if}}" data-status="{{#if(openStatus==="open")}}hide{{else}}open{{/if}}" >{{#if(openStatus==="open")}}隐藏书籍{{else}}公开书籍{{/if}}</span>
             </div>
         </div>
-        <section class="history-list">
-          {{#each(historys)}}
-          <div class="event row">
-            <div class="col-md-1 event-icon-wrapper">
-              <i class="iconfont">
-                {{#if(this.event === 'github')}}
-                   &#xe60c;
-                {{elseif(this.event === 'create')}}
-                  &#xe602;
-                {{elseif(this.event === 'action')}}
-                  &#xe615;
-                {{elseif(this.event === 'success')}}
-                  &#xe606;
-                {{elseif(this.event === 'error')}}
-                  &#xe608;
-                {{/if}}
-              </i>
-            </div>
-            <div class="col-md-11">
-              <p class="event-time">{{this.create}}</p>
-              <p>{{this.user}} {{this.content}}</p>
-            </div>
-          </div>
-          {{/each}}
-        </section>
+
+        <div class="J_HistoryWrapper" data-api="/api/book/history?id={{id}}">
+
+        </div>
+        <a class="history-more J_HistoryMore" href="#">查看更多</a>
+
     </section>
     </div>
 

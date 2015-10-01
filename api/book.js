@@ -3,6 +3,7 @@ var _ = require('../base/util');
 var BookCtrl = require('../base/book');
 var ctlBook = require('../controller/book');
 var check = require('../base/check-middleware');
+var ctlHistory = require('../controller/history');
 module.exports = function(app){
     //更新书籍信息
     app.post('/api/book/post',check.apiLogin,check.apiPostBookExist,ctlBook.post);
@@ -13,6 +14,8 @@ module.exports = function(app){
     app.get('/api/book/exist',ctlBook.exist);
     //判断是否已经存在该书籍名称
     app.get('/api/book/exist-name',ctlBook.existName);
+    //书籍的变更记录
+    app.get('/api/book/history',ctlHistory.list);
     //获取数据信息
     app.param('id',check.bookExist).get('/api/book/:id',ctlBook.getById);
 

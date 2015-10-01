@@ -108,9 +108,6 @@ module.exports = {
         data.currentNav = 'index';
         this.log('book data :');
         this.log(data);
-        var mHistory = this.model.history;
-        data.historys = yield mHistory.list(data.id,0);
-        this.log(data.historys);
         yield this.html('book-dashboard',data);
     },
     //书籍主题
