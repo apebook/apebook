@@ -125,5 +125,50 @@ Book.prototype = _.extend({},Base,{
             yield redis.set(key,value);
             return yield redis.get(key);
         }
+    },
+    /**
+     * 最近更新的书籍
+     * @param id
+     */
+    nearestUpdate: function*(id){
+        var p = this.keyPre;
+        var redis = this.redis;
+        var k = 'book:nearest';
+        if(id){
+            return yield redis.lpush(k,id);
+        }
+        var ids = yield redis.lrange(k,0,15);
+        var books = [];
+        for(var i=0;i<ids.length;i++){
+            var book = yield redis.hgetall(p+ids[i]);
+            books.push(book);
+        }
+        //永远只存储 100 条数据
+        var len = yield redis.llen(k);
+        if(len >= 100){
+            yield redis.rpop(k);
+        }
+        return books;
+    },
+    /**
+     * 书籍同步中锁定更新
+     */
+    lock: function*(id){
+        var redis = this.redis;
+        var key = 'book:lcock:'+id;
+        if(id){
+            yield redis.set(key,true);
+            //5分钟自动删除
+            yield redis.expire(key,300);
+        }
+        return yield redis.get(key)
+    },
+    /**
+     * 解除更新锁定
+     * @param id
+     */
+    cleanLock: function*(id){
+        var key = 'book:lcock:'+id;
+        return yield redis.del(key)
     }
 });

@@ -320,9 +320,9 @@ module.exports = {
                 if(!renderResult.success){
                     this.error(renderResult);
                     pullResult =  renderResult;
-
                     yield mHistory.add(book.id,'error','gitbook渲染失败，请检查 md 文件',userName);
                 }else{
+                    yield mHistory.add(book.id,'success','使用 gitbook 渲染成功',userName);
                     //渲染成功后，将文件上传到oss
                     // var renderResult = yield bookCtrl.render(book.userName,book.uri);
                     var result = yield bookCtrl.pushOss();
@@ -335,8 +335,8 @@ module.exports = {
                     var summaryHtml = yield bookCtrl.summary();
                     yield mBook.readMe(id,readeMeHtml);
                     yield mBook.summary(id,summaryHtml);
-
-                    yield mHistory.add(book.id,'success','书籍同步渲染成功',userName);
+                    yield mBook.nearestUpdate(id);
+                    yield mHistory.add(book.id,'success','书籍成功同步到 cdn',userName);
                 }
             }
         }

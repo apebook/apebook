@@ -28,7 +28,7 @@
             {{/if}}
             <div class="button-wrapper">
                 {{#if(githubUrl)}}
-                <span class="btn btn-info J_UpdateBook" >更新书籍</span>
+                <span class="btn btn-info J_UpdateBook" >更新书籍内容</span>
                 {{/if}}
                 <span class="btn btn-default J_OpenBook {{#if(openStatus==="open")}}{{else}}btn-success{{/if}}" data-status="{{#if(openStatus==="open")}}hide{{else}}open{{/if}}" >{{#if(openStatus==="open")}}隐藏书籍{{else}}公开书籍{{/if}}</span>
             </div>

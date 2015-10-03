@@ -2,8 +2,8 @@
 <section class="register-pannel">
 
     <div class="words">
-        <h1>中国程序员的云端图书馆</h1>
-        <h4>markdown编写 · github版本控制 · 兼容gitbook · 发布&分享</h4>
+        <h1>程序员的图书云端托管</h1>
+        <h4>markdown编写 · github版本控制 · gitbook渲染 · 云端存储</h4>
     </div>
 
     <form role="form" class="form-inline register-form J_Register" method="post" action="/join">
@@ -22,88 +22,34 @@
 
         <button type="submit" class="btn btn-success btn-lg btn-full">马上开始体验</button>
     </form>
-
 </section>
-
-<section class="wrapper">
-    <h3><span class="iconfont">&#xe604;</span> 好书推荐</h3>
-    <ul class="book-list">
-        <li class="book-wrapper">
-            <figure class="book">
-
-                <!-- Front -->
-
-                <ul class="hardcover_front">
-                    <li>
-                        <img src="http://tympanus.net/Development/AnimatedBooks/img/cover.jpg" alt="" width="100%" height="100%">
-                    </li>
-                    <li></li>
-                </ul>
-
-                <!-- Pages -->
-
-                <ul class="page">
-                    <li></li>
-                    <li class="book-desc">
-                        <h4>javascript权威指南</h4>
-                        <span>作者：明河</span>
-                        <p>javascript的入门书籍，这是测试测试。</p>
-                    </li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ul>
-
-                <!-- Back -->
-
-                <ul class="hardcover_back">
-                    <li></li>
-                    <li></li>
-                </ul>
-                <ul class="book_spine">
-                    <li></li>
-                    <li></li>
-                </ul>
-            </figure>
-        </li>
-        <li class="book-wrapper">
-            <figure class="book">
-
-                <!-- Front -->
-
-                <ul class="hardcover_front">
-                    <li>
-                        <img src="http://tympanus.net/Development/AnimatedBooks/img/cover.jpg" alt="" width="100%" height="100%">
-                    </li>
-                    <li></li>
-                </ul>
-
-                <!-- Pages -->
-
-                <ul class="page">
-                    <li></li>
-                    <li class="book-desc">
-                        <h4>javascript权威指南</h4>
-                        <span>作者：明河</span>
-                        <p>javascript的入门书籍，这是测试测试。</p>
-                    </li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ul>
-
-                <!-- Back -->
-
-                <ul class="hardcover_back">
-                    <li></li>
-                    <li></li>
-                </ul>
-                <ul class="book_spine">
-                    <li></li>
-                    <li></li>
-                </ul>
-            </figure>
-        </li>
-    </ul>
+<section class="introduce-wrapper white-wrapper">
+  <div class="row">
+    <div class="col-md-6">
+      <h3>最好的图书编写体验</h3>
+      <p>基于广受欢迎的 <b>gitbook</b> 工具，作者只需专注于 <b>markdown</b> 章节的编写，使用 <b>github</b> 追踪图书更新与多人协作。</p>
+      <p>使用 apebook 的免费托管服务，自动渲染，快速且稳定。</p>
+      <blockquote>
+        <p><i class="iconfont">&#xe61f;</i> markdown + github 图书编撰方式，对于程序员真心安逸方便，满满的成就感。</p>
+        <cite> — 明河（淘宝前端工程师）</cite>
+      </blockquote>
+      <a href="" class="btn btn-success">了解如何编写图书</a>
+    </div>
+    <div class="col-md-6">
+      <img src="//a.apebook.org/flow.png"/>
+    </div>
+  </div>
 </section>
-
+<section class="introduce-wrapper">
+  <div class="row">
+    <div class="col-md-6">
+      <img src="//a.apebook.org/dash.jpg"/>
+    </div>
+    <div class="col-md-6">
+      <h3>最好的程序员图书免费托管服务</h3>
+      <p>apebook 提供了 gitbook.com 类似的云端托管能力，apebook上的图书访问速度远超过 gitbook.com，apebook 只专注于程序员相关的图书。</p>
+      <p>将图书 github 仓库绑定到 apebook，就可以使用 apebook 的云端渲染，无需本地每次更新后执行 gitbook build，apebook 在 github 仓库更新后会自动渲染，并推送到阿里云 cdn。</p>
+    </div>
+  </div>
+</section>
+{{include("./groom")}}
