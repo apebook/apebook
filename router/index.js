@@ -7,6 +7,7 @@ var _ = require('../base/util');
 module.exports = function(app){
     //首页
     app.get('/',ctlIndex.index);
+    app.get('/library',ctlIndex.library);
 
     book(app);
     user(app);

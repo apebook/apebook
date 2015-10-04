@@ -47,7 +47,61 @@ module.exports = {
     field: function*(id,field){
         var self = this;
         var redis = self.redis;
-        var data = yield redis.hmget(self.keyPre+id,field)
+        var data = yield redis.hmget(self.keyPre+id,field);
         return data[0];
+    },
+    /**
+     * 带有缓存的数据
+     * @param key
+     * @param action
+     * @param params
+     * @param min
+     */
+    data: function*(config){
+        var key = config.key;
+        var action = config.action;
+        var params = config.params;
+        //默认缓存5分钟
+        var min = config.min || 5;
+        //过滤器
+        var filter = config.filter;
+
+        var keyPre = 'cache:';
+        var k = keyPre+key;
+        var redis = this.redis;
+        var data = yield redis.get(k);
+        if(data){
+            return JSON.parse(data).data;
+        }
+        data = yield action.apply(this,params);
+
+        if(data){
+            if(filter){
+                data = filter.call(this,data);
+            }
+            var strData = JSON.stringify({data:data});
+            yield this.redis.set(k,strData);
+            yield this.redis.expire(k,min * 60);
+        }
+        return data;
+    },
+    /**
+     * 缓存
+     * @param key
+     * @param data
+     * @param min
+     */
+    cache: function*(key,data,min){
+        var keyPre = 'cache:';
+        if(data){
+            if(_.isObject(data)){
+                data = JSON.stringify(data);
+            }
+            var k = keyPre+key;
+            yield this.redis.set(k,data);
+            //默认缓存5分钟
+            yield this.redis.expire(k,(min * 60) || (5 * 60));
+        }
+        return yield this.redis.get(keyPre+key);
     }
 };

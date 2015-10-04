@@ -12,7 +12,7 @@ View.prototype = {
      * @param bookId
      * @returns {*}
      */
-    incr : function*(bookId,session){
+    incr : function*(bookId,session,mBook){
         var self = this;
         var db = self.redis;
         var now = _.now();
@@ -23,7 +23,9 @@ View.prototype = {
         yield db.incr(self.keyPre+bookId);
         yield db.sadd(self.timeKeyPre+bookId,now);
         session[this.keyPre+bookId] = true;
-        return yield self.count(bookId);
+        var count = yield self.count(bookId);
+        yield mBook.post({id:bookId,view:count});
+        return count;
     },
     //获取某个书籍的访问量
     count: function*(bookId){

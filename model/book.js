@@ -94,13 +94,15 @@ Book.prototype = _.extend({},Base,{
         var books = [];
         for(var i=0;i<ids.length;i++){
             var book = yield redis.hgetall(p+ids[i]);
-            books.push(book);
+            if(book.openStatus === 'open'){
+                books.push(book);
+            }
         }
         return books;
     },
     //通过字段过滤出书籍列表
-    list: function*(value,key){
-        var books = yield this.all();
+    list: function*(value,key,config){
+        var books = yield this.all(config);
         return _.filter(books,function(book){
             return book[key] === value;
         })
@@ -149,6 +151,30 @@ Book.prototype = _.extend({},Base,{
             yield redis.rpop(k);
         }
         return books;
+    },
+    /**
+     * 最新更新的书籍
+     */
+    newUpdateList: function*(start,limit){
+        //获取最新更新的数据列表
+        var books = yield this.data({
+            key : 'book:new-update-list',
+            action: this.all,
+            params: [{start:0,field:'updateTime'}]
+        });
+
+        return books.slice(start||0,limit||10);
+    },
+    /**
+     * 最受欢迎的书籍
+     */
+    welcomeList: function*(start,limit){
+        var books = yield this.data({
+            key : 'book:welcome-list',
+            action: this.all,
+            params: [{start:0,field:'view'}]
+        });
+        return books.slice(start||0,limit||10);
     },
     /**
      * 书籍同步中锁定更新

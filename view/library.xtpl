@@ -1,0 +1,47 @@
+{{extend ("./layout/layout")}}
+
+{{#block ("head")}}
+    <script>KISSY.importStyle('apebook/library-min.css')</script>
+{{/block}}
+
+{{#block ("body")}}
+<section class="lib-header">
+  <nav class="nav-wrapper">
+    <div class="nav-mask"></div>
+    <ul>
+    {{#each(langs)}}
+      {{#if(this !== '无')}}
+      <li><a href="">{{this}}</a></li>
+      {{/if}}
+    {{/each}}
+    </ul>
+  </nav>
+</section>
+<section class="wrapper books-wrapper">
+  <h3>
+    最近更新的图书
+  </h3>
+  <span class="see-all">
+      <a href="/book/nearest">
+        所有图书
+        <i class="iconfont">&#xe61e;</i>
+      </a>
+  </span>
+  <div class="row">
+    {{#each(nearestBooks)}}
+      {{include('./layout/book')}}
+    {{/each}}
+  </div>
+</section>
+<section class="wrapper books-wrapper">
+    <h3>
+      最受欢迎的图书
+    </h3>
+  <div class="row">
+  {{#each(welcomeBooks)}}
+    {{include('./layout/book')}}
+  {{/each}}
+</div>
+</section>
+<script>KISSY.use('apebook/library')</script>
+{{/block}}
