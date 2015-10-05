@@ -3,7 +3,8 @@ var ctlUser = require('../controller/user');
 var check = require('../base/check-middleware');
 //用户相关的路由
 module.exports = function(app) {
-    var mUser = app.model.user;
+    app.get('/user/:name',ctlUser.detail);
+    app.get('/join',ctlUser.join);
 
     //用户注册
     app.get('/join',ctlUser.join);

@@ -23,7 +23,7 @@ module.exports = {
         var mView = this.model.view;
         book.view = yield mView.incr(book.id,this.session,mBook);
         var mUser = this.model.user;
-        book.author = yield mUser.data(book.userId);
+        book.author = yield mUser.getByName(book.userName);
         book.userBookCount = yield mUser.bookCount(book.id);
         yield this.html('book-detail',book);
     },

@@ -185,9 +185,7 @@ Book.prototype = _.extend({},Base,{
         });
         return books.slice(start||0,limit||10);
     },
-    lang: function*(){
 
-    },
     /**
      * 书籍同步中锁定更新
      */

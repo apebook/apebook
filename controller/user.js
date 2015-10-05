@@ -4,6 +4,26 @@ var _ = require('../base/util');
 var parse = require('co-busboy');
 
 module.exports = {
+    /**
+     * 用户详情
+     */
+    detail: function*(){
+        var name = this.params.name;
+        this.title = '@'+name+' apebook';
+
+        var mUser = this.model.user;
+        var isExist = yield mUser.isExist(name);
+        if(!isExist){
+
+        }
+        var data = {};
+        data.isExist = isExist;
+        data.author = yield mUser.getByName(name);
+        var id = data.author.id;
+        data.books = yield mUser.books(id);
+        data.bookCount = yield mUser.bookCount(id);
+        yield this.html('user-detail',data);
+    },
     //用户注册
     join: function *(){
         this.title = 'apebook 用户注册';
@@ -59,7 +79,7 @@ module.exports = {
         }
         var isError = _.authError.bind(this)('/login',body);
         if(!isError){
-            this.session.user = yield mUser.data(id);
+            this.session.user = yield mUser.getByName(body.name);
             //重定向
             this.redirect(body.redirect_url || '/');
         }
@@ -69,8 +89,7 @@ module.exports = {
         this.title = 'apebook 用户设置';
         var mUser = this.model.user;
         var user = this.session.user;
-        var id = yield mUser.id('name',user.name);
-        var data = yield mUser.data(id);
+        var data = yield mUser.getByName(user.name);
         data.nav = 'setting';
         yield this.html('user/setting',data);
     },
@@ -145,7 +164,7 @@ module.exports = {
     github: function*(){
         var user = this.session['user'];
         var mUser = this.model.user;
-        var data = yield mUser.data(user.id);
+        var data = yield mUser.getByName(user.name);
         data.githubUser = yield mUser.github(user.id);
         data.nav = 'github';
         yield this.html('user/github',data);
@@ -158,7 +177,7 @@ module.exports = {
             var mUser = this.model.user;
             var user = this.session['user'];
             yield mUser.github(user.id,githubUser);
-            this.session.user = yield mUser.data(user.id);
+            this.session.user = yield mUser.getByName(user.name);
         }
         this.redirect('/github');
     }

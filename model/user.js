@@ -11,6 +11,29 @@ var User = module.exports = function(){
 };
 
 User.prototype = _.extend({},Base, {
+    /**
+     * 通过用户名来获取用户
+     * @param name
+     */
+    getByName: function*(name){
+        var self = this;
+        var redis = self.redis;
+        var keyPre = self.keyPre;
+        var id = yield self.id('name',name);
+        var user = yield redis.hgetall(keyPre+id);
+        //存在github账号绑定
+        if(user.bindGithub==='true'){
+            user.github = yield this.github(user.id);
+        }
+        var avatar = user.avatar;
+        if(!avatar && user.github.avatar_url){
+            user.avatar = user.github.avatar_url;
+        }
+        if(!user.avatar){
+            user.avatar = '//a.apebook.org/avatar/default-avatar.png';
+        }
+        return user;
+    },
     //添加/修改一个用户
     //demo data
     post: function *(data){
@@ -34,15 +57,6 @@ User.prototype = _.extend({},Base, {
 
         yield redis.hmset(keyPre+id,data);
         return yield this.data(id);
-    },
-    //获取用户数据
-    data: function*(id){
-        var self = this;
-        var redis = self.redis;
-        var keyPre = self.keyPre;
-        var user = yield redis.hgetall(keyPre+id);
-        user.avatar = yield this.avatar(user);
-        return user;
     },
     //判断用户是否已经存在
     isExist: function*(name,key){
@@ -93,15 +107,28 @@ User.prototype = _.extend({},Base, {
     books: function*(userId,bookId){
         var key = this.keyPre+userId+':books';
         if(bookId){
-            yield this.redis.rpush(key,bookId);
+            return yield this.redis.rpush(key,bookId);
         }
-        return yield this.redis.lrange(key,0,-1);
+
+        var mBook = this.model.book;
+        var books = yield this.data({
+            key : key,
+            action: this._list,
+            params: [{key:key,keyPre:mBook.keyPre,start:0,field:'create'}]
+        });
+        return books;
+    },
+    _list: function*(config){
+        var ids = yield this.sort(config);
+        var mBook = this.model.book;
+        return yield mBook.getListByIds(ids);
     },
     /**
      * 获取作者发布的书籍数量
      */
     bookCount: function*(userId){
-        var ids = yield this.books(userId);
+        var key = this.keyPre+userId+':books';
+        var ids = yield this.redis.lrange(key,0,-1);
         return ids.length||0;
     }
 });

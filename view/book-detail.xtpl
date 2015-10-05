@@ -29,8 +29,8 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <dl>
-                                    <dt>类目</dt>
-                                    <dd><a href="">{{cat}}</a></dd>
+                                    <dt>编程语言</dt>
+                                    <dd><a href="/lang/{{lang}}">{{lang}}</a></dd>
                                 </dl>
                             </div>
                             <div class="col-md-2">
@@ -74,7 +74,7 @@
     <section class="summary-wrapper">
         <div class="summary-main">
           <section class="panel author-wrapper">
-            <a href="/user/{{author.id}}">
+            <a href="/user/{{author.name}}">
               <div class="f-l img-wrapper">
                 <img src="{{author.avatar}}" width="50" height="50" />
               </div>

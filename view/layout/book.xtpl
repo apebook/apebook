@@ -8,7 +8,7 @@
     <div class="book-infos">
       <h4><a href="/book/{{uri}}">《{{name}}》</a></h4>
       <p class="description">{{desc||description}}</p>
-      <p class="info-meta"><i class="iconfont">&#xe621;</i> <a href="/user/{{userId}}">{{userName}}</a></p>
+      <p class="info-meta"><i class="iconfont">&#xe621;</i> <a href="/user/{{userName}}">{{userName}}</a></p>
       <p class="info-meta"><i class="iconfont">&#xe620;</i> {{nearestTime(updateTime)}}</p>
       <p class="info-meta"><i class="iconfont">&#xe61b;</i> {{view||0}}</p>
     </div>
