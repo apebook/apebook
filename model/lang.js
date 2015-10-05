@@ -3,14 +3,23 @@
  */
 var langs = require('../config/lang');
 var _ = require('../base/util');
+var Base = require('./base');
+
 var Lang = module.exports = function(){
   this.redis = null;
   this.keyPre = 'lang:';
 };
 
-Lang.prototype = {
+Lang.prototype = _.extend({},Base,{
   all: function(){
     return langs;
+  },
+  /**
+   * 是否是合法类目
+   */
+  isIn:function(lang){
+    var langs = this.all();
+    return langs.indexOf(lang) > -1;
   },
   //给指定类目添加一本书
   postBook: function *(bookId,lang){
@@ -37,5 +46,26 @@ Lang.prototype = {
       }
     }
     return bookId;
+  },
+  /**
+   * 图书列表
+   */
+  books: function*(lang,start,limit){
+    var keyPre = this.keyPre;
+    var mBook = this.model.book;
+    var books = yield this.data({
+      key : 'lang:books',
+      action: this._list,
+      params: [{key:keyPre+lang,keyPre:mBook.keyPre,start:0,field:'create'}]
+    });
+    if(limit){
+      return books.slice(start||0,limit||10);
+    }
+    return books;
+  },
+  _list: function*(config){
+    var ids = yield this.sort(config);
+    var mBook = this.model.book;
+    return yield mBook.getListByIds(ids);
   }
-};
+});

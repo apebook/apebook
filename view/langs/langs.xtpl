@@ -1,0 +1,10 @@
+<nav class="nav-wrapper">
+  <div class="nav-mask"></div>
+<ul>
+{{#each(langs)}}
+{{#if(this !== '无')}}
+  <li><a href="/lang/{{this}}" {{#if(lang===this)}}class="current"{{/if}}>{{this}}</a></li>
+{{/if}}
+{{/each}}
+</ul>
+</nav>

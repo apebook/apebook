@@ -8,6 +8,7 @@ module.exports = function(app){
     //首页
     app.get('/',ctlIndex.index);
     app.get('/library',ctlIndex.library);
+    app.get('/lang/:lang',ctlIndex.lang);
 
     book(app);
     user(app);

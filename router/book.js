@@ -5,8 +5,6 @@ var check = require('../base/check-middleware');
 var ctlBook = require('../controller/book');
 //书籍相关的路由
 module.exports = function(app){
-    var mCat = app.model.cat;
-    var config = app.config;
     //选择创建书籍的方式
     //app.get('/new',check.login,ctlBook.selectType);
     //关联github

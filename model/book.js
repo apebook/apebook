@@ -71,7 +71,7 @@ Book.prototype = _.extend({},Base,{
     //获取所有书籍列表
     all: function*(config){
         var self = this;
-        var p = this.keyPre;
+        var p = self.keyPre;
         var redis = self.redis;
         var defaultConfig = {
             //降序
@@ -91,6 +91,15 @@ Book.prototype = _.extend({},Base,{
             params.push('LIMIT',config.start,config.limit);
         }
         var ids = yield redis.sort(params);
+        return yield this.getListByIds(ids);
+    },
+    /**
+     * 通过id获取图书列表
+     */
+    getListByIds: function*(ids){
+        var self = this;
+        var p = self.keyPre;
+        var redis = self.redis;
         var books = [];
         for(var i=0;i<ids.length;i++){
             var book = yield redis.hgetall(p+ids[i]);
@@ -175,6 +184,9 @@ Book.prototype = _.extend({},Base,{
             params: [{start:0,field:'view'}]
         });
         return books.slice(start||0,limit||10);
+    },
+    lang: function*(){
+
     },
     /**
      * 书籍同步中锁定更新

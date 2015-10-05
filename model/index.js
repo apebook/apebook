@@ -11,6 +11,7 @@ module.exports = function(app){
     _.each(models,function(model){
         model.redis = app.redis;
         model.app = app;
+        model.model = models;
     });
     //将model挂载在app上，供router使用
     app.model = models;

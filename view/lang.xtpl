@@ -9,30 +9,15 @@
   {{include('./langs/langs')}}
 </section>
 <section class="wrapper books-wrapper">
-  <h3>
-    最近更新的图书
-  </h3>
-  <span class="see-all">
-      <a href="/book/nearest">
-        所有图书
-        <i class="iconfont">&#xe61e;</i>
-      </a>
-  </span>
+  {{#if(books.length)}}
   <div class="row">
-    {{#each(nearestBooks)}}
+    {{#each(books)}}
       {{include('./layout/book')}}
     {{/each}}
   </div>
-</section>
-<section class="wrapper books-wrapper">
-    <h3>
-      最受欢迎的图书
-    </h3>
-  <div class="row">
-  {{#each(welcomeBooks)}}
-    {{include('./layout/book')}}
-  {{/each}}
-</div>
+  {{else}}
+  <h4><i class="iconfont">&#xe60a;</i> {{lang}} 下暂时没有任何的图书</h4>
+  {{/if}}
 </section>
 <script>KISSY.use('apebook/library')</script>
 {{/block}}

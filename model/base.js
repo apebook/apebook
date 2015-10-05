@@ -52,10 +52,6 @@ module.exports = {
     },
     /**
      * 带有缓存的数据
-     * @param key
-     * @param action
-     * @param params
-     * @param min
      */
     data: function*(config){
         var key = config.key;
@@ -84,6 +80,33 @@ module.exports = {
             yield this.redis.expire(k,min * 60);
         }
         return data;
+    },
+    /**
+     * 排序获取列表
+     */
+    sort: function*(config){
+        var self = this;
+        var p = config.keyPre || this.keyPre;
+        var key = config.key || p+'ids';
+        var redis = self.redis;
+        var defaultConfig = {
+            //降序
+            //默认降序
+            descOrAsc : 'DESC',
+            //排序的字段
+            //默认按照创建时间
+            field: 'create',
+            //取数据时的起始索引
+            start: 0
+        };
+        config = _.extend({},defaultConfig,config);
+        var params = [key,config.descOrAsc];
+        params.push('BY',p+'*->'+config.field);
+        //是否限制返回的数据个数
+        if(config.limit){
+            params.push('LIMIT',config.start,config.limit);
+        }
+        return yield redis.sort(params);
     },
     /**
      * 缓存

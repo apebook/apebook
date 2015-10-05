@@ -26,5 +26,21 @@ module.exports = {
         data.langs = mLang.all();
         data.welcomeBooks = yield mBook.welcomeList();
         yield this.html('library',data);
+    },
+    /**
+     * 获取语言下图书
+     */
+    lang: function*(){
+        var mLang = this.model.lang;
+        var lang = this.params.lang;
+        var data = {};
+        data.langs = mLang.all();
+        data.lang = lang;
+        if(!lang || !mLang.isIn(lang)){
+            data.books = [];
+        }else{
+            data.books = yield mLang.books(lang);
+        }
+        yield this.html('lang',data);
     }
 };
