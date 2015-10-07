@@ -4,6 +4,6 @@
 {{/block}}
 {{#block ("body")}}
     <section class="wrapper  error-wrapper">
-        <h2>{{this.msg}}</h2>
+        <h2><i class="iconfont">&#xe60a;</i> {{this.msg}}</h2>
     </section>
 {{/block}}

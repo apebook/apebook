@@ -6,10 +6,10 @@ var check = require('../base/check-middleware');
 var ctlHistory = require('../controller/history');
 module.exports = function(app){
     //更新书籍信息
-    app.post('/api/book/post',check.apiLogin,check.apiPostBookExist,ctlBook.post);
+    app.post('/api/book/post',check.apiLogin,check.apiPostBookExist,check.isYourBook,ctlBook.post);
 
     //书籍封面
-    app.post('/api/book/cover',check.apiLogin,ctlBook.cover);
+    app.post('/api/book/cover',check.apiLogin,check.isYourBook,ctlBook.cover);
     //判断是否已经存在书籍url
     app.get('/api/book/exist',ctlBook.exist);
     //判断是否已经存在该书籍名称
@@ -20,7 +20,5 @@ module.exports = function(app){
     app.param('id',check.bookExist).get('/api/book/:id',ctlBook.getById);
 
     //同步书籍
-    app.post('/api/book/sync',check.apiPostBookExist,ctlBook.sync);
-
-
+    app.post('/api/book/sync',check.apiPostBookExist,check.isYourBook,ctlBook.sync);
 };

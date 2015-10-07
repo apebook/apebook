@@ -5,6 +5,25 @@ var check = require('../base/check-middleware');
 var ctlBook = require('../controller/book');
 //书籍相关的路由
 module.exports = function(app){
+    //创建书籍表单页面
+    app.get('/new',check.login,ctlBook.bookForm);
+    //书籍详情
+    app.param('uri',check.uriExist).get('/book/:uri',ctlBook.detail);
+
+    //书籍控制台
+    app.param('id',check.bookExist).get('/book/:id/dashboard',check.login,check.isYourBook,ctlBook.dashboard);
+    app.param('id',check.bookExist).get('/book/:id/setting',check.login,check.isYourBook,ctlBook.setting);
+    app.param('id',check.bookExist).post('/book/:id/setting',check.login,check.isYourBook,ctlBook.saveSetting);
+    app.param('id',check.bookExist).get('/book/:id/bind-github',check.login,check.isYourBook,ctlBook.bindGithubPage);
+    app.param('id',check.bookExist).get('/book/:id/save-github',check.login,check.isYourBook,ctlBook.saveGithub);
+    app.param('id',check.bookExist).post('/book/:id/bind-github',check.login,check.isYourBook,ctlBook.bindGithub);
+
+    //创建书籍
+    app.post('/new',check.login,ctlBook.create);
+
+    ////书籍主题
+    //app.param('id',check.bookExist).get('/book/:id/theme',check.login,ctlBook.theme);
+
     //选择创建书籍的方式
     //app.get('/new',check.login,ctlBook.selectType);
     //关联github
@@ -58,22 +77,4 @@ module.exports = function(app){
     //        this.redirect(router);
     //    }
     //});
-    //创建书籍表单页面
-    app.get('/new',check.login,ctlBook.bookForm);
-    //书籍详情
-    app.param('uri',check.uriExist).get('/book/:uri',ctlBook.detail);
-
-    //书籍控制台
-    app.param('id',check.bookExist).get('/book/:id/dashboard',check.login,ctlBook.dashboard);
-    app.param('id',check.bookExist).get('/book/:id/setting',check.login,ctlBook.setting);
-    app.param('id',check.bookExist).post('/book/:id/setting',check.login,ctlBook.saveSetting);
-    app.param('id',check.bookExist).get('/book/:id/bind-github',check.login,ctlBook.bindGithubPage);
-    app.param('id',check.bookExist).get('/book/:id/save-github',check.login,ctlBook.saveGithub);
-    app.param('id',check.bookExist).post('/book/:id/bind-github',check.login,ctlBook.bindGithub);
-
-    //创建书籍
-    app.post('/new',check.login,ctlBook.create);
-
-    //书籍主题
-    app.param('id',check.bookExist).get('/book/:id/theme',check.login,ctlBook.theme);
 };

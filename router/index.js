@@ -1,6 +1,7 @@
 //向应用注册路由
 var book = require('./book');
 var user = require('./user');
+var admin = require('./admin');
 var ctlIndex = require('../controller/index');
 var _ = require('../base/util');
 
@@ -12,4 +13,5 @@ module.exports = function(app){
 
     book(app);
     user(app);
+    admin(app);
 };

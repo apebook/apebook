@@ -130,5 +130,32 @@ User.prototype = _.extend({},Base, {
         var key = this.keyPre+userId+':books';
         var ids = yield this.redis.lrange(key,0,-1);
         return ids.length||0;
+    },
+    /**
+     * 用户角色
+     * @param userId
+     */
+    role: function*(userId,role){
+        var self = this;
+        var redis = self.redis;
+        var keyPre = self.keyPre;
+
+        if(role){
+            yield redis.hmset(keyPre+userId,{role:role});
+        }
+        return yield redis.hgetall(keyPre+userId,'role');
+    },
+    /**
+     * 判断是否是本人的图书
+     */
+    isSelfBook: function*(userId,bookId){
+        var isSelfBook = false;
+        var books = yield this.books(userId);
+        if(books.length){
+            isSelfBook = books.some(function(book){
+                return book.id === bookId;
+            });
+        }
+        return isSelfBook;
     }
 });

@@ -1,0 +1,9 @@
+{{extend ("../layout/layout")}}
+
+{{#block ("head")}}
+  <script>KISSY.importStyle('apebook/admin-min.css')</script>
+{{/block}}
+
+{{#block ("body")}}
+<script>KISSY.use('apebook/admin')</script>
+{{/block}}

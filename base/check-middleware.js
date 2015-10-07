@@ -1,4 +1,21 @@
 var _ = require('./util');
+/**
+ * 是否是 api 路由
+ * @param p
+ */
+function isApi(p){
+    return /\/api\//.test(p);
+}
+/**
+ * 路由错误时的处理
+ */
+function *error(msg){
+    if(isApi(this.req.url)){
+        _.error.bind(this)(msg);
+    }else{
+        yield this.html('error',{msg:msg});
+    }
+}
 
 //用来校验参数与登录的通用中间件
 module.exports = {
@@ -78,6 +95,37 @@ module.exports = {
             }
             this.book = book;
             yield next;
+        }
+    },
+    /**
+     * 是否是管理员
+     * @param next
+     */
+    isAdminer: function*(next){
+        var user = this.session('user');
+        if(user.role === 'admin'){
+            yield next;
+        }else{
+            this.error('you is not adminer');
+            yield error.bind(this)('您不是管理员，没有权限操作该页面');
+
+        }
+    },
+    /**
+     * 是否是本人的书籍
+     * @param next
+     */
+    isYourBook: function*(next){
+        var user = this.session['user'];
+        var book = this.book;
+        var mUser = this.model.user;
+        var isYourBook = yield mUser.isSelfBook(user.id,book.id);
+        if(isYourBook){
+            this.isYourBook = true;
+            yield next;
+        }else{
+            this.error(book.id+' book is not your');
+            yield error.bind(this)('您不是该图书作者，没有权限操作该页面');
         }
     }
 };
