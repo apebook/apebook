@@ -76,7 +76,7 @@
           <section class="panel author-wrapper">
             <a href="/user/{{author.name}}">
               <div class="f-l img-wrapper">
-                <img src="{{author.avatar}}" width="50" height="50" />
+                <img src="{{author.avatar}}?s=50" width="50" height="50" />
               </div>
               <div class="f-l">
                 <p>{{author.nick || author.name}} <span class="email">{{user.author}}</span></p>

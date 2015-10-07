@@ -27,7 +27,7 @@ User.prototype = _.extend({},Base, {
         }
         var avatar = user.avatar;
         if(!avatar && user.github.avatar_url){
-            user.avatar = user.github.avatar_url;
+            user.avatar = user.github.avatar_url.split('?')[0];
         }
         if(!user.avatar){
             user.avatar = '//a.apebook.org/avatar/default-avatar.png';

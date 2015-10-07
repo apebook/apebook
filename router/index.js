@@ -8,6 +8,7 @@ var _ = require('../base/util');
 module.exports = function(app){
     //首页
     app.get('/',ctlIndex.index);
+    app.get('/my',ctlIndex.index);
     app.get('/library',ctlIndex.library);
     app.get('/lang/:lang',ctlIndex.lang);
 

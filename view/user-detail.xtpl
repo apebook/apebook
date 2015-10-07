@@ -10,7 +10,7 @@
     <div class="mask"></div>
     <div class="row">
       <div class="col-md-1">
-        <img class="avatar" src="{{author.avatar}}&s=100" >
+        <img class="avatar" src="{{author.avatar}}?s=100" >
       </div>
       <div class="col-md-3">
         <h2>{{author.nick}} ({{author.name}})</h2>
