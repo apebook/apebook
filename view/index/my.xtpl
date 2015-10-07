@@ -1,20 +1,17 @@
-<section class="dash-main">
-    {{include ("../layout/sidebar")}}
-    <section class="dash-wrapper my-wrapper">
-        <h3 class="section-title">我的书籍</h3>
-        <ul class="book-list my-books">
-            <li class="create-wrapper">
-                <a href="/new">
-                    <span class="iconfont">&#xe612;</span>
-                </a>
-            </li>
-        {{#each(myBooks)}}
-            <li>
-                <a href="/book/{{this.id}}/dashboard">
-                    <img src="{{this.cover}}" alt="{{this.name}}">
-                </a>
-            </li>
-        {{/each}}
-        </ul>
-    </section>
+<section class="wrapper my-wrapper">
+  <h3 class="section-title">我的图书</h3>
+<ul class="my-books">
+  <li class="create-wrapper">
+    <a href="/new">
+      <span class="iconfont">&#xe612;</span>
+    </a>
+  </li>
+{{#each(myBooks)}}
+  <li>
+    <a href="/book/{{this.id}}/dashboard">
+      <img src="{{this.cover}}" alt="{{this.name}}">
+    </a>
+  </li>
+{{/each}}
+</ul>
 </section>
