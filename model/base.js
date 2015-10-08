@@ -126,5 +126,13 @@ module.exports = {
             yield this.redis.expire(k,(min * 60) || (5 * 60));
         }
         return yield this.redis.get(keyPre+key);
+    },
+    /**
+     * 删除缓存
+     * @param key
+     * @returns {*}
+     */
+    delCache: function*(key){
+        return this.reids.del('cache:'+key);
     }
 };

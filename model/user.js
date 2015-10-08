@@ -107,6 +107,7 @@ User.prototype = _.extend({},Base, {
     books: function*(userId,bookId){
         var key = this.keyPre+userId+':books';
         if(bookId){
+            yield this.delCache(key);
             return yield this.redis.rpush(key,bookId);
         }
 

@@ -38,7 +38,7 @@ module.exports = {
      */
     setting: function*(){
         var data = this.book;
-        data.title = '书籍设置';
+        data.title = '图书设置';
         data.cats = this.model.cat.all();
         data.langs = this.model.lang.all();
 
