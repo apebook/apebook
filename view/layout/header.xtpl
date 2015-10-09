@@ -1,9 +1,6 @@
 <header>
     <h2 class="logo"><a href="/">APE BOOK</a></h2>
     <nav class="left-nav">
-        {{#if(user)}}
-          <a href="/">我的图书</a>
-        {{/if}}
         <a href="/library">图书馆</a>
         <a href="/help">帮助</a>
         <a href="https://github.com/apebook/guide/issues">反馈</a>

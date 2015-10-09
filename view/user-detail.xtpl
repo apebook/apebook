@@ -36,6 +36,11 @@
   </div>
 </section>
 <section class="wrapper books-wrapper">
+  {{#if(user.name === author.name)}}
+  <div class="user-btn-wrapper">
+    <a href="/new" class="btn btn-success"><i class="iconfont">&#xe612;</i> 创建图书</a>
+  </div>
+  {{/if}}
   {{#if(books.length)}}
   <div class="row">
     {{#each(books)}}
@@ -43,7 +48,7 @@
     {{/each}}
   </div>
   {{else}}
-  <h4><i class="iconfont">&#xe60a;</i> 亲还没有发布过一本图书，<a href="/new">马上创建一本</a>。</h4>
+  <h4><i class="iconfont">&#xe60a;</i> {{author.nick||author.name}} 还没有发布过一本图书。</h4>
   {{/if}}
 </section>
 <script>KISSY.use('apebook/library')</script>

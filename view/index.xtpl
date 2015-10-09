@@ -5,10 +5,6 @@
 {{/block}}
 
 {{#block ("body")}}
-{{#if(user)}}
-    {{include ("./index/my")}}
-{{else}}
-    {{include ("./index/new-user")}}
-{{/if}}
+{{include ("./index/new-user")}}
 <script>KISSY.use('apebook/index')</script>
 {{/block}}

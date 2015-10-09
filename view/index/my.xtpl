@@ -6,12 +6,16 @@
       <span class="iconfont">&#xe612;</span>
     </a>
   </li>
-{{#each(myBooks)}}
-  <li>
-    <a href="/book/{{this.id}}/dashboard">
-      <img src="{{this.cover}}" alt="{{this.name}}">
-    </a>
-  </li>
-{{/each}}
+  {{#each(myBooks)}}
+    <li>
+      <a href="/book/{{id}}/dashboard">
+        {{#if(!cover)}}
+          {{name}}
+        {{else}}
+          <img src="{{cover}}" alt="{{name}}">
+        {{/if}}
+      </a>
+    </li>
+  {{/each}}
 </ul>
 </section>

@@ -96,14 +96,18 @@ Book.prototype = _.extend({},Base,{
     /**
      * 通过id获取图书列表
      */
-    getListByIds: function*(ids){
+    getListByIds: function*(ids,showAll){
         var self = this;
         var p = self.keyPre;
         var redis = self.redis;
         var books = [];
         for(var i=0;i<ids.length;i++){
             var book = yield redis.hgetall(p+ids[i]);
-            if(book.openStatus === 'open'){
+            if(!showAll){
+                if(book.openStatus === 'open'){
+                    books.push(book);
+                }
+            }else{
                 books.push(book);
             }
         }

@@ -122,7 +122,7 @@ User.prototype = _.extend({},Base, {
     _list: function*(config){
         var ids = yield this.sort(config);
         var mBook = this.model.book;
-        return yield mBook.getListByIds(ids);
+        return yield mBook.getListByIds(ids,true);
     },
     /**
      * 获取作者发布的书籍数量
