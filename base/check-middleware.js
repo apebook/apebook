@@ -37,6 +37,7 @@ module.exports = {
             this.body = {'success':false,login:false,msg:'请先登录'};
             return false;
         }
+        this.user = user;
         yield next;
     },
     //检查书籍是否存在

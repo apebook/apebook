@@ -102,5 +102,16 @@ module.exports = _.extend({},_,{
     //是否已经登录
     user: function(){
         return this.session.user;
+    },
+    /**
+     * 跳转到github页面
+     */
+    toGithub: function(url){
+        if(!this.session['githubToken']){
+            //跳转到github授权页面
+            var router = this.config.githubPath+(url || this.url);
+            this.redirect(router);
+            return false;
+        }
     }
 });

@@ -2,10 +2,10 @@
 var cat = require('./cat');
 var book = require('./book');
 var user = require('./user');
-var repo = require('./repo');
+var github = require('./github');
 module.exports = function(app){
     cat(app);
     book(app);
     user(app);
-    repo(app);
+    github(app);
 };

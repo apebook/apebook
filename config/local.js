@@ -7,8 +7,8 @@ module.exports = {
     github:{
         clientID: '1f70a5a2b666fc22b5c0',
         clientSecret: '3d81d447d49cd7368dd00a74c700fa7ecf53bb4f',
-        callbackURL: 'http://localhost:9090/github/callback',
-        scope: ['user','public_repo','read:repo_hook','write:repo_hook'],
+        callbackURL: 'http://localhost:8080/github/callback',
+        scope: ['user','public_repo','admin:repo_hook','admin:org_hook','read:org'],
         userKey: 'github_user',
         timeout: 10000
     }

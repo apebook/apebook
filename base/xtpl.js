@@ -56,6 +56,8 @@ module.exports = {
         data.user = this.session.user;
         //页面标题
         if(this.title) data.title = this.title;
+        //页面路径
+        data.pageUrl = this.url;
         yield this.render(path, data);
         return true;
     }

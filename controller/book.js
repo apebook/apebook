@@ -2,7 +2,6 @@
 var _ = require('../base/util');
 var parse = require('co-busboy');
 var fs = require('fs');
-var githubApi = require('../base/github-api');
 var BookCtrl = require('../base/book');
 module.exports = {
     /**
@@ -153,19 +152,23 @@ module.exports = {
     },
     //书籍绑定 github 仓库表单页面
     bindGithubPage: function *(){
+        this.log('[book.bindGithubPage]:');
+        var githubToken = this.session['githubToken'];
         var data = this.book;
+        data.githubToken = githubToken;
         data.dash = true;
         data.currentNav = 'github';
-        var user = this.session['user'];
-        //是否已经绑定了github账号
-        data.bindGithubUser = user.bindGithub && user.bindGithub === 'true' || false;
-        if(data.bindGithubUser){
-            var mUser = this.model.user;
-            data.githubUser = yield mUser.github(user.id);
-        }
-        var repos = yield githubApi.repos.bind(this)(data.githubUser.login);
-        if(repos.success){
-            data.repos = repos.data;
+        //没有github登录
+        if(!githubToken){
+            data.githubPath = this.config.githubPath+this.url;
+        }else{
+            var user = this.session['user'];
+            //是否已经绑定了github账号
+            data.bindGithubUser = user.bindGithub && user.bindGithub === 'true' || false;
+            if(data.bindGithubUser){
+                var mUser = this.model.user;
+                data.githubUser = yield mUser.github(user.id);
+            }
         }
 
         yield this.html('dash/bind-github',data);
@@ -190,12 +193,7 @@ module.exports = {
     },
     //保存数据到github中
     saveGithub: function*(){
-        if(!this.session['githubToken']){
-            //跳转到github授权页面
-            var router = this.config.githubPath+this.url;
-            this.redirect(router);
-            return false;
-        }
+        _.toGithub.bind(this)();
         var mBook = this.model.book;
         var user = this.session['user'];
         //是否已经绑定了github账号
