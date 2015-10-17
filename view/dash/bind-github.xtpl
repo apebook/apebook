@@ -19,9 +19,11 @@
             {{else}}
               {{#if(!bindGithubUser)}}
                   {{macro("warnTip",'还没有绑定 github 用户，<a href="./bind-github">立即绑定</a>')}}
+              {{else}}
+                  {{macro("warnTip",'github 接口很慢，为了您的访问体验做了缓存，数据没同步可以点 <a href="/api/github/clean?id='+id+'">清理缓存</a>')}}
               {{/if}}
-              {{#if(bindGithub === "true" && !hasHook)}}
-              {{set(tipMsg='绑定github成功，但系统添加同步 hook 失败，再次尝试或<a href="https://github.com/'+githubUser.login+'/'+githubRepo+'/settings/hooks">手动添加hook地址</a>，hook地址：http://www.apebook.org/api/github/hook')}}
+              {{#if(book.bindGithub === "true" && !book.hook)}}
+              {{set(tipMsg='绑定github成功，但系统添加同步 hook 失败，再次尝试或<a href="https://github.com/'+book.githubUser+'/'+book.githubRepo+'/settings/hooks">手动添加hook地址</a>，hook地址：http://apebook.org/api/book/'+book.id+'/sync')}}
               {{macro("warnTip",tipMsg)}}
               {{/if}}
               <form role="form" class="form-vertical" method="post" action="">
@@ -37,33 +39,40 @@
                                   <p>{{githubUser.location}} {{githubUser.company}}</p>
                               </div>
                           </section>
-                          <input type="hidden" name="user" value="{{githubUser.login}}"/>
                       {{/if}}
                   </div>
-                  {{#if(bindGithub === "true")}}
+                  {{#if(book.bindGithub === "true")}}
                   <div class="form-group ">
-                      <label for="title" class="control-label">书籍绑定的 github 仓库地址</label>
+                      <label for="title" class="control-label">图书绑定的 github 仓库地址</label>
                       <section class="panel">
-                          <p><a href="{{githubUrl}}">{{githubUrl}}</a></p>
+                          <p><a href="{{book.githubUrl}}">{{book.githubUrl}}</a></p>
                       </section>
                   </div>
                   {{/if}}
+                  {{#if(book.hook)}}
+                    <div class="form-group ">
+                      <label for="title" class="control-label">图书仓库添加的hook <a href="https://github.com/{{book.githubUser}}/{{book.githubRepo}}/settings/hooks">查看仓库 hook 列表</a></label>
+                      <section class="panel">
+                        <p><a href="{{book.hook}}">{{book.hook}}</a></p>
+                      </section>
+                    </div>
+                  {{/if}}
                   {{#if(bindGithubUser)}}
                   <div class="form-group ">
-                  <label for="title" class="control-label">选择用户名或组织名（github 加载组织比较慢请等待）</label>
-                    <select name="user" class="form-control J_Orgs" required>
-                      <option value="{{githubUser.login}}">{{githubUser.login}}</option>
+                  <label for="title" class="control-label">选择用户名或组织名</label>
+                    <select name="user" class="form-control J_Orgs" required data-user="{{githubUser.login}}" data-org="{{book.githubUser || githubUser.login}}">
                     </select>
                   </div>
                   <div class="form-group ">
                       <label for="title" class="control-label">{{#if(bindGithub)}}修改书籍的 github 仓库绑定{{else}}选择想要绑定的 github 仓库{{/if}}</label>
-                      <select name="repo" class="form-control J_Repos" data-repo="{{githubRepo}}" data-name="{{githubUser.login}}" required>
+                      {{macro("error",errors.repo)}}
+                      <select name="repo" class="form-control J_Repos" data-repo="{{book.githubRepo}}" data-name="{{book.githubUser || githubUser.login}}" required>
 
                       </select>
-                      <div class="repos-loading-tip J_ReposLoadingTip">加载中...（github接口慢比较请耐心等待）</div>
+                      <div class="repos-loading-tip J_ReposLoadingTip">加载中...（github接口慢请耐心等待）</div>
                   </div>
                   <button type="submit" class="btn btn-block btn-lg btn-success btn-next J_GithubAsso" role="button">
-                  {{#if(bindGithub && bindGithub !== "false")}}修改{{/if}}绑 定
+                  {{#if(book.bindGithub && book.bindGithub !== "false")}}修改{{/if}}绑 定
                   </button>
                   {{/if}}
               </form>

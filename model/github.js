@@ -61,15 +61,16 @@ Github.prototype = _.extend({},Base,{
   /**
    * 获取用户组织
    */
-  orgs: function*(userId){
-    var cacheKey = 'github:user:orgs:'+userId;
-    var orgs = yield this.cache(cacheKey);
+  orgs: function*(user){
+    var redis = this.redis;
+    var key = 'github:user:orgs:'+user;
+    var orgs = yield redis.get(key);
     if(orgs){
       return JSON.parse(orgs);
     }
     var data = yield promise(github.user.getOrgs);
-    if(_.isArray(data) && data.length>0){
-      yield this.cache(cacheKey,data);
+    if(data.success){
+      yield redis.set(key,JSON.stringify(data));
     }
     return data;
   },
@@ -77,41 +78,76 @@ Github.prototype = _.extend({},Base,{
    * 通过用户名获取仓库
    * @param user
    */
-  reposByUser: function*(user,userId){
-    var cacheKey = 'github:user:repos:'+user;
-    var repos = yield this.cache(cacheKey);
-    //if(repos){
-    //  return JSON.parse(repos);
-    //}
-    var api = API + 'users/'+user+'/repos'+'?sort=created&direction=desc';
-    var authOptions = {
-      dataType: 'json'
-    };
-    var result = yield new Promise(function(resolve, reject){
+  repos: function*(user,userId,isOrg){
+    var redis = this.redis;
+    var key = 'github:user:repos:'+userId+':'+user;
+    var repos = yield redis.get(key);
+    if(repos){
+      repos = JSON.parse(repos);
+    }else{
+      var params = {user:user,org:user,type:'all',sort:'pushed',direction:'desc',per_page:500};
+      if(isOrg && isOrg === 'true'){
+        repos = yield promise(github.repos.getFromOrg,params);
+      }else{
+        repos = yield promise(github.repos.getFromUser,params);
+      }
+    }
+    if(repos.success){
+      yield redis.set(key,JSON.stringify(repos));
+    }
+    return repos;
+  },
+  /**
+   * 判断一个仓库是否已经绑定过
+   * @param repo
+   * @param user
+   * @param userId
+   * @returns {boolean}
+   */
+  hasBind: function*(repo,user,userId,bookId){
+    var has = false;
 
-    });
-    var error = apiError(result);
-    if(error) return error;
-    //调用成功
-    var data = result.data;
+    //过滤掉已经绑定仓库
     var mUser = this.model.user;
     var books = yield mUser.books(userId);
-    //排除掉已经添加过图书
-    data = data.filter(function(repo){
-      var has = false;
-      books.forEach(function(book){
-        if(book.githubRepo === repo.name){
+
+    books.forEach(function(book){
+      if(book.id != bookId){
+        if(book.githubRepo === repo && book.githubUser === user){
           has = true;
         }
-      });
-      return !has;
+      }
     });
-    data = {
-      success: true,
-      status: result.status,
-      data: data
-    };
-    yield this.cache(cacheKey,data);
-    return data;
+    return has;
+  },
+  /**
+   * 清理组织与仓库数据
+   * @param user
+   * @param userId
+   * @returns {boolean}
+   */
+  cleanOrgsRepos: function*(user,userId){
+    var redis = this.redis;
+    yield redis.del('github:user:orgs:'+user);
+    var keys = yield redis.keys('github:user:repos:'+userId+':*');
+    if(keys.length){
+      for(var i=0;i<keys.length;i++){
+        yield redis.del(keys[i]);
+      }
+    }
+    return true;
+  },
+  addHook: function*(repo,user,bookId){
+    return yield promise(github.repos.createHook,{
+      repo: repo,
+      user: user,
+      events: ['push','pull_request'],
+      name: "web",
+      config: {
+        "url":'http://apebook.org/api/book/'+bookId+'/sync',
+        "content_type":"json"
+      }
+    });
+
   }
 });

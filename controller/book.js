@@ -154,10 +154,13 @@ module.exports = {
     bindGithubPage: function *(){
         this.log('[book.bindGithubPage]:');
         var githubToken = this.session['githubToken'];
-        var data = this.book;
-        data.githubToken = githubToken;
-        data.dash = true;
-        data.currentNav = 'github';
+        var data = {
+            book: this.book,
+            githubToken: githubToken,
+            dash: true,
+            currentNav: 'github',
+            id: this.book.id
+        };
         //没有github登录
         if(!githubToken){
             data.githubPath = this.config.githubPath+this.url;
@@ -166,8 +169,7 @@ module.exports = {
             //是否已经绑定了github账号
             data.bindGithubUser = user.bindGithub && user.bindGithub === 'true' || false;
             if(data.bindGithubUser){
-                var mUser = this.model.user;
-                data.githubUser = yield mUser.github(user.id);
+                data.githubUser = user.github;
             }
         }
 
@@ -176,6 +178,9 @@ module.exports = {
     //绑定 github
     //post
     bindGithub: function*(){
+        //必须保证github登录
+        _.toGithub.bind(this)();
+
         var body = yield this.request.body;
         this.log('[book.bindGithub] :');
         this.log(body);
@@ -183,54 +188,44 @@ module.exports = {
         this.checkBody('user', 'github用户名不可以为空').notEmpty();
         this.checkBody('user', '用户名存在不合法字符').isUri();
         this.checkBody('repo', 'github仓库名不可以为空').notEmpty();
-
+        var mGithub = this.model.github;
+        var user = this.session['user'];
+        var mBook = this.model.book;
+        var hasBind = yield mGithub.hasBind(body.repo,body.user,user.id,this.id);
+        if(hasBind){
+            _.addError.bind(this)('repo',body.user+'/'+body.repo+'仓库已经绑定过了，无法重复绑定');
+        }
         var url = this.url;
         var isError = _.authError.bind(this)(url,body);
+
         if(!isError){
-            this.session._github = body;
-            this.redirect('/book/'+this.id+'/save-github');
-        }
-    },
-    //保存数据到github中
-    saveGithub: function*(){
-        _.toGithub.bind(this)();
-        var mBook = this.model.book;
-        var user = this.session['user'];
-        //是否已经绑定了github账号
-        var bindGithubUser = user.bindGithub && user.bindGithub === 'true' || false;
-        var githubParam = this.session._github;
-        //不存在表单提交的数据跳转到表单页面
-        if(!githubParam){
-            this.redirect('/book/'+this.id+'/bind-github');
-            return false;
-        }
-        //已经存在github账号绑定
-        this.log('[book.saveGithubPath]:');
-        if(!this.id){
-            this.error('不存在 id');
-            yield this.html('error',{msg:'id参数不存在！'});
-            return false;
-        }
-        //将github路径保存到数据库中
-        var githubPath = 'https://github.com/'+githubParam.user+'/'+githubParam.repo+'.git';
-        this.log('book bind github path:'+githubPath);
-        //将github信息存入书籍信息中
-        var bookData = yield mBook.post({
-            id:this.id,
-            githubUrl:githubPath,
-            githubUser:githubParam.user,
-            githubRepo:githubParam.repo,
-            bindGithub:true
-        });
-        this.log(bookData);
-        delete this.session._github;
+            var githubPath = 'https://github.com/'+body.user+'/'+body.repo+'.git';
+            this.log('book bind github path:'+githubPath);
+            //将github信息存入书籍信息中
+            var bookData = yield mBook.post({
+                id:this.id,
+                githubUrl:githubPath,
+                githubUser:body.user,
+                githubRepo:body.repo,
+                bindGithub:true
+            });
+            this.log(bookData);
+            //事件记录
+            var mHistory = this.model.history;
+            yield mHistory.add(this.id,'github','图书设置 github 仓库绑定成功<br /><a href="'+githubPath+'">'+githubPath+'</a>',user.name);
 
-        //事件记录
-        var mHistory = this.model.history;
-        yield mHistory.add(data.id,'github','书籍与 github 仓库绑定成功<br />'+githubPath,user.name);
+            mGithub.auth.bind(this)();
 
-        yield githubApi.addHook.bind(this)(githubParam.repo,githubParam.user);
-        this.redirect(this.url);
+            var addHookResult = yield mGithub.addHook(body.repo,body.user,this.id);
+            this.log(addHookResult);
+            if(addHookResult.success){
+                var hookPath = addHookResult.data.config.url;
+                yield mBook.post({id:this.id,hook:hookPath});
+                yield mHistory.add(this.id,'github','图书设置同步 hook 成功，hook 地址：<br />'+hookPath,user.name);
+            }
+
+            this.redirect(url);
+        }
     },
     //更新书籍信息
     post: function*(){

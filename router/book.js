@@ -15,7 +15,6 @@ module.exports = function(app){
     app.param('id',check.bookExist).get('/book/:id/setting',check.login,check.isYourBook,ctlBook.setting);
     app.param('id',check.bookExist).post('/book/:id/setting',check.login,check.isYourBook,ctlBook.saveSetting);
     app.param('id',check.bookExist).get('/book/:id/bind-github',check.login,check.isYourBook,ctlBook.bindGithubPage);
-    app.param('id',check.bookExist).get('/book/:id/save-github',check.login,check.isYourBook,ctlBook.saveGithub);
     app.param('id',check.bookExist).post('/book/:id/bind-github',check.login,check.isYourBook,ctlBook.bindGithub);
 
     //创建书籍
