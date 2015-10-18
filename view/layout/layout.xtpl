@@ -3,6 +3,8 @@
 <head>
     <meta name="charset" content="utf-8" />
     <title>{{title}}</title>
+    <meta name="description" content=" apebook 提供了 gitbook.com 类似的云端托管能力，apebook上的图书访问速度远超过 gitbook.com，apebook 只专注于程序员相关的图书。 " />
+    <meta name="keywords" content=" gitbook apebook 开源程序员图书 免费图书 nodejs书籍  " />
     {{#if(env==='local')}}
     <script src="//g.alicdn.com/kissy/k/1.4.8/??seed.js,import-style.js"></script>
     {{else}}
