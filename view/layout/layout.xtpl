@@ -11,8 +11,7 @@
     <script src="//g.alicdn.com/kissy/k/1.4.8/??seed-min.js,import-style-min.js"></script>
     {{/if}}
     <script>
-        KISSY.config({packages: [{name: 'apebook',base: "{{kissyPkg}}",combine:false,ignorePackageNameInUri: true,
-        }]});
+        KISSY.config({packages: [{name: 'apebook',base: "{{kissyPkg}}",combine:false,ignorePackageNameInUri: true}]});
     </script>
 
     <link rel="stylesheet" href="http://a.apebook.org/bootstrap.min.css">
