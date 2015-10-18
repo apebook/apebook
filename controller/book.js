@@ -265,13 +265,20 @@ module.exports = {
      * 同步github仓库
      * api
      */
-    sync: function*(){
-        var userName = this.session['user'].name;
+    sync: function*(body){
+        var userName = this.session['user'] && this.session['user'].name || '';
+        if(this.session['user']){
+            userName = this.session['user'].name;
+        }
+        if(body){
+            userName = body.owner;
+        }else{
+            body = yield this.request.body;
+            this.log('[/api/book/sync] :');
+            this.log(body);
+        }
 
-        var body = yield this.request.body;
         var id = body.id;
-        this.log('[/api/book/sync] :');
-        this.log(body);
 
         var mBook = this.model.book;
         //事件记录
@@ -334,5 +341,24 @@ module.exports = {
             }
         }
         this.body = pullResult;
+    },
+    hook: function*(){
+        var body = yield this.request.body;
+        var repository = body.repository;
+        var name = repository.name;
+        this.log(name + ' trigger sync hook');
+        this.log(body);
+        var id = this.params.id;
+        var mBook = this.model.book;
+        var book = yield mBook.getById(id);
+        if(!book || !book.length){
+            this.body = {success:false,msg:'图书不存在'};
+            return false;
+        }
+        this.book = book;
+        yield this.sync.bind(this)({
+            id: id,
+            owner: repository.owner.login
+        });
     }
 };

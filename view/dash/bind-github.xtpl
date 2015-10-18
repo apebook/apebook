@@ -60,6 +60,7 @@
                   {{#if(bindGithubUser)}}
                   <div class="form-group ">
                   <label for="title" class="control-label">选择用户名或组织名</label>
+                    {{macro("error",errors.user)}}
                     <select name="user" class="form-control J_Orgs" required data-user="{{githubUser.login}}" data-org="{{book.githubUser || githubUser.login}}">
                     </select>
                   </div>

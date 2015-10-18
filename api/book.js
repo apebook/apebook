@@ -21,4 +21,6 @@ module.exports = function(app){
 
     //同步书籍
     app.post('/api/book/sync',check.apiPostBookExist,check.isYourBook,ctlBook.sync);
+    //hook
+    app.post('/api/book/:id/sync',ctlBook.hook);
 };

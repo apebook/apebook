@@ -28,7 +28,7 @@ var config = {
     //github配置
     github:{
         clientID: '1f70a5a2b666fc22b5c0',
-        clientSecret: '3d81d447d49cd7368dd00a74c700fa7ecf53bb4f',
+        clientSecret: 'xxxx',
         callbackURL: 'http://www.apebook.org/github/callback',
         scope: ['user','public_repo','admin:repo_hook','admin:org_hook','read:org'],
         userKey: 'github_user',
@@ -45,7 +45,7 @@ var config = {
     repoDir: path.join(__dirname,'..', 'repo'),
     "oss":{
         accessKeyId: 'R7wBScg51UDJv06B',
-        accessKeySecret: '8rkUyvVcDbNFOBsxnxRdGGGhg6qyZb',
+        accessKeySecret: 'xxxx',
         bucket: 'apebook',
         region: 'oss-cn-hangzhou'
     },
@@ -57,6 +57,13 @@ var config = {
 };
 if(process.env.NODE_ENV == 'local'){
     config = _.extend(config,local);
+}
+
+if(process.env.OSS){
+    config.oss.accessKeySecret = process.env.OSS;
+}
+if(process.env.GITHUB){
+    config.github.clientSecret = process.env.GITHUB;
 }
 var occupation = require('./occupation');
 config.occupations = occupation;
