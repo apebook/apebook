@@ -1,6 +1,6 @@
 {{extend ("./layout/layout")}}
 {{#block ("head")}}
-    <script>KISSY.importStyle('apebook/join-min.css')</script>
+    <script>KISSY.importStyle('apebook/join.css')</script>
 {{/block}}
 {{#block ("body")}}
     <div class="join-wrapper">

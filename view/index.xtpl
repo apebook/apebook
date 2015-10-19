@@ -1,7 +1,7 @@
 {{extend ("./layout/layout")}}
 
 {{#block ("head")}}
-    <script>KISSY.importStyle('apebook/index-min.css')</script>
+    <script>KISSY.importStyle('apebook/index.css')</script>
 {{/block}}
 
 {{#block ("body")}}
