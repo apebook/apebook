@@ -13,7 +13,7 @@
         <img class="avatar" src="{{author.avatar}}?s=100" >
       </div>
       <div class="col-md-3">
-        <h2>{{author.nick}} ({{author.name}})</h2>
+        <h2>{{#if(author.nick)}}{{author.nick}} ({{author.name}}){{else}}{{author.name}}{{/if}}</h2>
         <p>{{author.email}}</p>
       </div>
       <div class="col-md-2 meta-info">
@@ -48,7 +48,7 @@
     {{/each}}
   </div>
   {{else}}
-  <h4><i class="iconfont">&#xe60a;</i> {{author.nick||author.name}} 还没有发布过一本图书。</h4>
+  <h4><i class="iconfont">&#xe60a;</i> {{#if(user.name !== author.name)}} {{author.nick||author.name}} {{/if}}还没有发布过一本图书。</h4>
   {{/if}}
 </section>
 <script>KISSY.use('apebook/library')</script>
