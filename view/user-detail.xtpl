@@ -48,7 +48,7 @@
     {{/each}}
   </div>
   {{else}}
-  <h4><i class="iconfont">&#xe60a;</i> {{#if(user.name !== author.name)}} {{author.nick||author.name}} {{/if}}还没有发布过一本图书。</h4>
+  <h4><i class="iconfont">&#xe60a;</i> {{#if(user.name !== author.name)}} {{author.nick||author.name}}{{else}}亲{{/if}}还没有发布过一本图书。</h4>
   {{/if}}
 </section>
 <script>KISSY.use('apebook/library')</script>
