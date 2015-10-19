@@ -26,7 +26,7 @@ User.prototype = _.extend({},Base, {
             user.github = yield this.github(user.id);
         }
         var avatar = user.avatar;
-        if(!avatar && user.github.avatar_url){
+        if(!avatar && user.github){
             user.avatar = user.github.avatar_url.split('?')[0];
         }
         if(!user.avatar){
