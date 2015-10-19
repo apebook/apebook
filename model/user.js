@@ -56,7 +56,7 @@ User.prototype = _.extend({},Base, {
         }
 
         yield redis.hmset(keyPre+id,data);
-        return yield this.data(id);
+        return yield this.getByName(data.name);
     },
     //判断用户是否已经存在
     isExist: function*(name,key){

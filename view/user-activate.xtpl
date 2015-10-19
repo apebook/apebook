@@ -1,0 +1,25 @@
+{{extend ("./layout/layout")}}
+{{#block ("head")}}
+  <script>KISSY.importStyle('apebook/join.css')</script>
+{{/block}}
+{{#block ("body")}}
+  <div class="join-wrapper">
+    <form role="form" class="form-vertical J_Auth" method="post" action="/join">
+      <h3><span class="iconfont">&#xe60f;</span> 账号激活 </h3>
+      {{#if(activate)}}
+      <p>您的账户已激活</p>
+      <p>请点击立即登录按钮登入您的账户，立即开始体验 apebook！</p>
+      <button type="submit" class="btn btn-block btn-lg btn-success">立即登录</button>
+      {{else}}
+      <p>感谢您创建 apebook 账户</p>
+      <p>apebook 已将激活邮件发送至您的邮箱：<b>{{email}}</b> ,你需要从邮箱中激活此账户。</p>
+      <p>要激活您的账户，请在您的激活邮件中点击立即激活按钮。</p>
+      <p>没有收到邮件，请点击下面的“重新发送”按钮。</p>
+      <input type="hidden" name="name" value="{{name}}"/>
+      <input type="hidden" name="email" value="{{email}}"/>
+      <input type="hidden" name="email" value="{{password}}"/>
+      <button type="submit" class="btn btn-block btn-lg btn-success">重新发送</button>
+      {{/if}}
+    </form>
+  </div>
+{{/block}}
