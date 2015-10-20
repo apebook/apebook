@@ -88,7 +88,8 @@ module.exports = {
             this.log(body);
             var data = yield mBook.post(body);
             this.log('create book success');
-
+            var mUser = this.model.user;
+            yield mUser.books(user.id,data.id);
             //事件记录
             var mHistory = this.model.history;
             yield mHistory.add(data.id,'create','添加一本新书：《'+body.name+'》',user.name);
