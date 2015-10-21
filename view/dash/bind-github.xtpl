@@ -12,9 +12,10 @@
             <h3><i class="iconfont">&#xe60c;</i> GitHub 绑定</h3>
 
             {{#if(!githubToken)}}
-              <div class="panel to-github-tip J_GithubTip" data-url="{{githubPath}}">
+              <div class="panel to-github-tip J_GithubTip">
                 <p>github 绑定需要登录 github 账号并授权，正在为您跳转到 github 。</p>
-                <p>github 访问比较慢，如果长时间没跳转成功，请<a href="{{pageUrl}}">刷新页面</a></p>
+                <p>只有获取 github 授权后，系统才可以实现 push 代码后自动更新图书。</p>
+                <a href="{{githubTo}}" class="btn btn-block btn-lg btn-success btn-next" role="button">前往github登录并授权</a>
               </div>
             {{else}}
               {{#if(!bindGithubUser)}}
