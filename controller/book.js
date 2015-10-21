@@ -3,6 +3,88 @@ var _ = require('../base/util');
 var parse = require('co-busboy');
 var fs = require('fs');
 var BookCtrl = require('../base/book');
+
+/**
+ * 同步图书代码
+ */
+function *sync(body){
+    var userName = this.session['user'] && this.session['user'].name || '';
+    if(this.session['user']){
+        userName = this.session['user'].name;
+    }
+    if(body){
+        userName = body.owner;
+    }else{
+        body = yield this.request.body;
+        this.log('[/api/book/sync] :');
+        this.log(body);
+    }
+
+    var id = body.id;
+
+    var mBook = this.model.book;
+    //事件记录
+    var mHistory = this.model.history;
+    var book = this.book;
+
+    //没有绑定github仓库
+    if(!book.bindGithub){
+        _.error.bind(this)('请先绑定github仓库');
+        return false;
+    }
+
+    yield mHistory.add(book.id,'action','开始同步 github 仓库内容到服务器上',userName);
+
+    var bookCtrl = new BookCtrl({
+        user:book.userName,
+        book: book.uri,
+        githubUrl:book.githubUrl,
+        oss:this.oss,
+        bucket:this.config.ossBuckets.book,
+        env:this.config.env,
+        data: book,
+        apebookHost: this.config.host
+    });
+    var pullResult = yield bookCtrl.pull();
+    this.log(pullResult);
+
+    if(!pullResult.success){
+        this.error(pullResult);
+        yield mHistory.add(book.id,'error','github 内容同步失败，失败原因如下：<br />'+pullResult,userName);
+    }else{
+        yield mHistory.add(book.id,'github','github 内容同步成功',userName);
+        //pullResult.change = true;
+        //存在文件变更，渲染html
+        pullResult.change = true;
+        if(pullResult.change){
+            var renderResult = yield bookCtrl.render();
+            //渲染失败
+            if(!renderResult.success){
+                this.error(renderResult);
+                pullResult =  renderResult;
+                yield mHistory.add(book.id,'error','gitbook渲染失败，请检查 md 文件',userName);
+            }else{
+                yield mHistory.add(book.id,'success','使用 gitbook 渲染成功',userName);
+                //渲染成功后，将文件上传到oss
+                // var renderResult = yield bookCtrl.render(book.userName,book.uri);
+                var result = yield bookCtrl.pushOss();
+                this.log('upload to oss success');
+                var chapterCount = yield bookCtrl.chapterCount();
+                //最新更新时间、章节数写入数据库
+                yield mBook.post({id:id,updateTime:_.now(),chapterCount:chapterCount});
+
+                var readeMeHtml = yield bookCtrl.readMe();
+                var summaryHtml = yield bookCtrl.summary();
+                yield mBook.readMe(id,readeMeHtml);
+                yield mBook.summary(id,summaryHtml);
+                yield mBook.nearestUpdate(id);
+                yield mHistory.add(book.id,'success','书籍成功同步到 cdn',userName);
+            }
+        }
+    }
+    this.body = pullResult;
+}
+
 module.exports = {
     /**
      * 通过书籍id获取书籍
@@ -262,82 +344,8 @@ module.exports = {
      * 同步github仓库
      * api
      */
-    sync: function*(body){
-        var userName = this.session['user'] && this.session['user'].name || '';
-        if(this.session['user']){
-            userName = this.session['user'].name;
-        }
-        if(body){
-            userName = body.owner;
-        }else{
-            body = yield this.request.body;
-            this.log('[/api/book/sync] :');
-            this.log(body);
-        }
-
-        var id = body.id;
-
-        var mBook = this.model.book;
-        //事件记录
-        var mHistory = this.model.history;
-        var book = this.book;
-
-        //没有绑定github仓库
-        if(!book.bindGithub){
-            _.error.bind(this)('请先绑定github仓库');
-            return false;
-        }
-
-        yield mHistory.add(book.id,'action','开始同步 github 仓库内容到服务器上',userName);
-
-        var bookCtrl = new BookCtrl({
-            user:book.userName,
-            book: book.uri,
-            githubUrl:book.githubUrl,
-            oss:this.oss,
-            bucket:this.config.ossBuckets.book,
-            env:this.config.env,
-            data: book,
-            apebookHost: this.config.host
-        });
-        var pullResult = yield bookCtrl.pull();
-        this.log(pullResult);
-
-        if(!pullResult.success){
-            this.error(pullResult);
-            yield mHistory.add(book.id,'error','github 内容同步失败，失败原因如下：<br />'+pullResult,userName);
-        }else{
-            yield mHistory.add(book.id,'github','github 内容同步成功',userName);
-            //pullResult.change = true;
-            //存在文件变更，渲染html
-            pullResult.change = true;
-            if(pullResult.change){
-                var renderResult = yield bookCtrl.render();
-                //渲染失败
-                if(!renderResult.success){
-                    this.error(renderResult);
-                    pullResult =  renderResult;
-                    yield mHistory.add(book.id,'error','gitbook渲染失败，请检查 md 文件',userName);
-                }else{
-                    yield mHistory.add(book.id,'success','使用 gitbook 渲染成功',userName);
-                    //渲染成功后，将文件上传到oss
-                    // var renderResult = yield bookCtrl.render(book.userName,book.uri);
-                    var result = yield bookCtrl.pushOss();
-                    this.log('upload to oss success');
-                    var chapterCount = yield bookCtrl.chapterCount();
-                    //最新更新时间、章节数写入数据库
-                    yield mBook.post({id:id,updateTime:_.now(),chapterCount:chapterCount});
-
-                    var readeMeHtml = yield bookCtrl.readMe();
-                    var summaryHtml = yield bookCtrl.summary();
-                    yield mBook.readMe(id,readeMeHtml);
-                    yield mBook.summary(id,summaryHtml);
-                    yield mBook.nearestUpdate(id);
-                    yield mHistory.add(book.id,'success','书籍成功同步到 cdn',userName);
-                }
-            }
-        }
-        this.body = pullResult;
+    sync: function*(){
+        yield sync.bind(this)();
     },
     hook: function*(){
         var body = yield this.request.body;
@@ -353,7 +361,7 @@ module.exports = {
             return false;
         }
         this.book = book;
-        yield this.sync.bind(this)({
+        yield sync.bind(this)({
             id: id,
             owner: repository.owner.login
         });
