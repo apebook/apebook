@@ -348,7 +348,7 @@ module.exports = {
         var id = this.params.id;
         var mBook = this.model.book;
         var book = yield mBook.getById(id);
-        if(!book || !book.length){
+        if(!book){
             this.body = {success:false,msg:'图书不存在'};
             return false;
         }
