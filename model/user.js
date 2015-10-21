@@ -19,7 +19,13 @@ User.prototype = _.extend({},Base, {
         var self = this;
         var redis = self.redis;
         var keyPre = self.keyPre;
-        var id = yield self.id('name',name);
+        var id;
+        if(_.isNumber(name)){
+            id = name;
+        }else{
+            id = yield self.id('name',name);
+        }
+        if(!id) return false;
         var user = yield redis.hgetall(keyPre+id);
         //存在github账号绑定
         if(user.bindGithub==='true'){
@@ -56,7 +62,7 @@ User.prototype = _.extend({},Base, {
         }
 
         yield redis.hmset(keyPre+id,data);
-        return yield this.getByName(data.name);
+        return yield this.getByName(data.name||Number(data.id));
     },
     //判断用户是否已经存在
     isExist: function*(name,key){

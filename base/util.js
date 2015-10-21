@@ -109,9 +109,12 @@ module.exports = _.extend({},_,{
     toGithub: function(url){
         if(!this.session['githubToken']){
             //跳转到github授权页面
-            var router = this.config.githubPath+(url || this.url);
-            this.redirect(router);
+            var goTo = '/github/save?to='+ url || this.url;
+            this.redirect(this.config.githubPath+goTo);
             return false;
         }
+    },
+    githubCallback: function(url){
+        return this.config.githubPath+'/github/save?to='+ url;
     }
 });

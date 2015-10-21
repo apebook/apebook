@@ -35,7 +35,7 @@
                                   <img src="{{githubUser.avatar_url}}" width="50" height="50" />
                               </div>
                               <div class="f-l">
-                                  <p>{{githubUser.name}}({{githubUser.login}})</p>
+                                  <p>{{githubUser.name}}({{githubUser.login}}) <a href="{{githubTo}}">修改绑定</a></p>
                                   <p>{{githubUser.location}} {{githubUser.company}}</p>
                               </div>
                           </section>

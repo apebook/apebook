@@ -22,6 +22,7 @@ module.exports = {
         var id = data.author.id;
         data.books = yield mUser.books(id);
         data.bookCount = yield mUser.bookCount(id);
+        data.githubTo = _.githubCallback.bind(this)(this.url);
         yield this.html('user-detail',data);
     },
     //用户注册
@@ -179,6 +180,7 @@ module.exports = {
             yield mUser.github(user.id,githubUser);
             this.session.user = yield mUser.getByName(user.name);
         }
-        this.redirect('/github');
+        var url = this.request.query.to || '/github';
+        this.redirect(url);
     }
 };

@@ -160,10 +160,8 @@ module.exports = {
             currentNav: 'github',
             id: this.book.id
         };
-        //没有github登录
-        if(!githubToken){
-            data.githubPath = this.config.githubPath+this.url;
-        }else{
+        data.githubTo = _.githubCallback.bind(this)(this.url);
+        if(githubToken){
             var user = this.session['user'];
             //是否已经绑定了github账号
             data.bindGithubUser = user.bindGithub && user.bindGithub === 'true' || false;
