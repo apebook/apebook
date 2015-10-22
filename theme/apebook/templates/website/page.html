@@ -25,7 +25,11 @@
                 {% for section in content %}
                     <section class="{{ section.type }}" id="section-{{ section.id }}">
                     {% if section.type == "normal" %}
-                        {% autoescape false %}{{ section.content }}{% endautoescape %}
+                        {% autoescape false %}
+                        {% raw %}
+                        {{ section.content }}
+                        {% endraw %}
+                        {% endautoescape %}
                     {% endif %}
                     </section>
                 {% endfor %}

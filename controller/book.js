@@ -66,7 +66,6 @@ function *sync(body){
             }else{
                 yield mHistory.add(book.id,'success','使用 gitbook 渲染成功',userName);
                 //渲染成功后，将文件上传到oss
-                // var renderResult = yield bookCtrl.render(book.userName,book.uri);
                 var result = yield bookCtrl.pushOss();
                 this.log('upload to oss success');
                 var chapterCount = yield bookCtrl.chapterCount();
