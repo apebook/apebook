@@ -59,7 +59,8 @@ Book.prototype = {
             bookJson.plugins = this.plugins;
             yield fse.writeFile(src+'book.json',JSON.stringify(bookJson));
             console.log(bookJson);
-            console.log(src);
+            console.log('src ' + src);
+            console.log('dest ' + path);
             try{
                 var output = yield shell.exec('gitbook build '+src+' --debug');
             }catch(e){
