@@ -43,7 +43,8 @@ function *sync(body){
         bucket:this.config.ossBuckets.book,
         env:this.config.env,
         data: book,
-        apebookHost: this.config.host
+        apebookHost: this.config.host,
+        assetHost: this.config.assetHost
     });
     var pullResult = yield bookCtrl.pull();
     this.log(pullResult);

@@ -52,14 +52,16 @@ Book.prototype = {
             bookJson.githubRepo = data.githubRepo;
             bookJson.bookId = data.id;
             bookJson.apebookHost = this.apebookHost;
+            bookJson.assetHost = this.assetHost;
             if(process.env.NODE_ENV !== 'local'){
                 bookJson.localAssetHost = bookJson.assetHost;
             }
             bookJson.plugins = this.plugins;
             yield fse.writeFile(src+'book.json',JSON.stringify(bookJson));
             console.log(bookJson);
+            console.log(src);
             try{
-                var output = yield shell.exec('gitbook build '+src);
+                var output = yield shell.exec('gitbook build '+src+' --debug');
             }catch(e){
                 console.log(e);
                 output = '书籍渲染失败';
