@@ -53,7 +53,7 @@ Book.prototype = {
             bookJson.githubRepo = data.githubRepo;
             bookJson.bookId = data.id;
             bookJson.apebookHost = this.apebookHost;
-            if(self.env !== 'local'){
+            if(process.env.NODE_ENV !== 'local'){
                 bookJson.localAssetHost = bookJson.assetHost;
             }
             bookJson.plugins = this.plugins;
