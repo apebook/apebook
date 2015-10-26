@@ -40,7 +40,6 @@ Book.prototype = {
         yield fse.ensureDir(self.dest+user);
         var path = self.dest+user+'/'+book;
         yield fse.ensureDir(path);
-        try{
             var bookJson = yield fse.readFile(src+'/book.json');
             if(!bookJson){
                 return {'success':false,'msg':'不存在book.json'};
@@ -59,14 +58,15 @@ Book.prototype = {
             bookJson.plugins = this.plugins;
             yield fse.writeFile(src+'book.json',JSON.stringify(bookJson));
             console.log(bookJson);
-            var output = yield shell.exec('gitbook build '+src);
+            try{
+                var output = yield shell.exec('gitbook build '+src);
+            }catch(e){
+                console.log(e);
+                output = '书籍渲染失败';
+            }
             yield shell.exec('cd '+src+' && ' +'git reset --hard');
             //删除生成的无用的gitbook目录
             yield shell.exec('cd '+path+' && ' +'rm -rf -r gitbook');
-        }catch(e){
-            console.log(e);
-            output = '书籍渲染失败';
-        }
         console.log(output);
         //build 成功
         if(/Done, without error/.test(output)){
