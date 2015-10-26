@@ -58,6 +58,7 @@ Book.prototype = {
             }
             bookJson.plugins = this.plugins;
             yield fse.writeFile(src+'book.json',JSON.stringify(bookJson));
+            this.log(bookJson);
             var output = yield shell.exec('gitbook build '+src);
             yield shell.exec('cd '+src+' && ' +'git reset --hard');
             //删除生成的无用的gitbook目录
