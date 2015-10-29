@@ -36,6 +36,19 @@ var config = {
     },
     //触发github授权的路由
     githubPath:'/github/auth?redirect_uri=',
+    //邮箱配置
+    //http://submail.cn/
+    mail:{
+        appid: '10815',
+        appkey: 'xxxx',
+        signtype: 'normal',
+        from:'adminer@mail.apebook.org'
+    },
+    //邮箱模板
+    mailProject:{
+        //注册用户使用的激活邮箱
+        join:'v07Wj'
+    },
     //模板所在的目录
     viewDir: path.join(__dirname,'..','view'),
     logDir: path.join(__dirname,'..', 'log'),
@@ -64,6 +77,12 @@ if(process.env.OSS){
 }
 if(process.env.GITHUB){
     config.github.clientSecret = process.env.GITHUB;
+}
+if(process.env.MAIL){
+    config.mail.appkey = process.env.MAIL;
+}
+if(process.env.TOKEN_KEY){
+    config.tokenKey = process.env.TOKEN_KEY;
 }
 var occupation = require('./occupation');
 config.occupations = occupation;

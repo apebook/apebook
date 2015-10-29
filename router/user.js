@@ -1,6 +1,7 @@
 var _ = require('../base/util');
 var ctlUser = require('../controller/user');
 var check = require('../base/check-middleware');
+
 //用户相关的路由
 module.exports = function(app) {
     app.get('/user/:name',ctlUser.detail);
@@ -12,6 +13,9 @@ module.exports = function(app) {
     //用户注册
     app.post('/join',ctlUser.postJoin);
 
+    //用户激活中间页
+    app.get('/activate',ctlUser.activate);
+
     //登录
     app.get('/login',ctlUser.login);
     app.post('/login',ctlUser.postLogin);
@@ -19,6 +23,7 @@ module.exports = function(app) {
     //注销
     app.get('/logout',function *(){
         delete this.session.user;
+        delete this.session.back;
         this.redirect('/login');
     });
 

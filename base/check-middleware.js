@@ -24,8 +24,13 @@ module.exports = {
         var user = this.session.user;
         //登录
         if(!user){
-            this.redirect('/login?redirect_url='+this.originalUrl);
+            this.session.back = this.url;
+            this.redirect('/login');
             return false;
+        }
+        //账号没有激活
+        if(user.activate !== "true"){
+            this.redirect('/activate');
         }
         yield next;
     },

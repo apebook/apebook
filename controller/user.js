@@ -2,7 +2,7 @@
 
 var _ = require('../base/util');
 var parse = require('co-busboy');
-
+var mail = require('../base/mail');
 module.exports = {
     /**
      * 用户详情
@@ -14,7 +14,8 @@ module.exports = {
         var mUser = this.model.user;
         var isExist = yield mUser.isExist(name);
         if(!isExist){
-
+            yield this.html('error',{msg:'不存在此用户'});
+            return false;
         }
         var data = {};
         data.isExist = isExist;
@@ -49,10 +50,71 @@ module.exports = {
             this.log('user email exist');
             _.addError.bind(this)('email','邮箱已经存在');
         }
-        _.authError.bind(this)('/join',body);
-        this.session.user = yield mUser.post(body);
+        var isError = _.authError.bind(this)('/join',body);
+        if(!isError){
+            //设置为未激活账号
+            body.activate = false;
+            this.session.user = yield mUser.post(body);
+            //设置token
+            this.session.token = yield mUser.token(body.name,true);
+            this.redirect('/activate');
+        }else{
+            this.redirect('/join');
+        }
+    },
+    /**
+     * 账号激活
+     */
+    activate: function*(){
+        var token = this.request.query.token;
+        var user = this.session.user;
+        //没有登录
+        if(!user){
+            this.session.back = this.url;
+            this.redirect('/login');
+            return false;
+        }
+        var mUser = this.model.user;
+        var data = {
+            activate: user.activate === 'true'
+        };
 
-        this.redirect('/');
+        //已经激活，跳转到个人首页
+        if(data.activate){
+            this.redirect('/user/'+user.name);
+        }
+
+        //用户token
+        var userToken = yield mUser.token(user.name);
+        //没有激活发送激活邮件
+        //不存在token
+        //发送邮件
+        if(!data.activate && !token){
+            if(!userToken){
+                userToken = yield mUser.token(user.name,true);
+            }
+            mail.send.bind(this)({
+                to: user.email,
+                name: user.name,
+                project: this.config.mailProject.join,
+                vars:{
+                    activate: this.config.host+'activate?token='+userToken
+                }
+            });
+        }
+
+        //存在token
+        //激活账号
+        if(!data.activate && token){
+            //token 校验是否通过
+            data.tokenAuth = userToken === token;
+            if(data.tokenAuth){
+                this.session.user  = yield mUser.post({name:user.name,activate: true});
+                data.activate = true;
+            }
+        }
+
+        yield this.html('user-activate',data);
     },
     //登录
     login: function*(){
@@ -81,8 +143,10 @@ module.exports = {
         var isError = _.authError.bind(this)('/login',body);
         if(!isError){
             this.session.user = yield mUser.getByName(body.name);
+            //用户token
+            this.session.user_token = yield mUser.token(body.name,true);
             //重定向
-            this.redirect(body.redirect_url || '/');
+            this.redirect(this.session.back || '/');
         }
     },
     //用户设置

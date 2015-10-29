@@ -25,7 +25,7 @@ User.prototype = _.extend({},Base, {
         }else{
             id = yield self.id('name',name);
         }
-        if(!id) return false;
+        if(id === -1) return false;
         var user = yield redis.hgetall(keyPre+id);
         //存在github账号绑定
         if(user.bindGithub==='true'){
@@ -164,5 +164,32 @@ User.prototype = _.extend({},Base, {
             });
         }
         return isSelfBook;
+    },
+    /**
+     * 用户token
+     * @param name
+     */
+    token: function*(name,isSet){
+        var redis = this.redis;
+        var key = this.keyPre+'token:'+name;
+        if(isSet){
+            var value = name;
+            if(process.env.TOKEN_KEY){
+                value += process.env.TOKEN_KEY;
+            }
+            var token = _.md5(value);
+            yield redis.set(key,token);
+            //2个小时后失效
+            yield redis.expire(key,120*60);
+        }
+        return yield redis.get(key);
+    },
+    /**
+     * 发送注册邮件的次数
+     */
+    sendMailCount: function*(name){
+        var redis = this.redis;
+        var key = this.keyPre+'mail-count:'+name;
+
     }
 });
