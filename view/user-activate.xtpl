@@ -12,6 +12,10 @@
         <p>要激活您的账户，请在您的激活邮件中点击立即激活按钮。</p>
         <p>没有收到邮件，请点击下面的“重新发送”按钮。</p>
         <a href="" class="btn btn-block btn-lg btn-success">重新发送</a>
+
+      {{else}}
+        <p>您的账户已成功激活，感谢使用 apebook 提供的服务</p>
+        <p><a href="/user/{{name}}" class="btn btn-block btn-lg btn-success">我的主页</a></p>
       {{/if}}
     </form>
   </div>

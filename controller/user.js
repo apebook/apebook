@@ -76,6 +76,7 @@ module.exports = {
         }
         var mUser = this.model.user;
         var data = {
+            name: user.name,
             activate: user.activate === 'true'
         };
 
