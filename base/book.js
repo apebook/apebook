@@ -9,8 +9,8 @@ var defaultConfig = {
     src: 'book-md/',
     dest: 'book-html/',
     themes:{
-        apebook:'theme/apebook',
-        blog:'theme/blog'
+        apebook:'./theme/apebook',
+        blog:'./theme/blog'
     },
     //默认启用的插件
     "plugins": []
@@ -57,7 +57,7 @@ Book.prototype = {
                 bookJson.localAssetHost = bookJson.assetHost;
             }
             bookJson.plugins = this.plugins;
-            yield fse.writeFile(src+'book.json',JSON.stringify(bookJson));
+            yield fse.writeFile(src+'/book.json',JSON.stringify(bookJson));
             console.log(bookJson);
             console.log('src ' + src);
             console.log('dest ' + path);
