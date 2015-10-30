@@ -124,6 +124,13 @@ module.exports = {
     isYourBook: function*(next){
         var user = this.session['user'];
         var book = this.book;
+        if(!book){
+            var id = this.params.id || this.request.query.id;
+            var mBook = this.model.book;
+            this.id = id;
+            book = yield mBook.getById(id);
+            this.book = book;
+        }
         var mUser = this.model.user;
         var isYourBook = yield mUser.isSelfBook(user.id,book.id);
         if(isYourBook){

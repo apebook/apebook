@@ -1,5 +1,6 @@
 //书籍访问数据
 var _ = require('../base/util');
+var moment = require('moment');
 var View = module.exports = function(){
     this.redis = null;
     this.keyPre = 'view:';
@@ -30,5 +31,45 @@ View.prototype = {
     //获取某个书籍的访问量
     count: function*(bookId){
         return Number(yield this.redis.get(this.keyPre+bookId)) || 0;
+    },
+    /**
+     * 获取图书的访问数据list，用于生成图表
+     * @param bookId
+     */
+    list: function*(bookId,days){
+        var self = this;
+        var redis = self.redis;
+        var times = yield redis.smembers(self.timeKeyPre+bookId);
+        return this.daysCount(times,days || 30);
+    },
+    /**
+     * 获取一个时间段内的一天访问量
+     * @param times
+     * @param days
+     * @param start
+     */
+    daysCount: function(times,days,start){
+        var data = {
+            x:[],
+            y:[]
+        };
+        if(!times || !times.length){
+            return data;
+        }
+        if(!start){
+            start = _.now();
+        }
+        var oneDayTime = 24*60*60*1000;
+
+        for(var i=days;i>1;i--){
+            var dayTime = start - (i*oneDayTime);
+            var sDay = moment(dayTime).format("DD/MM");
+            data.x.push(sDay);
+            var dayTimes = _.filter(times,function(time){
+                return Number(time) > dayTime && Number(time) < (dayTime+oneDayTime);
+            });
+            data.y.push(dayTimes.length);
+        }
+        return data;
     }
 };

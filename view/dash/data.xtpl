@@ -1,0 +1,37 @@
+{{extend ("../layout/layout")}}
+{{#block ("head")}}
+    <script>KISSY.importStyle('apebook/dash.css')</script>
+    <script>KISSY.importStyle('apebook/setting.css')</script>
+
+{{/block}}
+{{#block ("body")}}
+    <div class="dash-main">
+        {{set(currentNav="data")}}
+        {{include ("../layout/sidebar")}}
+        <section class="dash-wrapper">
+            <h3><i class="iconfont">&#xe60b;</i> 图书数据</h3>
+            <div class="row">
+              <div class="col-md-2 row count-wrapper">
+                <div class="col-md-6">
+                  <i class="iconfont">&#xe61b;</i>
+                </div>
+                <div class="col-md-6 count-content">
+                  <p><b>view</b></p>
+                  <p>{{count}}</p>
+                </div>
+              </div>
+              <div class="col-md-2 row count-wrapper">
+                <div class="col-md-6">
+                  <i class="iconfont">&#xe61c;</i>
+                </div>
+                <div class="col-md-6 count-content">
+                  <p><b>star</b></p>
+                  <p class="J_CountStar" href="https://github.com/{book.githubUser}}/{{book.githubRepo}}/stargazers"  data-user="{{book.githubUser}}" data-repo="{{book.githubRepo}}"><span>0</span></p>
+                </div>
+              </div>
+            </div>
+            <div id="J_Chart" class="chart" data-api="/api/book/data?id={{book.id}}"></div>
+        </section>
+    </div>
+    <script>KISSY.use('apebook/book-data')</script>
+{{/block}}

@@ -347,6 +347,10 @@ module.exports = {
     sync: function*(){
         yield sync.bind(this)();
     },
+    /**
+     * github repo hook
+     * @returns {boolean}
+     */
     hook: function*(){
         var body = yield this.request.body;
         var repository = body.repository;
@@ -365,5 +369,23 @@ module.exports = {
             id: id,
             owner: repository.owner.login
         });
+    },
+    /**
+     * 书籍书籍页面
+     */
+    data: function*(){
+        var book = this.book;
+        var mView = this.model.view;
+        var count = yield mView.count(book.id);
+        yield this.html('dash/data',{book:this.book,count:count,dash:true,id:book.id});
+    },
+    /**
+     * api 获取数据数据
+     */
+    apiData: function*(){
+        var book = this.book;
+        var mView = this.model.view;
+        var views = yield mView.list(book.id,15);
+        _.json.bind(this)({views:views});
     }
 };
