@@ -9,8 +9,8 @@ var defaultConfig = {
     src: 'book-md/',
     dest: 'book-html/',
     themes:{
-        apebook:'./theme/apebook',
-        blog:'./theme/blog'
+        apebook:'theme/apebook',
+        blog:'theme/blog'
     },
     //默认启用的插件
     "plugins": []
