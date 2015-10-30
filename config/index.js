@@ -9,7 +9,7 @@ var config = {
     appName: 'apebook',
     //端口号配置
     port: 8080,
-    host: '//apebook.org/',
+    host: 'http://apebook.org/',
     coverHost:'//cover.apebook.org/',
     //书籍地址
     bookHost:'//book.apebook.org',
