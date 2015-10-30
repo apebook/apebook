@@ -19,7 +19,7 @@
     {{! 还没登录}}
     <nav class="right-nav login-nav">
         <a href="/login" class="btn btn-info" >登录</a>
-        <!--<a href="/join"  class="btn btn-success" >注册</a>-->
+        <a href="/join"  class="btn btn-success" >注册</a>
     </nav>
     {{/if}}
 
