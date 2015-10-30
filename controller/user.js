@@ -93,6 +93,7 @@ module.exports = {
             if(!userToken){
                 userToken = yield mUser.token(user.name,true);
             }
+            data.email = user.email;
             mail.send.bind(this)({
                 to: user.email,
                 name: user.name,

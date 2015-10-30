@@ -183,13 +183,5 @@ User.prototype = _.extend({},Base, {
             yield redis.expire(key,120*60);
         }
         return yield redis.get(key);
-    },
-    /**
-     * 发送注册邮件的次数
-     */
-    sendMailCount: function*(name){
-        var redis = this.redis;
-        var key = this.keyPre+'mail-count:'+name;
-
     }
 });
