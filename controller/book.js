@@ -56,7 +56,6 @@ function *sync(body){
         yield mHistory.add(book.id,'github','github 内容同步成功',userName);
         //pullResult.change = true;
         //存在文件变更，渲染html
-        pullResult.change = true;
         if(pullResult.change){
             var renderResult = yield bookCtrl.render();
             //渲染失败
@@ -78,8 +77,10 @@ function *sync(body){
                 yield mBook.readMe(id,readeMeHtml);
                 yield mBook.summary(id,summaryHtml);
                 yield mBook.nearestUpdate(id);
-                yield mHistory.add(book.id,'success','书籍成功同步到 cdn',userName);
+                yield mHistory.add(book.id,'success','图书成功同步到云空间',userName);
             }
+        }else{
+            yield mHistory.add(book.id,'action','图书不存在内容变更',userName);
         }
     }
     this.body = pullResult;
