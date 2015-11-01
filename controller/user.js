@@ -10,7 +10,11 @@ module.exports = {
     detail: function*(){
         var name = this.params.name;
         this.title = '@'+name+' apebook';
-
+        var user = this.session.user;
+        //账号没有激活
+        if(user && user.name === name && user.activate !== 'true'){
+            this.redirect('/activate');
+        }
         var mUser = this.model.user;
         var isExist = yield mUser.isExist(name);
         if(!isExist){
