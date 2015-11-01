@@ -131,7 +131,7 @@ module.exports = {
         this.checkBody('password', '密码不可以为空').notEmpty();
         var id = yield mUser.id('name',body.name);
         if(id === -1){
-            id = yield mUser.id('email',body.email);
+            id = yield mUser.id('email',body.name);
         }
         //不存在该用户
         if(id === -1){
