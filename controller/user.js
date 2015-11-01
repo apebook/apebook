@@ -148,7 +148,7 @@ module.exports = {
             //用户token
             this.session.user_token = yield mUser.token(body.name,true);
             //重定向
-            this.redirect(this.session.back || '/');
+            this.redirect(this.session.back || '/user/'+body.name);
         }
     },
     //用户设置
