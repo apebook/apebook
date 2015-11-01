@@ -14,17 +14,14 @@
                 <input type="text" class="form-control input-lg" name="name" value="{{user.name}}" readonly>
             </div>
             <div class="form-group">
+              <label for="username">邮箱</label>
+              <input type="text" class="form-control input-lg" name="email" placeholder="" msg-wrapper="#J_EmailMsg" value="{{email}}" readonly>
+            </div>
+            <div class="form-group">
                 <label for="username">昵称</label>
                 <input type="text" class="form-control input-lg" name="nick" placeholder="" msg-wrapper="#J_NickMsg" value="{{nick}}">
                 <div id="J_NickMsg">
                     {{macro("error",errors.nick)}}
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="username">邮箱</label>
-                <input type="text" class="form-control input-lg" name="email" placeholder="" msg-wrapper="#J_EmailMsg" value="{{email}}">
-                <div id="J_EmailMsg">
-                    {{macro("error",errors.email)}}
                 </div>
             </div>
             <div class="form-group avatar-wrapper">

@@ -165,7 +165,9 @@ module.exports = {
         var body = this.request.body;
         this.log('user post setting data :');
         this.log(body);
-        this.checkBody('email', 'email格式不合法').isEmail();
+        var user = this.session.user;
+        body.name = user.name;
+        body.email = user.email;
         var mUser = this.model.user;
         _.authError.bind(this)('/setting',body);
         this.session.user = yield mUser.post(body);
