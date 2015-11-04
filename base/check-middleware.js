@@ -131,6 +131,11 @@ module.exports = {
             book = yield mBook.getById(id);
             this.book = book;
         }
+        if(!book){
+            this.error(book.id+' book is not your');
+            yield error.bind(this)('图书不存在');
+            return false;
+        }
         var mUser = this.model.user;
         var isYourBook = yield mUser.isSelfBook(user.id,book.id);
         if(isYourBook){

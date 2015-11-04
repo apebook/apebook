@@ -8,7 +8,7 @@ module.exports = function(app){
     //更新书籍信息
     app.post('/api/book/post',check.apiLogin,check.apiPostBookExist,check.isYourBook,ctlBook.post);
     //书籍封面
-    app.post('/api/book/cover',check.apiLogin,check.isYourBook,ctlBook.cover);
+    app.post('/api/book/cover',check.apiLogin,ctlBook.cover);
     //判断是否已经存在书籍url
     app.get('/api/book/exist',ctlBook.exist);
     //判断是否已经存在该书籍名称

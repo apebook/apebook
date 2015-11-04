@@ -201,6 +201,8 @@ module.exports = {
     //书籍封面
     cover: function*(){
         var mBook = this.model.book;
+        var mUser = this.model.user;
+        var user = this.session.user;
         var oss = this.oss;
         //存储书籍封面的oss桶
         var bucket = this.config.ossBuckets.cover;
@@ -213,6 +215,11 @@ module.exports = {
                 id = part[1];
                 if(!id){
                     this.body = {"status":0,message:"缺少id"};
+                    return false;
+                }
+                var isYourBook = yield mUser.isSelfBook(user.id,id);
+                if(!isYourBook){
+                    this.body = {"status":0,message:"您不是该图书的作者"};
                     return false;
                 }
                 continue;

@@ -3,13 +3,13 @@
     <div class="form-group ">
         <label for="title" class="control-label">书籍网址 ：<a href="http://apebook.org/book/{{uri}}">http://apebook.org/book/{{uri}}</a></label>
     </div>
-    <div class="form-group book-wrapper">
+    <div class="form-group">
       <div class="uploader-button-wrapper">
         <input type="file" class="g-u" id="J_UploaderBtn" value="设置封面" name="uploader-btn"  accept="image/*" >
         <input type="hidden" class="J_BookId" value="{{id}}"/>
       </div>
        <p class="uploader-suggest">建议封面尺寸 200x270</p>
-      <div id="J_UploaderQueue" class="grid">
+      <div id="J_UploaderQueue" class="grid singleImageUploader-queue">
         <script type="text/uploader-files">
               {{#if(cover)}}
                   [{
