@@ -375,7 +375,7 @@ module.exports = {
         this.book = book;
         yield sync.bind(this)({
             id: id,
-            owner: repository.owner.login
+            owner: body.pusher.name
         });
     },
     /**
