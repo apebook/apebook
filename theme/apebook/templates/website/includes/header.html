@@ -5,11 +5,6 @@
     {% if glossary.length > 0 %}
     <a href="{{ basePath }}/GLOSSARY.html" class="btn pull-left" aria-label="{{ __("GLOSSARY_OPEN") }}"><i class="fa fa-sort-alpha-asc"></i></a>
     {% endif %}
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="{{ __("FONTSETTINGS_TOGGLE") }}"><i class="fa fa-font"></i>
-        </a>
-        {% include "./font-settings.html" %}
-    </div>
 
     <a href="{{options.apebookHost}}"  class="btn pull-right apebook-logo"><img src="//img.apebook.org/logo.png" /></a>
     <a href="{{options.apebookHost}}/book/{{options.bookId}}"  data-api="{{options.apebookHost}}/api/book/{{options.bookId}}"  target="_blank" class="btn pull-right J_CountView"><i class="fa fa-eye"></i> view ( <span>-</span> )</a>
