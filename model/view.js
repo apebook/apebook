@@ -13,7 +13,7 @@ View.prototype = {
      * @param bookId
      * @returns {*}
      */
-    incr : function*(bookId,session,mBook){
+    incr : function*(bookId,session){
         var self = this;
         var db = self.redis;
         var now = _.now();
@@ -25,6 +25,7 @@ View.prototype = {
         yield db.sadd(self.timeKeyPre+bookId,now);
         session[this.keyPre+bookId] = true;
         var count = yield self.count(bookId);
+        var mBook = this.model.book;
         yield mBook.post({id:bookId,view:count});
         return count;
     },
