@@ -51,6 +51,7 @@ Book.prototype = {
             bookJson.githubUser = data.githubUser;
             bookJson.githubRepo = data.githubRepo;
             bookJson.bookId = data.id;
+            bookJson.bookName = book;
             bookJson.apebookHost = this.apebookHost;
             bookJson.assetHost = this.assetHost;
             if(process.env.NODE_ENV !== 'local'){

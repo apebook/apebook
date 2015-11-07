@@ -6,13 +6,13 @@
     <a href="{{ basePath }}/GLOSSARY.html" class="btn pull-left" aria-label="{{ __("GLOSSARY_OPEN") }}"><i class="fa fa-sort-alpha-asc"></i></a>
     {% endif %}
 
-    <a href="{{options.apebookHost}}"  class="btn pull-right apebook-logo"><img src="//img.apebook.org/logo.png" /></a>
+    <a href="{{options.apebookHost}}/book/{{options.bookName}}"  class="btn pull-right apebook-logo"><img src="//img.apebook.org/logo.png" /></a>
     <a href="{{options.apebookHost}}/book/{{options.bookId}}"  data-api="{{options.apebookHost}}/api/book/{{options.bookId}}"  target="_blank" class="btn pull-right J_CountView"><i class="fa fa-eye"></i> view ( <span>-</span> )</a>
     <a href="https://github.com/{options.githubUser}}/{{options.githubRepo}}/stargazers"  data-user="{{options.githubUser}}" data-repo="{{options.githubRepo}}" target="_blank" class="btn pull-right count-star J_CountStar"><i class="fa fa-star-o"></i> Star ( <span>-</span> )</a>
 
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="{{ basePath }}/" >{{ title }}</a>
+        <a href="{{options.apebookHost}}/book/{{options.bookName}}" >{{ title }}</a>
     </h1>
 </div>
