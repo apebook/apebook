@@ -14,5 +14,5 @@
           {{include ("../book/setting-form")}}
         </section>
     </div>
-    <script>KISSY.use('apebook/book')</script>
+    <script>KISSY.use('apebook/book-setting')</script>
 {{/block}}
