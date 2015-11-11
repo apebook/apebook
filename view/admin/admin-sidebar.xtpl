@@ -1,0 +1,8 @@
+<div class="sidebar-wrapper">
+  <h2 class="logo"><a href="/"><img src="//a.apebook.org/logo/logo.jpg" /></a></h2>
+  <section class="book-admin-wrapper">
+    <ul class="nav nav-sidebar book-admin-nav">
+      <li><a href="/admin/users"><span>用户管理</span></a></li>
+    </ul>
+  </section>
+</div>

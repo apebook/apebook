@@ -108,8 +108,8 @@ module.exports = {
      * @param next
      */
     isAdminer: function*(next){
-        var user = this.session('user');
-        if(user.role === 'admin'){
+        var user = this.session['user'];
+        if(user.role === 'adminer'){
             yield next;
         }else{
             this.error('you is not adminer');

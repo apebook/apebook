@@ -183,5 +183,20 @@ User.prototype = _.extend({},Base, {
             yield redis.expire(key,120*60);
         }
         return yield redis.get(key);
+    },
+    /**
+     * 获取所有的用户
+     */
+    all: function*(){
+        var p = this.keyPre;
+        var redis = this.redis;
+        var ids = yield this.ids();
+        var users = [];
+        for(var i=0;i<ids.length;i++){
+            var user = yield redis.hgetall(p+ids[i]);
+            users.push(user);
+
+        }
+        return users;
     }
 });

@@ -1,5 +1,5 @@
 <div class="sidebar-wrapper">
-    <h2 class="logo"><a href="/">APE BOOK</a></h2>
+    <h2 class="logo"><a href="/"><img src="//a.apebook.org/logo/logo.jpg" /></a></h2>
     {{! 书籍管理页面}}
     {{#if(dash)}}
     {{include('../dash/dash-sidebar')}}

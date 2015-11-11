@@ -14,6 +14,9 @@ module.exports = {
    * 用户管理
    */
   users: function*(){
-
+    var mUser = this.model.user;
+    var data = {};
+    data.users = yield mUser.all();
+    yield this.html('admin/users',data);
   }
 };
