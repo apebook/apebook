@@ -305,7 +305,7 @@ module.exports = {
 
             var addHookResult = yield mGithub.addHook(body.repo,body.user,this.id);
             this.log(addHookResult);
-            if(addHookResult.success){
+            if(addHookResult.success && !addHookResult.has){
                 var hookPath = addHookResult.data.config.url;
                 yield mBook.post({id:this.id,hook:hookPath});
                 yield mHistory.add(this.id,'github','图书设置同步 hook 成功，hook 地址：<br />'+hookPath,user.name);

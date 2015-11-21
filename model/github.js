@@ -137,14 +137,38 @@ Github.prototype = _.extend({},Base,{
     }
     return true;
   },
+  /**
+   * 添加hook
+   * @param repo
+   * @param user
+   * @param bookId
+   * @returns {*}
+   */
   addHook: function*(repo,user,bookId){
+    var hasHook = false;
+    var url = 'http://apebook.org/api/book/'+bookId+'/sync';
+    var hooks = yield promise(github.repos.getHooks,{
+      repo: repo,
+      user: user
+    });
+    console.log(hooks);
+    if(hooks.success){
+      if(hooks.data.length){
+        hasHook = hooks.data.some(function(hook){
+          return hook.config.url === url;
+        });
+        if(hasHook){
+          return {success: true,has:true};
+        }
+      }
+    }
     return yield promise(github.repos.createHook,{
       repo: repo,
       user: user,
       events: ['push','pull_request'],
       name: "web",
       config: {
-        "url":'http://apebook.org/api/book/'+bookId+'/sync',
+        "url":url,
         "content_type":"json"
       }
     });

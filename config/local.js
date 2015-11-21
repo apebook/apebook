@@ -11,5 +11,10 @@ module.exports = {
         scope: ['user','public_repo','admin:repo_hook','admin:org_hook','read:org'],
         userKey: 'github_user',
         timeout: 10000
+    },
+    //redis数据库连接配置
+    redis:{
+        host: 'localhost',
+        port: 6379
     }
 };
