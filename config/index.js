@@ -29,7 +29,7 @@ var config = {
     github:{
         clientID: '1f70a5a2b666fc22b5c0',
         clientSecret: 'xxxx',
-        callbackURL: 'http://www.apebook.org:8080/github/callback',
+        callbackURL: 'http://www.apebook.org/github/callback',
         scope: ['user','public_repo','admin:repo_hook','admin:org_hook','read:org'],
         userKey: 'github_user',
         timeout: 10000
