@@ -23,7 +23,7 @@ var config = {
     //redis数据库连接配置
     redis:{
         host: 'localhost',
-        port: 6379
+        port: 7777
     },
     //github配置
     github:{
