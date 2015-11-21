@@ -84,6 +84,10 @@ if(process.env.MAIL){
 if(process.env.TOKEN_KEY){
     config.tokenKey = process.env.TOKEN_KEY;
 }
+//redis 数据库的密码
+if(process.env.REDIS_PASS){
+    config.redis.pass = process.env.REDIS_PASS;
+}
 var occupation = require('./occupation');
 config.occupations = occupation;
 var cats = require('./cat');
