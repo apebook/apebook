@@ -13,9 +13,9 @@
 
             {{#if(!githubToken || !bindGithubUser)}}
               <div class="panel to-github-tip J_GithubTip">
-                <p>github 绑定需要登录 github 账号并授权，正在为您跳转到 github 。</p>
-                <p>只有获取 github 授权后，系统才可以实现 push 代码后自动更新图书。</p>
-                <a href="{{githubTo}}" class="btn btn-block btn-lg btn-success btn-next" role="button">前往github登录并授权</a>
+                <p>亲，您的账号还没有绑定 github 账号并授权</p>
+                <p>只有获得 github 授权后，apebook 系统才可以实现 push 代码后自动更新图书。</p>
+                <a href="{{githubTo}}" class="btn btn-block btn-lg btn-success btn-next" role="button">前往 github 授权</a>
               </div>
             {{else}}
               {{#if(!bindGithubUser)}}
