@@ -78,8 +78,8 @@ if(process.env.OSS){
 if(process.env.GITHUB){
     config.github.clientSecret = process.env.GITHUB;
 }
-if(process.env.MAIL){
-    config.mail.appkey = process.env.MAIL;
+if(process.env.MAIL_KEY){
+    config.mail.appkey = process.env.MAIL_KEY;
 }
 if(process.env.TOKEN_KEY){
     config.tokenKey = process.env.TOKEN_KEY;
