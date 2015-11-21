@@ -11,7 +11,7 @@
         <section class="dash-wrapper">
             <h3><i class="iconfont">&#xe60c;</i> GitHub 绑定</h3>
 
-            {{#if(!githubToken)}}
+            {{#if(!githubToken || !bindGithubUser)}}
               <div class="panel to-github-tip J_GithubTip">
                 <p>github 绑定需要登录 github 账号并授权，正在为您跳转到 github 。</p>
                 <p>只有获取 github 授权后，系统才可以实现 push 代码后自动更新图书。</p>
