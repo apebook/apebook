@@ -24,6 +24,7 @@ module.exports = function(app) {
     app.get('/logout',function *(){
         delete this.session.user;
         delete this.session.back;
+        delete this.session.githubToken;
         this.redirect('/login');
     });
 
