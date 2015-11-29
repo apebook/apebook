@@ -2,7 +2,11 @@
   <div class="books-item">
     <div class="book-cover">
       <a href="/book/{{uri}}">
+        {{#if(cover)}}
         <img src="{{cover}}" alt="{{name}}">
+        {{else}}
+          <h4>{{name}}</h4>
+        {{/if}}
       </a>
     </div>
     <div class="book-infos">
@@ -11,11 +15,13 @@
           <a href="/book/{{id}}/dashboard" class="btn btn-default"><i class="iconfont">&#xe60d;</i> 编辑</a>
       {{/if}}
       <p class="description">{{desc||description}}</p>
-      <p class="info-meta"><i class="iconfont">&#xe621;</i> <a href="/user/{{userName}}">{{userName}}</a></p>
-      {{#if(updateTime)}}
-      <p class="info-meta"><i class="iconfont">&#xe620;</i> {{nearestTime(updateTime)}}</p>
-      {{/if}}
-      <p class="info-meta"><i class="iconfont">&#xe61b;</i> {{view||0}}</p>
+      <div class="info-meta row">
+        <p class="col-md-3"><i class="iconfont">&#xe621;</i> <a href="/user/{{userName}}">{{userName}}</a></p>
+        {{#if(updateTime)}}
+          <p class="col-md-3"><i class="iconfont">&#xe620;</i> {{nearestTime(updateTime)}}</p>
+        {{/if}}
+        <p class="col-md-3"><i class="iconfont">&#xe61b;</i> {{view||0}}</p>
+      </div>
     </div>
   </div>
 </div>
