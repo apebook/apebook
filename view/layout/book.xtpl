@@ -11,11 +11,11 @@
     </div>
     <div class="book-infos">
       <h4><a href="/book/{{uri}}">《{{name}}》</a></h4>
+      {{#if(user.name === author.name)}}
+      <a href="/book/{{id}}/dashboard" class="btn btn-default edit-btn"><i class="iconfont">&#xe60d;</i> 编辑</a>
+      {{/if}}
       <p class="description">
         {{desc||description}}
-        {{#if(user.name === author.name)}}
-          <a href="/book/{{id}}/dashboard" class="btn btn-default"><i class="iconfont">&#xe60d;</i> 编辑</a>
-        {{/if}}
       </p>
       <div class="info-meta row">
         <p class="col-md-4"><i class="iconfont">&#xe621;</i> <a href="/user/{{userName}}">{{userName}}</a></p>
