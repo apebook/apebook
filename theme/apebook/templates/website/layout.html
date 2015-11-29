@@ -19,7 +19,7 @@
         <link rel="shortcut icon" href="//a.apebook.org/apebook.ico" type="image/x-icon">
         <script src="//g.alicdn.com/kissy/k/1.4.8/??seed-min.js,import-style-min.js" data-config="{combine:true}"></script>
         <script>
-            KISSY.config({packages: [{name: 'apebook',base: "{{options.localAssetHost}}",ignorePackageNameInUri: true}]});
+            KISSY.config({packages: [{name: 'apebook',base: "{{options.localAssetHost}}",combine:false,ignorePackageNameInUri: true}]});
         </script>
         {% block style %}{% endblock %}
         {% block head %}{% endblock %}
