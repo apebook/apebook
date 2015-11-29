@@ -2,7 +2,7 @@
     <h2 class="logo"><a href="/"><img src="//a.apebook.org/logo/logo.jpg" /></a></h2>
     <nav class="left-nav">
         <a href="/library">图书馆</a>
-        <a href="/help">帮助</a>
+        <a href="//book.apebook.org/minghe/apebook-guide/index.html">使用帮助</a>
         <a href="https://github.com/apebook/guide/issues">反馈</a>
     </nav>
     {{#if(user)}}

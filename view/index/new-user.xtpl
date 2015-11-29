@@ -33,7 +33,7 @@
         <p><i class="iconfont">&#xe61f;</i> markdown + github 图书编撰方式，对于程序员真心安逸方便，满满的成就感。</p>
         <cite> — 明河（淘宝前端工程师）</cite>
       </blockquote>
-      <a href="" class="btn btn-success">了解如何编写图书</a>
+      <a href="http://book.apebook.org/minghe/apebook-guide/index.html" class="btn btn-success">了解如何编写图书</a>
     </div>
     <div class="col-md-6">
       <img src="//a.apebook.org/flow.png"/>
