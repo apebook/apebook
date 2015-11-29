@@ -3,12 +3,12 @@
     <h3>拿本瞧瞧</h3>
     <ul class="book-list">
       <li class="book-wrapper">
-        <a href="">
+        <a href="//book.apebook.org/minghe/koa-action/index.html">
           <figure class="book">
             <!-- Front -->
             <ul class="hardcover_front">
               <li>
-                <img src="http://tympanus.net/Development/AnimatedBooks/img/cover.jpg" alt="" width="100%" height="100%">
+                <img src="//cover.apebook.org/1448699547030.jpg" alt="" width="100%" height="100%">
               </li>
               <li></li>
             </ul>
