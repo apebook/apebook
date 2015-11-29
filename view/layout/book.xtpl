@@ -16,9 +16,9 @@
       {{/if}}
       <p class="description">{{desc||description}}</p>
       <div class="info-meta row">
-        <p class="col-md-3"><i class="iconfont">&#xe621;</i> <a href="/user/{{userName}}">{{userName}}</a></p>
+        <p class="col-md-4"><i class="iconfont">&#xe621;</i> <a href="/user/{{userName}}">{{userName}}</a></p>
         {{#if(updateTime)}}
-          <p class="col-md-3"><i class="iconfont">&#xe620;</i> {{nearestTime(updateTime)}}</p>
+          <p class="col-md-5"><i class="iconfont">&#xe620;</i> {{nearestTime(updateTime)}}</p>
         {{/if}}
         <p class="col-md-3"><i class="iconfont">&#xe61b;</i> {{view||0}}</p>
       </div>
