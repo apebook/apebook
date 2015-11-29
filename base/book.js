@@ -40,37 +40,34 @@ Book.prototype = {
         yield fse.ensureDir(self.dest+user);
         var path = self.dest+user+'/'+book;
         yield fse.ensureDir(path);
-            var bookJson = yield fse.readFile(src+'/book.json');
-            if(!bookJson){
-                return {'success':false,'msg':'不存在book.json'};
-            }
-            bookJson = JSON.parse(bookJson);
-            bookJson.theme = theme || this.themes['apebook'];
-            bookJson.output = path;
-            var data = this.data;
-            bookJson.githubUser = data.githubUser;
-            bookJson.githubRepo = data.githubRepo;
-            bookJson.bookId = data.id;
-            bookJson.bookName = book;
-            bookJson.apebookHost = this.apebookHost;
-            bookJson.assetHost = this.assetHost;
-            if(process.env.NODE_ENV !== 'local'){
-                bookJson.localAssetHost = bookJson.assetHost;
-            }
-            bookJson.plugins = this.plugins;
-            yield fse.writeFile(src+'/book.json',JSON.stringify(bookJson));
-            console.log(bookJson);
-            console.log('src ' + src);
-            console.log('dest ' + path);
-            try{
-                var output = yield shell.exec('gitbook build '+src+' --debug');
-            }catch(e){
-                console.log(e);
-                output = '书籍渲染失败';
-            }
-            yield shell.exec('cd '+src+' && ' +'git reset --hard');
-            //删除生成的无用的gitbook目录
-            yield shell.exec('cd '+path+' && ' +'rm -rf -r gitbook');
+        //图书配置
+        var bookJson = {};
+        bookJson.theme = theme || this.themes['apebook'];
+        bookJson.output = path;
+        var data = this.data;
+        bookJson.githubUser = data.githubUser;
+        bookJson.githubRepo = data.githubRepo;
+        bookJson.bookId = data.id;
+        bookJson.bookName = book;
+        bookJson.apebookHost = this.apebookHost;
+        bookJson.assetHost = this.assetHost;
+        if(process.env.NODE_ENV !== 'local'){
+            bookJson.localAssetHost = bookJson.assetHost;
+        }
+        bookJson.plugins = this.plugins;
+        yield fse.writeFile(src+'/book.json',JSON.stringify(bookJson));
+        console.log(bookJson);
+        console.log('src ' + src);
+        console.log('dest ' + path);
+        try{
+            var output = yield shell.exec('gitbook build '+src+' --debug');
+        }catch(e){
+            console.log(e);
+            output = '书籍渲染失败';
+        }
+        yield shell.exec('cd '+src+' && ' +'git reset --hard');
+        //删除生成的无用的gitbook目录
+        yield shell.exec('cd '+path+' && ' +'rm -rf -r gitbook');
         console.log(output);
         //build 成功
         if(/Done, without error/.test(output)){
@@ -139,10 +136,9 @@ Book.prototype = {
     isBook: function *(){
         var self = this;
         var src = self.bookPath();
-        var hasBookJson = yield fs.exists(src + '/book.json');
         var hasReadme = yield fs.exists(src + '/README.md');
         var hasSummary = yield fs.exists(src + '/SUMMARY.md');
-        return hasBookJson && hasReadme && hasSummary;
+        return hasReadme && hasSummary;
     },
     bookPath: function(){
         var user = this.user;
