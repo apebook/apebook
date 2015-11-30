@@ -59,9 +59,9 @@ require(["gitbook"], function(gitbook) {
     var config = {% autoescape false %}{{ pluginsConfig }}{% endautoescape %};
     gitbook.start(config);
 });
+hljs.initHighlightingOnLoad();
 KISSY.use('apebook/gitbook',function(S,Gitbook){
     Gitbook();
-    hljs.initHighlightingOnLoad();
 });
 </script>
 {% endblock %}
