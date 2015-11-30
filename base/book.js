@@ -51,6 +51,7 @@ Book.prototype = {
         bookJson.bookName = book;
         bookJson.apebookHost = this.apebookHost;
         bookJson.assetHost = this.assetHost;
+        bookJson.desc = data.desc;
         if(process.env.NODE_ENV !== 'local'){
             bookJson.localAssetHost = bookJson.assetHost;
         }
