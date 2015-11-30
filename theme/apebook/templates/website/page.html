@@ -46,6 +46,7 @@
 
 {% block javascript %}
 <script src="{{ options.assetHost }}/app.js"></script>
+<script src="{{ options.assetHost }}/highlight.pack.js"></script>
 {% for resource in plugins.resources.js %}
     {% if resource.url %}
     <script src="{{ resource.url }}"></script>
@@ -60,6 +61,7 @@ require(["gitbook"], function(gitbook) {
 });
 KISSY.use('apebook/gitbook',function(S,Gitbook){
     Gitbook();
+    hljs.initHighlightingOnLoad();
 });
 </script>
 {% endblock %}
