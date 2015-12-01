@@ -22,8 +22,8 @@
       </div>
       {{#if(author.bindGithub==="true")}}
       <div class="col-md-2 meta-info">
-        <p><a href="{{author.github.url}}"><i class="iconfont">&#xe60c;</i></a></p>
-        <p><a href="{{author.github.url}}" target="_blank">github 主页</a></p>
+        <p><a href="{{author.github.html_url}}"><i class="iconfont">&#xe60c;</i></a></p>
+        <p><a href="{{author.github.html_url}}" target="_blank">github 主页</a></p>
       </div>
       {{else}}
         {{#if(user.name === author.name)}}
