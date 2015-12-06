@@ -7,6 +7,7 @@
     </div>
 
     <form role="form" class="form-inline register-form J_Register" method="post" action="/join">
+
         <a href="{{githubTo}}" class="btn btn-success btn-lg btn-full"><span class="iconfont">&#xe60c;</span> 使用 github 登录体验</a>
     </form>
 </section>
