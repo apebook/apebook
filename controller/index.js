@@ -10,7 +10,9 @@ module.exports = {
         //已经登录
         if(user){
             this.redirect('/user/'+user.name);
+            return false;
         }
+        data.githubTo = this.config.githubPath+'/github-login';
         yield this.html('index',data);
     },
     /**
