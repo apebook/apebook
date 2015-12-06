@@ -149,7 +149,7 @@ module.exports = {
             this.log('userId:'+userId);
             this.session.user = yield mUser.getByName(userId);
             //用户token
-            this.session.user_token = yield mUser.token(userId,true);
+            this.session.user_token = yield mUser.token(this.session.user.name,true);
             var url = this.request.query.url || '/';
             this.redirect(url);
         }else{
@@ -175,7 +175,7 @@ module.exports = {
             userId = user.id;
             yield mUser.github(userId,githubUser);
             this.session.user = yield mUser.getByName(user.name);
-            this.session.user_token = yield mUser.token(userId,true);
+            this.session.user_token = yield mUser.token(user.name,true);
             this.redirect('/');
         }
     },
