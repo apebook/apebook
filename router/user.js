@@ -18,6 +18,7 @@ module.exports = function(app) {
 
     //登录
     app.get('/login',ctlUser.login);
+    app.get('/github-login',ctlUser.githubLogin);
     app.post('/login',ctlUser.postLogin);
 
     //注销

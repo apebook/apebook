@@ -125,7 +125,59 @@ module.exports = {
     //登录
     login: function*(){
         var redirect_url = this.request.query.redirect_url || '/';
-        yield this.html('login',{redirect_url:redirect_url});
+        var githubTo = this.config.githubPath+'/github-login?url='+redirect_url;
+        yield this.html('login',{redirect_url:redirect_url,githubTo:githubTo});
+    },
+    /**
+     * github登录
+     */
+    githubLogin: function*(){
+        this.log('github login');
+        var githubUserKey = this.config.github.userKey;
+        var githubUser = this.session[githubUserKey];
+        //不存在github信息，跳转到登录页面
+        if(!githubUser){
+            this.log('not githubUser');
+            this.redirect('/login');
+            return false;
+        }
+
+        var mUser = this.model.user;
+        var userId = yield mUser.getUserIdByGithubName(githubUser.login);
+        //已经存在github账号的绑定的账号
+        if(userId){
+            this.log('userId:'+userId);
+            this.session.user = yield mUser.getByName(userId);
+            //用户token
+            this.session.user_token = yield mUser.token(userId,true);
+            var url = this.request.query.url || '/';
+            this.redirect(url);
+        }else{
+            this.log('not exist user');
+            //是否存在同名的user
+            var user = yield mUser.getByName(githubUser.login);
+            var name = githubUser.login;
+            //存在同名的用户
+            if(user){
+                this.log('same userName');
+                name = name + (Number(user.id)+1);
+            }
+            user = yield mUser.post({
+                name: name,
+                nick: githubUser.name || '',
+                email: githubUser.email || '',
+                avatar: githubUser.avatar_url || '',
+                bindGithub: true,
+                activate: true
+            });
+            this.log('add user');
+            this.log(user);
+            userId = user.id;
+            yield mUser.github(userId,githubUser);
+            this.session.user = yield mUser.getByName(user.name);
+            this.session.user_token = yield mUser.token(userId,true);
+            this.redirect('/');
+        }
     },
     //登录
     postLogin: function*(){
@@ -246,9 +298,9 @@ module.exports = {
     saveGithub: function*(){
         var githubUserKey = this.config.github.userKey;
         var githubUser = this.session[githubUserKey];
-        if(githubUser){
+        var user = this.session['user'];
+        if(githubUser && user){
             var mUser = this.model.user;
-            var user = this.session['user'];
             yield mUser.github(user.id,githubUser);
             this.session.user = yield mUser.getByName(user.name);
         }

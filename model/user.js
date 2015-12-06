@@ -95,6 +95,25 @@ User.prototype = _.extend({},Base, {
 
         return yield redis.hgetall(keyPre+userId);
     },
+    /**
+     * 通过github来获取用户
+     * @param name
+     */
+    getUserIdByGithubName: function*(name){
+        var self = this;
+        var redis = self.redis;
+        var keyPre = self.githubKeyPre;
+        //获取所有存在github绑定的用户
+        var keys = yield redis.keys(keyPre+'*');
+        var userId;
+        for(var i=0;i<keys.length;i++) {
+            var userName = yield redis.hmget(keys[i],'login');
+            if(userName[0] === name){
+                userId = keys[i].split(':')[1];
+            }
+        }
+        return Number(userId);
+    },
     //用户头像
     avatar: function*(user){
         var avatar = user.avatar;

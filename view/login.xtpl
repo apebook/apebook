@@ -5,23 +5,30 @@
 {{#block ("body")}}
     <div class="join-wrapper">
         <form role="form" class="form-vertical J_Auth" method="post" action="/login">
-            <h3><span class="iconfont">&#xe60f;</span> 登录 </h3>
-            <div class="form-group">
-                <label class="sr-only" for="username">用户名</label>
-                <input type="text" class="form-control input-lg" name="name" placeholder="用户名或邮箱" msg-wrapper="#J_UsernameMsg" value="{{body.name}}">
-                <div id="J_UsernameMsg">
+            <div class="row">
+              <div class="col-md-6">
+                <a href="{{githubTo}}" class="btn btn-info github-login-btn"><span class="iconfont">&#xe60c;</span> 使用 github 登录</a>
+              </div>
+              <div class="col-md-6">
+                <h3><span class="iconfont">&#xe621;</span> 直接登录 </h3>
+                <div class="form-group">
+                  <label class="sr-only" for="username">用户名</label>
+                  <input type="text" class="form-control input-lg" name="name" placeholder="用户名或邮箱" msg-wrapper="#J_UsernameMsg" value="{{body.name}}">
+                  <div id="J_UsernameMsg">
                     {{macro("error",errors.name)}}
+                  </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="sr-only" for="password">密码</label>
-                <input type="password" class="form-control input-lg" name="password"  msg-wrapper="#J_PasswordMsg" placeholder="密码">
-                <div id="J_PasswordMsg">
+                <div class="form-group">
+                  <label class="sr-only" for="password">密码</label>
+                  <input type="password" class="form-control input-lg" name="password"  msg-wrapper="#J_PasswordMsg" placeholder="密码">
+                  <div id="J_PasswordMsg">
                     {{macro("error",errors.password)}}
+                  </div>
                 </div>
+                <input type="hidden" value="{{redirect_url}}"/>
+                <button type="submit" class="btn btn-success login-btn">登 录</button>
+              </div>
             </div>
-            <input type="hidden" value="{{redirect_url}}"/>
-            <button type="submit" class="btn btn-block btn-lg btn-success">登 录</button>
         </form>
     </div>
 {{/block}}

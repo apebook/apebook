@@ -19,7 +19,9 @@
     </script>
 
     <link rel="stylesheet" href="http://a.apebook.org/bootstrap.min.css">
-    <script>KISSY.importStyle('apebook/common.css')</script>
+    <script>
+        KISSY.importStyle('apebook/common.css');
+    </script>
     {{{block ("head")}}}
 </head>
 <body>
