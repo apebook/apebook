@@ -119,10 +119,16 @@ module.exports = {
     },
     /**
      * 是否是本人的书籍
+     * 如果是管理员也算做本人
      * @param next
      */
     isYourBook: function*(next){
         var user = this.session['user'];
+        //如果是管理员也算做本人
+        if(user.role === 'adminer'){
+            yield next;
+            return true;
+        }
         var book = this.book;
         if(!book){
             var id = this.params.id || this.request.query.id;
