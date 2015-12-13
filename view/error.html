@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Error - {{status}}</title>
+  <meta name="description" content=" apebook 提供了 gitbook.com 类似的云端托管能力，apebook上的图书访问速度远超过 gitbook.com，apebook 只专注于程序员相关的图书。 " />
+  <meta name="keywords" content=" gitbook apebook 开源程序员图书 免费图书 nodejs书籍  " />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="shortcut icon" href="//a.apebook.org/apebook.ico" type="image/x-icon">
+  <link rel="stylesheet" href="//a.apebook.org/bootstrap.min.css">
+  <link rel="stylesheet" href="//a.apebook.org/common-min.css">
+  <style>
+    #error{
+      width: 1200px;
+      margin: 40px auto;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h2 class="logo"><a href="/"><img src="//a.apebook.org/logo/logo.jpg" /></a></h2>
+  <nav class="left-nav">
+    <a href="/library">图书馆</a>
+    <a href="//book.apebook.org/minghe/apebook-guide/index.html">使用帮助</a>
+    <a href="https://github.com/apebook/guide/issues">反馈</a>
+  </nav>
+</header>
+
+<div id="error">
+  <h3>页面访问错误</h3>
+  <p style="margin-top: 20px;">{{error}}</p>
+  <p style="margin-top: 20px;">
+    <a href="" class="btn btn-info" style="width: 150px;margin-right: 20px;">刷新重试</a>
+    <a href="https://github.com/apebook/guide/issues" class="btn btn-default" style="width: 250px;margin-right: 50px;">提交 issue 给程序猿</a>
+  </p>
+  {% if env == 'development' %}
+      <pre>
+        <code>
+          {{stack}}
+        </code>
+      </pre>
+  {% endif %}
+</div>
+</body>
+</html>

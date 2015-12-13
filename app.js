@@ -68,7 +68,7 @@ app.use(session({
 app.use(githubAuth(config.github));
 
 //错误捕获输出
-onerror(app);
+onerror(app,{template:config.errorPage});
 
 //post body 解析
 var bodyParser = require('koa-bodyparser');
