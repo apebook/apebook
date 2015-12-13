@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Error - {{status}}</title>
+  <title>页面访问错误</title>
   <meta name="description" content=" apebook 提供了 gitbook.com 类似的云端托管能力，apebook上的图书访问速度远超过 gitbook.com，apebook 只专注于程序员相关的图书。 " />
   <meta name="keywords" content=" gitbook apebook 开源程序员图书 免费图书 nodejs书籍  " />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
