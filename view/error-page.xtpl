@@ -29,18 +29,16 @@
 
 <div id="error">
   <h3>页面访问错误</h3>
-  <p style="margin-top: 20px;">{{error}}</p>
+  <p style="margin-top: 20px;">{{msg}}</p>
   <p style="margin-top: 20px;">
     <a href="" class="btn btn-info" style="width: 150px;margin-right: 20px;">刷新重试</a>
     <a href="https://github.com/apebook/guide/issues" class="btn btn-default" style="width: 250px;margin-right: 50px;">提交 issue 给程序猿</a>
   </p>
-  {% if env == 'development' %}
-      <pre>
-        <code>
-          {{stack}}
-        </code>
-      </pre>
-  {% endif %}
+    <pre style="display: none;">
+    <code>
+        {{stack}}
+    </code>
+    </pre>
 </div>
 </body>
 </html>

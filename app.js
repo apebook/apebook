@@ -5,7 +5,6 @@ var koa = require('koa');
 //配置文件
 var config = require('./config');
 var router = require('koa-router');
-var onerror = require('koa-onerror');
 //xtpl模板引擎对koa的适配
 var xtplApp = require('./base/xtpl');
 
@@ -19,7 +18,7 @@ app.redis = redisStore.client;
 app.context.redis = app.redis;
 //xtemplate模板渲染
 xtplApp.render(app,{
-    //配置模板目录redis
+    //配置模板目录
     views: config.viewDir
 });
 
@@ -68,7 +67,30 @@ app.use(session({
 app.use(githubAuth(config.github));
 
 //错误捕获输出
-onerror(app,{template:config.errorPage});
+var xtpl = require('xtpl/lib/xtpl');
+app.context.onerror = function(err){
+    var self = this;
+    // don't do anything if there is no error.
+    // this allows you to pass `this.onerror`
+    // to node-style callbacks.
+    if (null == err) {
+        return;
+    }
+
+    this.status = err.status;
+    this.type = 'html';
+    var msg = err.message;
+    if(/request github/.test(msg)){
+        msg = 'github 访问太慢，接口调用超时，请刷新页面重试。'+msg;
+    }
+    xtpl.renderFile(config.viewDir+'/error-page.xtpl', {
+        msg: msg,
+        stack: err.stack
+    }, function(err,html){
+        self.res.end(html);
+    });
+
+};
 
 //post body 解析
 var bodyParser = require('koa-bodyparser');

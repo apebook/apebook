@@ -28,7 +28,6 @@
     "is-utf8": "0.2.0",
     "koa": "0.11.0",
     "koa-middlewares": "1.4.0",
-    "koa-onerror": "1.2.0",
     "koa-snapshot": "1.1.0",
     "lru-cache": "2.5.0",
     "mini-logger": "1.0.0",

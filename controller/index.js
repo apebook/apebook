@@ -5,6 +5,7 @@ module.exports = {
      * 首页
      */
     index: function *(){
+        this.throw('test',500);
         var user = _.user.bind(this)();
         var data = {};
         //已经登录

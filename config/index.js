@@ -66,9 +66,7 @@ var config = {
         asset: 'apebook-asset',
         book: 'apebook-book',
         cover: 'apebook-cover'
-    },
-    //错误页面
-    errorPage:path.join(__dirname,'..', 'view','error.html')
+    }
 };
 if(process.env.NODE_ENV == 'local'){
     config = _.extend(config,local);
