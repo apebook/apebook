@@ -32,7 +32,7 @@ var config = {
         callbackURL: 'http://www.apebook.org/github/callback',
         scope: ['user','public_repo','admin:repo_hook','admin:org_hook','read:org'],
         userKey: 'github_user',
-        timeout: 120000
+        timeout: 10000
     },
     //触发github授权的路由
     githubPath:'/github/auth?redirect_uri=',
