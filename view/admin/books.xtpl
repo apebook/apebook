@@ -5,5 +5,36 @@
 {{/block}}
 
 {{#block ("body")}}
+<div class="dash-main">
+{{include ("./admin-sidebar")}}
+<section class="dash-wrapper">
+    <h3  class="section-title">图书管理（{{books.length}}）</h3>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>名称</th>
+        <th>作者</th>
+        <th>github 绑定</th>
+        <th>状态</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+<tbody>
+{{#each(books)}}
+<tr>
+    <th scope="row">{{id}}</th>
+    <td>{{name}}</td>
+    <td>{{userName}}</td>
+    <td>{{githubUrl}}</td>
+    <td>{{status}}</td>
+    <td><button class="btn btn-info">编辑</button> <button class="btn btn-default">删除</button></td>
+</tr>
+{{/each}}
+</tbody>
+</table>
+</section>
+</div>
+
 <script>KISSY.use('apebook/admin')</script>
 {{/block}}

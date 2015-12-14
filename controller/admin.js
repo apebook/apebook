@@ -7,7 +7,10 @@ module.exports = {
   books: function*(){
     var mBook = this.model.book;
     var data = {};
-    data.books = yield mBook.all();
+    data.books = yield mBook.all({
+      //包含非公开的图书
+      showAll: true
+    });
     yield this.html('admin/books',data);
   },
   /**

@@ -91,7 +91,7 @@ Book.prototype = _.extend({},Base,{
             params.push('LIMIT',config.start,config.limit);
         }
         var ids = yield redis.sort(params);
-        return yield this.getListByIds(ids);
+        return yield this.getListByIds(ids,config.showAll);
     },
     /**
      * 通过id获取图书列表

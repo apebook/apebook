@@ -4,6 +4,11 @@
         <a href="/library">图书馆</a>
         <a href="//book.apebook.org/minghe/apebook-guide/index.html">使用帮助</a>
         <a href="https://github.com/apebook/guide/issues">反馈</a>
+        {{#if(user)}}
+            {{#if(user.role === "adminer")}}
+                <a href="/admin/books">后台管理</a>
+             {{/if}}
+        {{/if}}
     </nav>
     {{#if(user)}}
     <nav class="right-nav">

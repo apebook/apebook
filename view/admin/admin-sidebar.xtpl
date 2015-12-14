@@ -3,6 +3,7 @@
   <section class="book-admin-wrapper">
     <ul class="nav nav-sidebar book-admin-nav">
       <li><a href="/admin/users"><span>用户管理</span></a></li>
+      <li><a href="/admin/books"><span>图书管理</span></a></li>
     </ul>
   </section>
 </div>

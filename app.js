@@ -77,7 +77,6 @@ app.context.onerror = function(err){
         return;
     }
 
-    this.status = err.status;
     this.type = 'html';
     var msg = err.message;
     if(/request github/.test(msg)){
