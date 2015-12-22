@@ -44,11 +44,12 @@ function *sync(body){
         env:this.config.env,
         data: book,
         apebookHost: this.config.host,
-        assetHost: this.config.assetHost
+        assetHost: this.config.assetHost,
+        ctx: this
     });
     var pullResult = yield bookCtrl.pull();
     this.log(pullResult);
-
+    var pullResult = {success:true};
     if(!pullResult.success){
         this.error(pullResult);
         yield mHistory.add(book.id,'error','github 内容同步失败，失败原因如下：<br />'+pullResult,userName);
@@ -60,9 +61,8 @@ function *sync(body){
             var renderResult = yield bookCtrl.render();
             //渲染失败
             if(!renderResult.success){
-                this.error(renderResult);
-                pullResult =  renderResult;
-                yield mHistory.add(book.id,'error','gitbook渲染失败，请检查 md 文件',userName);
+                pullResult = {success: false,msg:'渲染失败'};
+                yield mHistory.add(book.id,'error','渲染失败！错误信息如下：<br/><span class="error-msg">'+renderResult.error.message+'</span>',userName);
             }else{
                 yield mHistory.add(book.id,'success','使用 gitbook 渲染成功',userName);
                 //渲染成功后，将文件上传到oss

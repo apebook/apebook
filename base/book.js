@@ -5,6 +5,7 @@ var shell = require('./shell');
 var fse = require('co-fs-extra');
 var fs = require('co-fs');
 var marked = require('marked');
+var Gitbook = require('gitbook').Book;
 var defaultConfig = {
     src: 'book-md/',
     dest: 'book-html/',
@@ -27,8 +28,9 @@ var Book = module.exports = function (config) {
 
 Book.prototype = {
     //渲染md成html
-    render: function *(theme) {
+    render: function *(config) {
         var self = this;
+        var ctx = self.ctx;
         var user = this.user;
         var book = this.book;
         var src = self.bookPath();
@@ -42,7 +44,7 @@ Book.prototype = {
         yield fse.ensureDir(path);
         //图书配置
         var bookJson = {};
-        bookJson.theme = theme || this.themes['apebook'];
+        bookJson.theme = config && config.theme || self.themes['apebook'];
         bookJson.output = path;
         var data = this.data;
         bookJson.githubUser = data.githubUser;
@@ -57,25 +59,38 @@ Book.prototype = {
         }
         bookJson.plugins = this.plugins;
         yield fse.writeFile(src+'/book.json',JSON.stringify(bookJson));
-        console.log(bookJson);
-        console.log('src ' + src);
-        console.log('dest ' + path);
-        try{
-            var output = yield shell.exec('gitbook build '+src+' --debug');
-        }catch(e){
-            console.log(e);
-            output = '书籍渲染失败';
-        }
+        ctx.log(bookJson);
+        ctx.log('src ' + src);
+        ctx.log('dest ' + path);
+
+        var gitbook = new Gitbook(src, {
+            'config': {
+                'output': path
+            }
+        });
+        var output = yield this.generate(gitbook);
+        ctx.log(output);
         yield shell.exec('cd '+src+' && ' +'git reset --hard');
         //删除生成的无用的gitbook目录
         yield shell.exec('cd '+path+' && ' +'rm -rf -r gitbook');
-        console.log(output);
-        //build 成功
-        if(/Done, without error/.test(output)){
+        if(output === true){
+            ctx.log('build ok!');
             return {'success':true};
         }else{
-            return {'success':false,'msg':output};
+            ctx.error(output);
+            return {'success':false,'error':output};
         }
+    },
+    generate: function(gitbook){
+        return new Promise(function(resolve){
+            gitbook.parse().then(function() {
+                return gitbook.generate('website');
+            }).then(function(){
+                resolve(true);
+            }).catch(function(err){
+                resolve(err);
+            });
+        });
     },
     //将文件push到oss存储
     pushOss: function*(){

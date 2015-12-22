@@ -47,13 +47,6 @@
 {% block javascript %}
 <script src="{{ options.assetHost }}/app.js"></script>
 <script src="{{ options.assetHost }}/highlight.pack.js"></script>
-{% for resource in plugins.resources.js %}
-    {% if resource.url %}
-    <script src="{{ resource.url }}"></script>
-    {% else %}
-    <script src="{{ staticBase }}/plugins/{{ resource.path }}"></script>
-    {% endif %}
-{% endfor %}
 <script>
 require(["gitbook"], function(gitbook) {
     var config = {% autoescape false %}{{ pluginsConfig }}{% endautoescape %};
