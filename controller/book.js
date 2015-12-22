@@ -49,7 +49,6 @@ function *sync(body){
     });
     var pullResult = yield bookCtrl.pull();
     this.log(pullResult);
-    var pullResult = {success:true};
     if(!pullResult.success){
         this.error(pullResult);
         yield mHistory.add(book.id,'error','github 内容同步失败，失败原因如下：<br />'+pullResult,userName);
