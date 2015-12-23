@@ -200,11 +200,11 @@ module.exports = {
         }
         var isError = _.authError.bind(this)('/login',body);
         if(!isError){
-            this.session.user = yield mUser.getByName(body.name);
+            var user = this.session.user = yield mUser.getByName(Number(id));
             //用户token
-            this.session.user_token = yield mUser.token(body.name,true);
+            this.session.user_token = yield mUser.token(user.name,true);
             //重定向
-            this.redirect(this.session.back || '/user/'+body.name);
+            this.redirect(this.session.back || '/user/'+user.name);
         }
     },
     //用户设置
