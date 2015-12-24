@@ -45,16 +45,12 @@
 {% endblock %}
 
 {% block javascript %}
-<script src="{{ options.assetHost }}/app.js"></script>
 <script src="{{ options.assetHost }}/highlight.pack.js"></script>
+<script src="{{ options.assetHost }}/gitbook.bundle.js"></script>
 <script>
 require(["gitbook"], function(gitbook) {
     var config = {% autoescape false %}{{ pluginsConfig }}{% endautoescape %};
     gitbook.start(config);
-});
-hljs.initHighlightingOnLoad();
-KISSY.use('apebook/gitbook',function(S,Gitbook){
-    Gitbook();
 });
 </script>
 {% endblock %}
