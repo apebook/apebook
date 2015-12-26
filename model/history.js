@@ -65,7 +65,7 @@ History.prototype = _.extend({},Base,{
     for(var i=0;i<ids.length;i++){
       var event = yield redis.hgetall(p+ids[i]);
       if(event){
-        event.create = moment(event.create).fromNow();
+        event.create = moment(Number(event.create)).fromNow();
       }
       events.push(event);
     }
