@@ -304,7 +304,7 @@ module.exports = {
             yield mUser.github(user.id,githubUser);
             this.session.user = yield mUser.getByName(user.name);
         }
-        var url = this.request.query.to || '/github';
+        var url = this.session['githubTo'] || this.request.query.to || '/github';
         this.redirect(url);
     }
 };
