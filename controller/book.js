@@ -9,9 +9,6 @@ var BookCtrl = require('../base/book');
  */
 function *sync(body){
     var userName = this.session['user'] && this.session['user'].name || '';
-    if(this.session['user']){
-        userName = this.session['user'].name;
-    }
     if(body){
         userName = body.owner;
     }else{
