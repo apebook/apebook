@@ -1,6 +1,6 @@
 var Canvas = require('canvas');
 
-var canvas = new Canvas(width, height);
+var canvas = new Canvas(200, 270);
 var ctx = canvas.getContext('2d');
 ctx.fillStyle = "#fff";
 ctx.fillRect(0, 0, width, height);
