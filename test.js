@@ -3,7 +3,7 @@ var Canvas = require('canvas');
 var canvas = new Canvas(200, 270);
 var ctx = canvas.getContext('2d');
 ctx.fillStyle = "#fff";
-ctx.fillRect(0, 0, width, height);
+ctx.fillRect(0, 0, 200, 270);
 
 ctx.fillStyle = "#000";
 ctx.font = '48px';
