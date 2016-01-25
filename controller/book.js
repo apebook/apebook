@@ -44,26 +44,53 @@ function *sync(body){
         assetHost: this.config.assetHost,
         ctx: this
     });
+
+    //同步代码
     var pullResult = yield bookCtrl.pull();
     this.log(pullResult);
+
     if(!pullResult.success){
         this.error(pullResult);
         yield mHistory.add(book.id,'error','github 内容同步失败，失败原因如下：<br />'+pullResult,userName);
     }else{
-        yield mHistory.add(book.id,'github','github 内容同步成功',userName);
+        yield mHistory.add(book.id,'github','github 内容同步成功<br />'+ pullResult.output||'',userName);
+
         //pullResult.change = true;
         //存在文件变更，渲染html
         if(pullResult.change){
             var renderResult = yield bookCtrl.render();
+
             //渲染失败
             if(!renderResult.success){
                 pullResult = {success: false,msg:'渲染失败'};
                 yield mHistory.add(book.id,'error','渲染失败！错误信息如下：<br/><span class="error-msg">'+renderResult.error.message+'</span>',userName);
             }else{
-                yield mHistory.add(book.id,'success','使用 gitbook 渲染成功',userName);
+                yield mHistory.add(book.id,'success','图书渲染成功',userName);
+
+                //封面就算生成失败也无妨
+                try{
+                    //封面信息
+                    var coverinfo = yield mBook.cover(id);
+                    this.log('封面信息：');
+                    this.log(coverinfo);
+                    var coverResult = yield bookCtrl.cover(coverinfo,book,this.session['user']);
+                    var ossPath = coverResult.ossPath;
+                    var coverUrl = this.config.bookHost + '/'+ossPath;
+                    //将封面信息写入数据库
+                    if(coverResult.color){
+                        yield mBook.cover({id:id,color:coverResult.color,ossPath:ossPath});
+                        yield mBook.post({id:id,ossCover:ossPath});
+                    }
+
+                    yield mHistory.add(book.id,'success','封面更新成功，封面地址：<a href="'+coverUrl+'">'+coverUrl+'</a>',userName);
+                }catch(error){
+                    yield mHistory.add(book.id,'error','封面更新失败，原因是：<br/><span class="error-msg">'+error.message+'</span>',userName);
+                }
+
                 //渲染成功后，将文件上传到oss
-                var result = yield bookCtrl.pushOss();
+                yield bookCtrl.pushOss();
                 this.log('upload to oss success');
+
                 var chapterCount = yield bookCtrl.chapterCount();
                 //最新更新时间、章节数写入数据库
                 yield mBook.post({id:id,updateTime:_.now(),chapterCount:chapterCount});

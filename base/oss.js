@@ -50,6 +50,21 @@ module.exports = {
         debug(result);
         return result;
     },
+    /**
+     * 推送一个文件到 oss
+     * @param src
+     * @param dest
+     */
+    put: function*(src,dest,bucket){
+        if(bucket){
+            this.useBucket(bucket);
+        }
+        try{
+            return yield store.put(dest,src);
+        }catch(e){
+            return e;
+        }
+    },
     //上传图片
     uploadImg: function*(readStream,bucket,dir){
         if(!store) return false;

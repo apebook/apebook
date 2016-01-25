@@ -208,7 +208,20 @@ Book.prototype = _.extend({},Base,{
      * @param id
      */
     cleanLock: function*(id){
+        var redis = this.redis;
         var key = 'book:lcock:'+id;
         return yield redis.del(key)
+    },
+    /**
+     * 获取/设置封面信息
+     * @param params
+     */
+    cover: function*(params){
+        var redis = this.redis;
+        if(_.isObject(params)){
+           return yield redis.hmset('book-cover:'+params.id,params);
+        }else{
+            return yield redis.hgetall('book-cover:'+params);
+        }
     }
 });

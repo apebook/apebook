@@ -6,6 +6,11 @@ var fse = require('co-fs-extra');
 var fs = require('co-fs');
 var marked = require('marked');
 var Gitbook = require('gitbook').Book;
+var moment = require('moment');
+//生成封面
+var cover = require('./cover/index');
+
+//默认配置
 var defaultConfig = {
     src: 'book-md/',
     dest: 'book-html/',
@@ -16,6 +21,7 @@ var defaultConfig = {
     //默认启用的插件
     "plugins": []
 };
+
 var Book = module.exports = function (config) {
     var self = this;
     config = _.extend(defaultConfig,config);
@@ -122,7 +128,7 @@ Book.prototype = {
 
         //已经是最新
         if(/Already up-to-date/.test(output)){
-            return {'success':true,'change':false,'msg':'不存在变更的内容'};
+            return {'success':true,'change':false,'msg':'不存在变更的内容',output:output};
         }else{
 //                From https://github.com/minghe/blog
 //                    4683d29..c7b9663  master     -> origin/master
@@ -137,7 +143,7 @@ Book.prototype = {
 
             }
 
-            return {'success':true,'change':true,data:data};
+            return {'success':true,'change':true,output:output,data:data};
         }
     },
     //克隆仓库
@@ -193,5 +199,78 @@ Book.prototype = {
         data = data.toString();
         var tokens = marked.lexer(data);
         return marked.parser(tokens);
+    },
+    /**
+     * 封面
+     *
+     */
+    cover: function*(coverinfo,bookData,userData){
+        var data = bookData;
+        var user = data.userName;
+        var book = data.uri;
+        var output = this.dest+user+'/'+book+'/cover.jpg';
+        var config = {
+            title: data.name,
+            author:userData && userData.nick || data.userName,
+            bg:{},
+            "size": {
+                "w": 400,
+                "h": 540
+            }
+        };
+
+        //更新时间
+        //不存在，使用创建时间
+        if(data.updateTime){
+            config.update = moment(Number(data.updateTime)).format('YYYY-MM-DD')+ ' update';
+        }else{
+            config.update = moment(Number(data.create)).format('YYYY-MM-DD')+ ' create';
+        }
+
+
+        if(coverinfo){
+            //背景颜色
+            if(coverinfo.color){
+                config.bg.color = coverinfo.color;
+            }
+
+        }else{
+
+            var bgColors = ['#7c8577','#999d9c','#9d9087','#74787c','#4f5555',
+                '#6c4c49','#563624','#3e4145','#3c3645','#281f1d','#2f271d',
+                '#1b315e','#596032','#ad8b3d'];
+
+            var colorIndex = (parseInt(Math.random()*(14-1)+1))-1;
+            config.bg.color = bgColors[colorIndex];
+        }
+
+        //是否存在封面背景图片
+        var coverBg = this.src +user+'/'+book + '/' +'cover-bg.jpg';
+        var existCoverBg = yield fse.exists(coverBg);
+        if(existCoverBg){
+            config.bg.image = coverBg;
+        }
+        try{
+            var result = yield cover.render(output,config);
+        }catch(e){
+            console.log(e);
+            return false;
+        }
+
+        var path = user+'/'+book+'/cover.jpg';
+
+        //if(result){
+        //    //将图片上传到 oss
+        //    var oss = this.oss;
+        //    var bucket = this.bucket;
+        //    result =  yield oss.put(this.dest+path,path,bucket);
+        //    console.log(result);
+        //}
+
+        //返回封面数据
+        return {
+            ossPath: path,
+            color: config.bg.color
+        };
     }
 };
