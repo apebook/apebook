@@ -31,6 +31,15 @@ module.exports = function(output, options) {
         var canvas = new Canvas(w, h);
         var Image = Canvas.Image;
         var ctx = canvas.getContext('2d');
+        //服务器环境加载字体
+        if(process.env.NODE_ENV !== 'local'){
+            var Font = Canvas.Font;
+            var cnFont = new Font('cnFont', './heiti.ttf');
+            cnFont.addFace('./heiti.ttf',   'bold');
+            cnFont.addFace('./heiti.ttf', 'normal', 'italic');
+            cnFont.addFace('./heiti.ttf', 'bold', 'italic');
+            ctx.addFont(cnFont);
+        }
 
         //背景颜色
         ctx.fillStyle = options.bg.color;
