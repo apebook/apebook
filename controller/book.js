@@ -55,7 +55,7 @@ function *sync(body){
     }else{
         yield mHistory.add(book.id,'github','github 内容同步成功<br />'+ pullResult.output||'',userName);
 
-        //pullResult.change = true;
+        pullResult.change = true;
         //存在文件变更，渲染html
         if(pullResult.change){
             var renderResult = yield bookCtrl.render();
