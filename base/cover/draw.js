@@ -58,17 +58,19 @@ module.exports = function(output, options) {
         ctx.fillStyle = fontColor;
         ctx.font = '40px bold Arial';
         var title = options.title;
-        var tParts = titleParts(
-            title,
-            'Arial',
-            360,
-            50
-        );
-        var y = 150;
-        tParts.map(function(t){
-            ctx.fillText(t, 40, y);
-            y += 70;
-        });
+        //var tParts = titleParts(
+        //    title,
+        //    'Arial',
+        //    360,
+        //    50
+        //);
+        //var y = 150;
+        //tParts.map(function(t){
+        //    ctx.fillText(t, 40, y);
+        //    y += 70;
+        //});
+
+        ctx.fillText(title, 30, 150);
 
         ctx.fillStyle = fontColor;
         ctx.font = '30px bold Arial';
