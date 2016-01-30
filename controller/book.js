@@ -206,10 +206,29 @@ module.exports = {
     },
     //书籍控制台
     dashboard:function*(){
+        var mBook = this.model.book;
         var data = this.book;
         //显示书籍管理菜单
         data.dash = true;
         data.currentNav = 'index';
+
+        //图书封面
+        var coverName = 'cover_small.jpg';
+        if(data.cover || data.ossCover){
+            data.showAddCoverTip = true;
+        }
+        if(!data.cover && data.ossCover){
+            data.cover = this.config.bookHost+'/'+data.ossCover.replace('cover.jpg',coverName);
+        }
+
+        //如果已经存在封面，就不显示添加封面的提示
+        var readeMe = yield mBook.readMe(data.id);
+        if(readeMe){
+            if(new RegExp(coverName).test(readeMe)){
+                data.showAddCoverTip = false;
+            }
+        }
+
         this.log('book data :');
         this.log(data);
         yield this.html('book-dashboard',data);

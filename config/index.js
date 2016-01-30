@@ -9,13 +9,13 @@ var config = {
     appName: 'apebook',
     //端口号配置
     port: 8080,
-    host: 'http://apebook.org/',
+    host: '//apebook.org/',
     coverHost:'//cover.apebook.org/',
     //书籍地址
     bookHost:'//book.apebook.org',
     assetHost:'//a.apebook.org',
     //kissy 静态资源的包配置
-    kissyPkg: 'http://a.apebook.org',
+    kissyPkg: '//a.apebook.org',
     //是否开启调试，调试的情况下会输出错误信息
     debug: true,
     // 是否开启快照
