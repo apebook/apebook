@@ -67,25 +67,25 @@ function *sync(body){
             }else{
                 yield mHistory.add(book.id,'success','图书渲染成功',userName);
 
-                //封面就算生成失败也无妨
-                try{
                     //封面信息
                     var coverinfo = yield mBook.cover(id);
                     this.log('封面信息：');
                     this.log(coverinfo);
-                    var coverResult = yield bookCtrl.cover(coverinfo,book,this.session['user']);
-                    var ossPath = coverResult.ossPath;
-                    var coverUrl = this.config.bookHost + '/'+ossPath;
-                    //将封面信息写入数据库
-                    if(coverResult.color){
-                        yield mBook.cover({id:id,color:coverResult.color,ossPath:ossPath});
-                        yield mBook.post({id:id,ossCover:ossPath});
+                    try{
+                        var coverResult = yield bookCtrl.cover(coverinfo,book,this.session['user']);
+                        console.log(coverResult);
+                        var ossPath = coverResult.ossPath;
+                        var coverUrl = this.config.bookHost + '/'+ossPath;
+                        //将封面信息写入数据库
+                        if(coverResult.color){
+                            yield mBook.cover({id:id,color:coverResult.color,ossPath:ossPath});
+                            yield mBook.post({id:id,ossCover:ossPath});
+                        }
+                        yield mHistory.add(book.id,'success','封面更新成功，封面地址：<a href="'+coverUrl+'">'+coverUrl+'</a>',userName);
+                    }catch(err){
+                        this.log(err);
+                        yield mHistory.add(book.id,'error','封面更新失败，原因是：<br/><span class="error-msg">'+error.message+'</span>',userName);
                     }
-
-                    yield mHistory.add(book.id,'success','封面更新成功，封面地址：<a href="'+coverUrl+'">'+coverUrl+'</a>',userName);
-                }catch(error){
-                    yield mHistory.add(book.id,'error','封面更新失败，原因是：<br/><span class="error-msg">'+error.message+'</span>',userName);
-                }
 
                 //渲染成功后，将文件上传到oss
                 yield bookCtrl.pushOss();

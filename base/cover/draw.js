@@ -100,6 +100,7 @@ module.exports = function(output, options) {
         });
 
         stream.on('end', function(){
+            console.log('draw success');
             resolve(true);
         });
     });
