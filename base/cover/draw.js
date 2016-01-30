@@ -56,7 +56,7 @@ module.exports = function(output, options) {
 
         //主标题
         ctx.fillStyle = fontColor;
-        ctx.font = '50px bold Arial';
+        ctx.font = '40px bold Arial';
         var title = options.title;
         var tParts = titleParts(
             title,
@@ -66,7 +66,7 @@ module.exports = function(output, options) {
         );
         var y = 150;
         tParts.map(function(t){
-            ctx.fillText(t, 20, y);
+            ctx.fillText(t, 40, y);
             y += 70;
         });
 
