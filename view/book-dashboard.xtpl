@@ -14,24 +14,26 @@
         <div class="dash-header">
             <input type="hidden" class="J_BookId" value="{{id}}"/>
             <h3><a href="/book/{{uri}}">《{{name}}》</a></h3>
+            <p>
+
             {{#if(updateTime)}}
-            <p>
-              <label>最近更新时间：</label>
+              <label><i class="iconfont">&#xe620;</i> 最近更新：</label>
               <span>{{nearestTime(updateTime)}}</span>
-            </p>
             {{/if}}
+
             {{#if(githubUrl)}}
-            <p>
-              <label>github 仓库：</label>
+              <label><i class="iconfont">&#xe60c;</i> github 仓库：</label>
               <span><a href="{{githubUrl}}" target="_blank">{{githubUrl}}</a></span>
-            </p>
             {{/if}}
-            <div class="button-wrapper">
-                {{#if(githubUrl)}}
-                <span class="btn btn-info J_UpdateBook">更新书籍内容</span>
-                <span class="btn btn-default J_OpenBook {{#if(openStatus==="open")}}{{else}}btn-success{{/if}}" data-status="{{#if(openStatus==="open")}}hide{{else}}open{{/if}}" >{{#if(openStatus==="open")}}隐藏书籍{{else}}公开书籍{{/if}}</span>
-                {{/if}}
-            </div>
+
+            </p>
+        </div>
+        <div class="panel dash-button-wrapper">
+            {{#if(githubUrl)}}
+            <span class="btn btn-info J_UpdateBook">更新图书内容</span>
+            <span class="btn btn-default J_OpenBook
+             {{#if(openStatus==="open")}}{{else}}btn-success{{/if}}" data-status="{{#if(openStatus==="open")}}hide{{else}}open{{/if}}" >{{#if(openStatus==="open")}}隐藏图书{{else}}公开图书{{/if}}</span>
+            {{/if}}
         </div>
         {{#if(showAddCoverTip)}}
         <div class="panel">
