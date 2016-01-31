@@ -39,7 +39,7 @@
         <div class="panel">
             <p class="cover-add-tip">建议亲复制下面的代码粘贴到图书的 README.md 中，显示出图书封面：</p>
             <div class="cover-code">
-                [![{{name}}](http:{{cover}})](http:{{host}}book/{{uri}})
+                [![{{name}}](http:{{cover}})]({{host}}book/{{uri}})
             </div>
         </div>
         {{/if}}
