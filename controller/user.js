@@ -11,10 +11,6 @@ module.exports = {
         var name = this.params.name;
         this.title = '@'+name+' apebook';
         var user = this.session.user;
-        //账号没有激活
-        if(user && user.name === name && user.activate !== 'true'){
-            this.redirect('/activate');
-        }
         var mUser = this.model.user;
         var isExist = yield mUser.isExist(name);
         if(!isExist){
@@ -56,12 +52,12 @@ module.exports = {
         }
         var isError = _.authError.bind(this)('/join',body);
         if(!isError){
-            //设置为未激活账号
-            body.activate = false;
+            //默认激活账号
+            body.activate = true;
             this.session.user = yield mUser.post(body);
             //设置token
             this.session.token = yield mUser.token(body.name,true);
-            this.redirect('/activate');
+            this.redirect('/user/'+body.name);
         }else{
             this.redirect('/join');
         }
