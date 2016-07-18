@@ -124,7 +124,7 @@ Book.prototype = _.extend({},Base,{
     readMe: function*(id,html){
         return yield this.meta(id,'readme',html);
     },
-    //书籍摘要
+    //图书目录
     summary: function*(id,html){
         return yield this.meta(id,'summary',html);
     },

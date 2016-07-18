@@ -40,6 +40,10 @@ Book.prototype = {
         var user = this.user;
         var book = this.book;
         var src = self.bookPath();
+        var hasSrc = yield fs.exists(src);
+        if(!hasSrc){
+            return {'success':false,'msg':'不存在 '+book+' 目录'};
+        }
         //确定绑定的仓库是否符合gitbook规范
         var isBook = yield this.isBook();
         if(!isBook){
@@ -60,15 +64,16 @@ Book.prototype = {
         bookJson.apebookHost = this.apebookHost;
         bookJson.assetHost = this.assetHost;
         bookJson.desc = data.desc;
+        //本地调试环境
         if(process.env.NODE_ENV !== 'local'){
             bookJson.localAssetHost = bookJson.assetHost;
         }
+
         bookJson.plugins = this.plugins;
         yield fse.writeFile(src+'/book.json',JSON.stringify(bookJson));
         ctx.log(bookJson);
         ctx.log('src ' + src);
         ctx.log('dest ' + path);
-
         var gitbook = new Gitbook(src, {
             'config': {
                 'output': path
@@ -111,7 +116,6 @@ Book.prototype = {
     pull: function *(){
         var self = this;
         var user = this.user;
-        var bookName = this.book;
         var output;
         //不存在目录用户，先予以创建
         yield fse.ensureDir(this.src+user);
@@ -130,19 +134,6 @@ Book.prototype = {
         if(/Already up-to-date/.test(output)){
             return {'success':true,'change':false,'msg':'不存在变更的内容',output:output};
         }else{
-//                From https://github.com/minghe/blog
-//                    4683d29..c7b9663  master     -> origin/master
-//                Updating 4683d29..c7b9663
-//                Fast-forward
-//                2015/auth.md | 145 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//                    1 file changed, 145 insertions(+)
-//                create mode 100644 2015/auth.md
-            var data = [];
-            //新增的节
-            if(/create mode 100644 (.+)\.md/.test(output)){
-
-            }
-
             return {'success':true,'change':true,output:output,data:data};
         }
     },
@@ -175,10 +166,23 @@ Book.prototype = {
         return yield this.renderMd(url);
     },
     //书籍章节
-    summary: function*(){
+    summary: function*(format){
         var src = this.bookPath();
         var url = src + '/' + 'SUMMARY.md';
-        return yield this.renderMd(url);
+        if(format && format === 'json'){
+            return yield Summary.json(url);
+        }else{
+            return yield this.renderMd(url);
+        }
+    },
+    /**
+     * 图书更新的章节内容
+     * @param updateLog
+     * @param oldSummary
+     */
+    updateChapters: function*(updateLog,oldSummary){
+        //var newSummary = yield this.summary('json');
+        //yield Summary.updateData(updateLog,newSummary,oldSummary);
     },
     //章节数
     chapterCount: function*(){
@@ -251,21 +255,13 @@ Book.prototype = {
             config.bg.image = coverBg;
         }
         try{
-            var result = yield cover.render(output,config);
+             yield cover.render(output,config);
         }catch(e){
             console.log(e);
             return false;
         }
 
         var path = user+'/'+book+'/cover.jpg';
-
-        //if(result){
-        //    //将图片上传到 oss
-        //    var oss = this.oss;
-        //    var bucket = this.bucket;
-        //    result =  yield oss.put(this.dest+path,path,bucket);
-        //    console.log(result);
-        //}
 
         //返回封面数据
         return {
