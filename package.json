@@ -58,8 +58,11 @@
     "github":"0.2.4",
     "marked":"*",
     "submail":"*",
-    "gitbook":"*",
-    "canvas": "1.3.6"
+    "gitbook":"2.x.x",
+    "gitbook-plugin-search":"*",
+    "canvas": "1.3.6",
+    "gitbook-parsers":"^0.8.9",
+    "changeset":"^0.1.0"
   },
   "devDependencies": {
     "autod": "~0.2.2",
