@@ -8,9 +8,6 @@
     {{include ("./layout/sidebar")}}
 
     <section class="dash-wrapper">
-        {{#if(!bindGithub || bindGithub === "false")}}
-            {{macro("warnTip",'还没有绑定 github 仓库，无法使用，<a href="./bind-github">立即绑定</a>')}}
-        {{/if}}
         <div class="dash-header">
             <input type="hidden" class="J_BookId" value="{{id}}"/>
             <h3><a href="/book/{{uri}}">《{{name}}》</a></h3>
@@ -30,11 +27,16 @@
         </div>
         <div class="panel dash-button-wrapper">
             {{#if(githubUrl)}}
-            <span class="btn btn-info J_UpdateBook">更新图书内容</span>
+            <span class="btn btn-info J_UpdateBook">更新图书</span>
             <span class="btn btn-default J_OpenBook
              {{#if(openStatus==="open")}}{{else}}btn-success{{/if}}" data-status="{{#if(openStatus==="open")}}hide{{else}}open{{/if}}" >{{#if(openStatus==="open")}}隐藏图书{{else}}公开图书{{/if}}</span>
             {{/if}}
         </div>
+
+        {{#if(!bindGithub || bindGithub === "false")}}
+          {{macro("warnTip",'想要push github 自动更新图书需要绑定同步 hook，<a href="./bind-github">立即绑定</a>')}}
+        {{/if}}
+
         {{#if(showAddCoverTip)}}
         <div class="panel">
             <p class="cover-add-tip">建议亲复制下面的代码粘贴到图书的 README.md 中，显示出图书封面：</p>

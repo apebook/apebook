@@ -3,7 +3,7 @@ var path = require('path');
 module.exports = {
     "env":"local",
     "host": 'http://localhost:8080/',
-    "kissyPkg": 'http://localhost:3333/src',
+    "kissyPkg": 'http://localhost:3333/build',
     github:{
         clientID: '88e11069c230ba24251b',
         clientSecret: 'xxxx',

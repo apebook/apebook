@@ -19,7 +19,7 @@ var defaultConfig = {
         blog:'./theme/blog'
     },
     //默认启用的插件
-    "plugins": []
+    "plugins": ['-search']
 };
 
 var Book = module.exports = function (config) {
@@ -134,14 +134,14 @@ Book.prototype = {
         if(/Already up-to-date/.test(output)){
             return {'success':true,'change':false,'msg':'不存在变更的内容',output:output};
         }else{
-            return {'success':true,'change':true,output:output,data:data};
+            return {'success':true,'change':true,output:output};
         }
     },
     //克隆仓库
     clone: function *(githubUrl, src){
         var result = yield shell.exec('cd '+src+' && git init && git remote add origin '+githubUrl);
         console.log(result);
-        var output = yield shell.exec('cd '+src+' && git init && git pull origin master');
+        var output = yield shell.exec('cd '+src+' && git pull origin master');
         console.log(output);
         return output;
     },

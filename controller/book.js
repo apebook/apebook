@@ -53,7 +53,7 @@ function *sync(body){
     //     output: "From https://github.com/apebook/guide * branch            master     -> FETCH_HEAD\nSUMMARY.md | 1 +"
     // };
     this.log(pullResult);
-
+    //pullResult.change = true;
     if(!pullResult.success){
         this.error(pullResult);
         yield mHistory.add(book.id,'error','github 内容同步失败，失败原因如下：<br />'+pullResult,userName);
@@ -182,6 +182,7 @@ module.exports = {
         this.checkBody('uri', '只能是字母、数字、-').isUri();
         this.checkBody('cat', '必须选择一个类目').notEmpty();
         this.checkBody('lang', '必须选择一个编程语言').notEmpty();
+        this.checkBody('githubUrl', 'github 仓库地址不可以为空').notEmpty();
         var mBook = this.model.book;
         var isExist = yield mBook.isExist(body.name);
         if(isExist){

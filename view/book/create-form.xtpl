@@ -19,24 +19,26 @@
             {{macro("error",errors.uri)}}
         </div>
     </div>
+    <input type="hidden" value="图书" name="cat">
     <div class="form-more">
-        <div class="form-group ">
-            <label for="description" class="control-label">选择分类  <b>*</b></label>
-            <select name="cat" class="form-control" required>
-                {{#each(cats)}}
-                    <option value="{{this}}">{{this}}</option>
-                {{/each}}
-            </select>
+      <div class="form-group ">
+        <label for="description" class="control-label">github 仓库地址  <b>*</b> </label>
+        <input type="text" name="githubUrl" autocomplete="off" class="form-control input-lg" value="{{body.name}}" placeholder="举例：https://github.com/minghe/koa-book.git"
+               required required-msg="github 仓库地址不可以为空"
+               msg-wrapper="#J_GithubPathMsg">
+        <div id="J_GithubPathMsg">
+          {{macro("error",errors.githubPath)}}
         </div>
+      </div>
     </div>
     <div class="form-more">
         <div class="form-group ">
           <label for="description" class="control-label">选择编程语言  <b>*</b></label>
-        <select name="lang" class="form-control" required>
-          {{#each(langs)}}
-            <option value="{{this}}">{{this}}</option>
-          {{/each}}
-        </select>
+          <select name="lang" class="form-control" required>
+            {{#each(langs)}}
+              <option value="{{this}}">{{this}}</option>
+            {{/each}}
+          </select>
         </div>
     </div>
     <div class="form-more">

@@ -56,7 +56,7 @@ require(["gitbook"], function(gitbook) {
 {% endblock %}
 
 {% block style %}
-    <link rel="stylesheet" href="{{ options.localAssetHost }}/gitbook-min.css">
+    <link rel="stylesheet" href="{{ options.assetHost }}/gitbook-min.css">
     {% for type, style in styles %}
         <link rel="stylesheet" href="{{ basePath }}/{{ style }}">
     {% endfor %}
