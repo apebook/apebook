@@ -19,7 +19,7 @@ var defaultConfig = {
         blog:'./theme/blog'
     },
     //默认启用的插件
-    "plugins": []
+    "plugins": ['-search']
 };
 
 var Book = module.exports = function (config) {
