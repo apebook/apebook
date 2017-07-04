@@ -53,7 +53,7 @@ function *sync(body){
     //     output: "From https://github.com/apebook/guide * branch            master     -> FETCH_HEAD\nSUMMARY.md | 1 +"
     // };
     this.log(pullResult);
-    //pullResult.change = true;
+    pullResult.change = true;
     if(!pullResult.success){
         this.error(pullResult);
         yield mHistory.add(book.id,'error','github 内容同步失败，失败原因如下：<br />'+pullResult,userName);
