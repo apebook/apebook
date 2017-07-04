@@ -47,7 +47,7 @@ Book.prototype = {
         //确定绑定的仓库是否符合gitbook规范
         var isBook = yield this.isBook();
         if(!isBook){
-            return {'success':false,'msg':'仓库不符合gitbook规范'};
+            return {'success':false,'msg':'仓库缺少 SUMMARY.md 或者 README.md'};
         }
         yield fse.ensureDir(self.dest+user);
         var path = self.dest+user+'/'+book;

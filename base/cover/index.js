@@ -24,11 +24,12 @@ module.exports = {
      * @returns {Promise}
      */
     render: function(output,config){
-        return createCover(output,config).then(function(result){
-            if(result){
-                //生成小图
-                return resize(output,output.replace('cover.jpg','cover_small.jpg'),{width:config.size.w/2,height:config.size.h/2});
-            }
-        });
+      return createCover(output,config);
+        // return createCover(output,config).then(function(result){
+        //     if(result){
+        //         //生成小图
+        //         return resize(output,output.replace('cover.jpg','cover_small.jpg'),{width:config.size.w/2,height:config.size.h/2});
+        //     }
+        // });
     }
 };

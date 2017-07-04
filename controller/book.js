@@ -56,7 +56,7 @@ function *sync(body){
     pullResult.change = true;
     if(!pullResult.success){
         this.error(pullResult);
-        yield mHistory.add(book.id,'error','github 内容同步失败，失败原因如下：<br />'+pullResult,userName);
+        yield mHistory.add(book.id,'error','github 内容同步失败，失败原因如下：<br />'+ pullResult.msg,userName);
     }else{
         yield mHistory.add(book.id,'github','github 内容同步成功<br />'+ pullResult.output||'',userName);
 
@@ -66,8 +66,9 @@ function *sync(body){
             //渲染失败
             if(!renderResult.success){
                 this.log(renderResult);
-                pullResult = {success: false,msg:renderResult.msg || '渲染失败'};
-                yield mHistory.add(book.id,'error','渲染失败！错误信息如下：<br/><span class="error-msg">'+renderResult.error.message+'</span>',userName);
+                var msg = renderResult.msg || renderResult.error.message;
+                pullResult = {success: false,msg: msg};
+                yield mHistory.add(book.id,'error','渲染失败！错误信息如下：<br/><span class="error-msg">'+msg+'</span>',userName);
             }else{
                 yield mHistory.add(book.id,'success','图书渲染成功',userName);
 
