@@ -51,6 +51,8 @@
 require(["gitbook"], function(gitbook) {
     var config = {% autoescape false %}{{ pluginsConfig }}{% endautoescape %};
     gitbook.start(config);
+    var $chapter = $(".chapter");
+    $chapter.length && $chapter.show();
 });
 </script>
 {% endblock %}
