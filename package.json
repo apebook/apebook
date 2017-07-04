@@ -58,7 +58,7 @@
     "github":"0.2.4",
     "marked":"*",
     "submail":"*",
-    "gitbook":"2.x.x",
+    "gitbook":"2.6.6",
     "gitbook-plugin-search":"2.2.1",
     "canvas": "1.3.6",
     "gitbook-parsers":"^0.8.9",
