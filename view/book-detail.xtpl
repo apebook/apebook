@@ -27,26 +27,37 @@
                     </div>
                     <div class="details-meta">
                         <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-1 avatar-wrapper">
+                              <a href="/user/{{author.name}}">
+                                  <img src="{{author.avatar}}?s=50" width="50" height="50" />
+                              </a>
+                            </div>
+                            <div class="col-md-1">
+                              <dl>
+                                <dt>作者</dt>
+                                <dd><a href="/user/{{author.name}}">{{author.nick || author.name}}</a></dd>
+                              </dl>
+                            </div>
+                            {{#if(updateTime)}}
+                              <div class="col-md-2 updateTime-wrapper">
+                                <dl>
+                                  <dt>最新更新时间</dt>
+                                  <dd>{{nearestTime(updateTime)}}</dd>
+                                </dl>
+                              </div>
+                            {{/if}}
+                            <div class="col-md-2 lang-wrapper">
                                 <dl>
                                     <dt>编程语言</dt>
                                     <dd><a href="/lang/{{lang}}">{{lang}}</a></dd>
                                 </dl>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-1">
                                 <dl>
                                     <dt>章节数</dt>
                                     <dd>{{chapterCount}}</dd>
                                 </dl>
                             </div>
-                            {{#if(updateTime)}}
-                            <div class="col-md-2">
-                                <dl>
-                                    <dt>最新更新时间</dt>
-                                    <dd>{{nearestTime(updateTime)}}</dd>
-                                </dl>
-                            </div>
-                            {{/if}}
                             <div class="col-md-2">
                               <dl>
                                 <dt>阅读人数</dt>
@@ -71,29 +82,16 @@
             </div>
         </div>
     </section>
-    <section class="summary-wrapper">
-        <div class="summary-main">
-          <section class="panel author-wrapper">
-            <a href="/user/{{author.name}}">
-              <div class="f-l img-wrapper">
-                <img src="{{author.avatar}}?s=50" width="50" height="50" />
-              </div>
-              <div class="f-l">
-                <p>{{author.nick || author.name}} <span class="email">{{user.author}}</span></p>
-                <p>共发表了 <em>{{userBookCount}}</em> 本书</p>
-              </div>
-            </a>
-          </section>
-        </div>
-    </section>
     <section class="summary-wrapper reademe-wrapper">
-        <div class="reademe-main">
+        <div class="content-main">
+            <h1 class="content-title">图书详细介绍</h1>
             {{{readeMe}}}
         </div>
     </section>
     <section class="summary-wrapper">
-        <div class="summary-main J_Summary" data-url="{{bookHost}}/{{userName}}/{{uri}}">
-            {{{summary}}}
+        <div class="summary-main content-main J_Summary" data-url="{{bookHost}}/{{userName}}/{{uri}}">
+          <h1 class="content-title">图书目录</h1>
+          {{{summary}}}
         </div>
     </section>
     <script>KISSY.use('apebook/detail')</script>

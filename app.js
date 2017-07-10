@@ -1,6 +1,6 @@
 //http://www.apebookjs.org
 // Author: 明河 <minghe36@126.com>
-var _ = require('./base/util');
+
 var koa = require('koa');
 //配置文件
 var config = require('./config');

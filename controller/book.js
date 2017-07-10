@@ -141,6 +141,7 @@ module.exports = {
         var mUser = this.model.user;
         book.author = yield mUser.getByName(book.userName);
         book.userBookCount = yield mUser.bookCount(book.id);
+        book.cover = book.cover || this.config.bookHost+'/'+book.ossCover;
         yield this.html('book-detail',book);
     },
     //书籍信息填写表单
@@ -225,12 +226,11 @@ module.exports = {
         data.currentNav = 'index';
 
         //图书封面
-        var coverName = 'cover_small.jpg';
         if(data.cover || data.ossCover){
             data.showAddCoverTip = true;
         }
         if(!data.cover && data.ossCover){
-            data.cover = this.config.bookHost+'/'+data.ossCover.replace('cover.jpg',coverName);
+            data.cover = this.config.bookHost+'/'+data.ossCover;
         }
 
         //如果已经存在封面，就不显示添加封面的提示
