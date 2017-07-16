@@ -1,7 +1,7 @@
 <nav class="my-nav">
     <ul>
         <li {{#if(nav==="home")}} class="current" {{/if}}><a href="/"><span class="iconfont">&#xe610;</span> <span>我的主页</span></a></li>
-        <li {{#if(nav==="book")}} class="current"{{/if}}><a href="/books"><span class="iconfont">&#xe604;</span> <span>我的书籍</span></a></li>
+        <li {{#if(nav==="book")}} class="current"{{/if}}><a href="/books"><span class="iconfont">&#xe604;</span> <span>我的图书</span></a></li>
         <li class=""><a href=""><span class="iconfont">&#xe611;</span> <span>我的关注</span></a></li>
         <li><a href="/setting"><span class="iconfont">&#xe601;</span> <span>我的设置</span></a></li>
     </ul>

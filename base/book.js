@@ -213,15 +213,20 @@ Book.prototype = {
         var user = data.userName;
         var book = data.uri;
         var output = this.dest+user+'/'+book+'/cover.jpg';
+        var author = bookData.author;
+        if(!author){
+          author = userData && userData.nick || data.userName;
+        }
         var config = {
             title: data.name,
-            author:userData && userData.nick || data.userName,
+            author: author,
             bg:{},
             "size": {
                 "w": 400,
                 "h": 540
             }
         };
+        console.log(config);
 
         //更新时间
         //不存在，使用创建时间

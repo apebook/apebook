@@ -139,9 +139,12 @@ module.exports = {
         var mView = this.model.view;
         book.view = yield mView.incr(book.id,this.session);
         var mUser = this.model.user;
-        book.author = yield mUser.getByName(book.userName);
+        book.uploader = yield mUser.getByName(book.userName);
         book.userBookCount = yield mUser.bookCount(book.id);
         book.cover = book.cover || this.config.bookHost+'/'+book.ossCover;
+        if(book.author){
+          book.authors = book.author.split(',');
+        }
         yield this.html('book-detail',book);
     },
     //书籍信息填写表单
@@ -156,9 +159,7 @@ module.exports = {
     setting: function*(){
         var data = this.book;
         data.title = '图书设置';
-        data.cats = this.model.cat.all();
         data.langs = this.model.lang.all();
-
         yield this.html('dash/book-setting',data);
     },
     /**
@@ -225,18 +226,18 @@ module.exports = {
         data.dash = true;
         data.currentNav = 'index';
 
+        var cover = data.cover || data.ossCover;
         //图书封面
-        if(data.cover || data.ossCover){
+        if(cover){
             data.showAddCoverTip = true;
         }
         if(!data.cover && data.ossCover){
             data.cover = this.config.bookHost+'/'+data.ossCover;
         }
 
-        //如果已经存在封面，就不显示添加封面的提示
         var readeMe = yield mBook.readMe(data.id);
         if(readeMe){
-            if(new RegExp(coverName).test(readeMe)){
+            if(new RegExp(cover).test(readeMe)){
                 data.showAddCoverTip = false;
             }
         }

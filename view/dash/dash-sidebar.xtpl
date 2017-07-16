@@ -1,12 +1,12 @@
 <section class="book-admin-wrapper">
     <ul class="nav nav-sidebar book-admin-nav">
-        <li {{#if(currentNav==="index")}} class="current" {{/if}}><a href="/book/{{id}}/dashboard"><span class="iconfont">&#xe610;</span> <span>书籍管理首页</span></a></li>
-        <li {{#if(currentNav==="github")}} class="current" {{/if}}><a href="/book/{{id}}/bind-github"><span class="iconfont">&#xe60c;</span> <span>GitHub绑定</span></a></li>
-        <li {{#if(currentNav==="setting")}} class="current" {{/if}}><a href="/book/{{id}}/setting"><span class="iconfont">&#xe601;</span> <span>书籍设置</span></a></li>
+        <li {{#if(currentNav==="index")}} class="current" {{/if}}><a href="/book/{{id}}/dashboard"><span class="iconfont">&#xe610;</span> <span>图书管理首页</span></a></li>
+        <li {{#if(currentNav==="github")}} class="current" {{/if}}><a href="/book/{{id}}/bind-github"><span class="iconfont">&#xe60c;</span> <span>GitHub 绑定</span></a></li>
+        <li {{#if(currentNav==="setting")}} class="current" {{/if}}><a href="/book/{{id}}/setting"><span class="iconfont">&#xe601;</span> <span>图书设置</span></a></li>
         <li {{#if(currentNav==="data")}} class="current" {{/if}}><a href="/book/{{id}}/data"><span class="iconfont">&#xe60b;</span> <span>数据</span></a></li>
-        <li class="not-open"><span class="iconfont">&#xe614;</span> <span>贡献者（未开放）</span></li>
+        <!--<li class="not-open"><span class="iconfont">&#xe614;</span> <span>贡献者（未开放）</span></li>-->
         {{#if(user)}}
-        <li><a href="/user/{{user.name}}"><span class="iconfont">&#xe604;</span> <span>我的书籍</span></a></li>
+        <li><a href="/user/{{user.name}}"><span class="iconfont">&#xe604;</span> <span>我的图书</span></a></li>
         {{/if}}
     </ul>
 </section>

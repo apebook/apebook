@@ -33,12 +33,18 @@
     </div>
     <div class="form-more">
         <div class="form-group ">
-          <label for="description" class="control-label">选择编程语言  <b>*</b></label>
+          <label for="lang" class="control-label">选择编程语言  <b>*</b></label>
           <select name="lang" class="form-control" required>
             {{#each(langs)}}
               <option value="{{this}}">{{this}}</option>
             {{/each}}
           </select>
+        </div>
+    </div>
+    <div class="form-more">
+        <div class="form-group ">
+            <label for="author" class="control-label">作者  </label>
+            <input type="text" name="author" class="form-control input-lg address-input" value="{{body.author}}" placeholder="github 用户名，多个用户以英文逗号分隔">
         </div>
     </div>
     <div class="form-more">
