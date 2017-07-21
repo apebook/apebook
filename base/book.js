@@ -215,7 +215,7 @@ Book.prototype = {
         var output = this.dest+user+'/'+book+'/cover.jpg';
         var author = bookData.author;
         if(!author){
-          author = userData && userData.nick || data.userName;
+          author = userData.nick || userData.name;
         }
         var config = {
             title: data.name,
@@ -226,7 +226,6 @@ Book.prototype = {
                 "h": 540
             }
         };
-        console.log(config);
 
         //更新时间
         //不存在，使用创建时间

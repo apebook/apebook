@@ -22,6 +22,7 @@ function *sync(body){
     var mBook = this.model.book;
     //事件记录
     var mHistory = this.model.history;
+    var mUser = this.model.user;
     var book = this.book;
 
     //没有绑定github仓库
@@ -77,7 +78,8 @@ function *sync(body){
                 this.log('封面信息：');
                 this.log(coverinfo);
                 try{
-                   var coverResult = yield bookCtrl.cover(coverinfo,book,this.session['user']);
+                   var user = yield mUser.getByName(book.userName);
+                   var coverResult = yield bookCtrl.cover(coverinfo,book,user);
                    console.log(coverResult);
                    var ossPath = coverResult.ossPath;
                    var coverUrl = this.config.bookHost + '/'+ossPath;
