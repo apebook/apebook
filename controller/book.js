@@ -187,7 +187,6 @@ module.exports = {
         this.checkBody('uri', '只能是字母、数字、-').isUri();
         this.checkBody('cat', '必须选择一个类目').notEmpty();
         this.checkBody('lang', '必须选择一个编程语言').notEmpty();
-        this.checkBody('githubUrl', 'github 仓库地址不可以为空').notEmpty();
         var mBook = this.model.book;
         var isExist = yield mBook.isExist(body.name);
         if(isExist){
