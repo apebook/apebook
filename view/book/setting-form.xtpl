@@ -23,6 +23,12 @@
       </div>
     </div>
     <div class="form-more">
+      <div class="form-group ">
+        <label for="description" class="control-label">github 仓库地址  <b>*</b> </label>
+        <input type="text" name="githubUrl" autocomplete="off" class="form-control input-lg" value="{{githubUrl}}" placeholder="举例：https://github.com/minghe/koa-book.git">
+      </div>
+    </div>
+    <div class="form-more">
         <div class="form-group ">
           <label for="description" class="control-label">选择编程语言  <b>*</b></label>
         <select name="lang" class="form-control" required>

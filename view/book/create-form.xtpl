@@ -23,7 +23,7 @@
     <div class="form-more">
       <div class="form-group ">
         <label for="description" class="control-label">github 仓库地址  <b>*</b> </label>
-        <input type="text" name="githubUrl" autocomplete="off" class="form-control input-lg" value="{{body.name}}" placeholder="举例：https://github.com/minghe/koa-book.git"
+        <input type="text" name="githubUrl" autocomplete="off" class="form-control input-lg" value="{{body.githubUrl}}" placeholder="举例：https://github.com/minghe/koa-book.git"
                required required-msg="github 仓库地址不可以为空"
                msg-wrapper="#J_GithubPathMsg">
         <div id="J_GithubPathMsg">
