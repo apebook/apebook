@@ -3,7 +3,6 @@
 {{#block ("head")}}
     <script>KISSY.importStyle('apebook/detail.css')</script>
 {{/block}}
-
 {{#block ("body")}}
     <section class="wrapper  book-wrapper detail-wrapper">
         {{#if(openStatus !== "open")}}
