@@ -158,7 +158,7 @@ module.exports = {
             return item.id !== book.id;
           });
           if(uploaderBooks.length > 3){
-            uploaderBooks = uploaderBooks.slice(0,4);
+            uploaderBooks = uploaderBooks.slice(0,3);
           }
         }
         book.uploaderBooks = uploaderBooks;
