@@ -95,8 +95,8 @@
                   <a href="/user/{{uploader.name}}" target="_blank">
                     <img src="{{uploader.avatar}}?s=100" width="100" height="100" class="avatar" />
                     <p>{{uploader.name}}</p>
-                    {{#if(authors)}}{{else}}<p class="copyright">图书版权归作者所有</p>{{/if}}
                   </a>
+                  {{#if(authors)}}{{else}}<p class="copyright">图书版权归作者所有</p>{{/if}}
                 </div>
                 {{#if(uploaderBooks.length)}}
                 <div class="author-mod">
