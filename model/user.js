@@ -145,8 +145,9 @@ User.prototype = _.extend({}, Base, {
     }
     var books = yield this.data({
       key: key,
-      cache: false,
-      action: this._list,
+      cache: true,
+      cacheKey: this.keyPre + userId + ':bookList',
+      action: this._bookList,
       params: [params]
     });
     return books;
@@ -169,6 +170,11 @@ User.prototype = _.extend({}, Base, {
       params: [{key: key, keyPre: mBook.keyPre, start: 0, field: 'create'}]
     });
     return books;
+  },
+  _bookList:  function*(config) {
+    var ids = yield this.sort(config);
+    var mBook = this.model.book;
+    return yield mBook.getListByIds(ids, false);
   },
   _list: function*(config) {
     var ids = yield this.sort(config);

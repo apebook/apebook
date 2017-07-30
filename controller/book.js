@@ -145,20 +145,23 @@ module.exports = {
 
         //获取图书上传者的图书列表
         var uploaderId = yield mUser.id('name',book.userName);
-        book.uploaderBooks =  yield mUser.bookList({
+        var uploaderBooks =  yield mUser.bookList({
           userId:uploaderId,
           params:{
-            start: 0,
-            limit: 4
+            start: 0
           }
         });
 
         //清理掉当前图书
-        if(book.uploaderBooks.length){
-          book.uploaderBooks = _.filter(book.uploaderBooks,function(item){
+        if(uploaderBooks.length){
+          uploaderBooks = _.filter(uploaderBooks,function(item){
             return item.id !== book.id;
-          })
+          });
+          if(uploaderBooks.length > 3){
+            uploaderBooks = uploaderBooks.slice(0,4);
+          }
         }
+        book.uploaderBooks = uploaderBooks;
 
         book.userBookCount = yield mUser.bookCount(book.id);
         book.cover = book.cover || this.config.bookHost+'/'+book.ossCover;
