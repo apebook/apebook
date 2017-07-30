@@ -94,7 +94,7 @@
                   <h3>{{#if(authors)}}上传者{{else}}作者{{/if}}</h3>
                   <a href="/user/{{uploader.name}}" target="_blank">
                     <img src="{{uploader.avatar}}?s=100" width="100" height="100" class="avatar" />
-                    <p>{{uploader.name}}</p>
+                    <p>{{uploader.nick || uploader.name}}</p>
                   </a>
                   {{#if(authors)}}{{else}}<p class="copyright">图书版权归作者所有</p>{{/if}}
                 </div>
