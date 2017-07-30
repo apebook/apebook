@@ -142,6 +142,24 @@ module.exports = {
         book.view = yield mView.incr(book.id,this.session);
         var mUser = this.model.user;
         book.uploader = yield mUser.getByName(book.userName);
+
+        //获取图书上传者的图书列表
+        var uploaderId = yield mUser.id('name',book.userName);
+        book.uploaderBooks =  yield mUser.bookList({
+          userId:uploaderId,
+          params:{
+            start: 0,
+            limit: 4
+          }
+        });
+
+        //清理掉当前图书
+        if(book.uploaderBooks.length){
+          book.uploaderBooks = _.filter(book.uploaderBooks,function(item){
+            return item.id !== book.id;
+          })
+        }
+
         book.userBookCount = yield mUser.bookCount(book.id);
         book.cover = book.cover || this.config.bookHost+'/'+book.ossCover;
         if(book.author){
