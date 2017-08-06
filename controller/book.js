@@ -109,7 +109,6 @@ function *sync(body){
                 var summaryHtml = yield bookCtrl.summary();
                 yield mBook.summary(id,summaryHtml);
 
-                yield mHistory.add(book.id,'success','图书成功同步到云空间',userName);
                 //最近更新时间
                 yield mBook.nearestUpdate(id);
 
