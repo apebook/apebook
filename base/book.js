@@ -57,7 +57,6 @@ Book.prototype = {
     bookJson.theme = config && config.theme || self.themes['apebook'];
     bookJson.output = path;
     var data = this.data;
-    console.log('data', data);
     bookJson.githubUser = data.githubUser;
     bookJson.githubRepo = data.githubRepo;
     bookJson.bookId = data.id;
@@ -74,7 +73,7 @@ Book.prototype = {
       bookJson.githubUser = nameRepo.split('/')[0];
       bookJson.githubRepo = nameRepo.split('/')[1];
     }
-    bookJson.starList = githubUrl + '/stargazer';
+    bookJson.starList = githubUrl + '/stargazers';
 
     //本地调试环境
     if (process.env.NODE_ENV !== 'local') {
